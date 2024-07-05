@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Result</title>
+</head>
+<body>
+    <h1>Analysis Result</h1>
+    {% if high_confidence %}
+        <p style="color:red;">ダメ！</p>
+    {% else %}
+        <img src="{{ image_url }}" alt="Uploaded Image">
+        <p>良い！</p>
+    {% endif %}
+    <a href="{% url 'upload_image' %}">Upload another image</a>
+</body>
+</html>
