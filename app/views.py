@@ -1,12 +1,12 @@
-# app/views.py
 import os
+from datetime import datetime
+
 import boto3
 from django.shortcuts import render
 from .forms import UploadImageForm
 from django.conf import settings
 
-PROJECT_VERSION_ARN = "arn:aws:rekognition:ap-northeast-1:637423229169:project/Sotuken1/version/Sotuken1.2024-06-28T10.33.08/1719538390200"
-
+PROJECT_VERSION_ARN = 'arn:aws:rekognition:ap-northeast-1:637423229169:project/Sotuken1/version/Sotuken1.2024-06-28T10.33.08/1719538390200'
 
 def detect_custom_labels_in_image(image_path):
     client = boto3.client('rekognition',
@@ -31,18 +31,16 @@ def upload_image(request):
             with open(image_path, 'wb+') as f:
                 for chunk in image.chunks():
                     f.write(chunk)
-            response = detect_custom_labels_in_image(image_path)
 
-            # Check for sensitive labels and confidence
-            sensitive_labels = ["credit", "Identification"]
-            high_confidence = any(label['Name'] in sensitive_labels and label['Confidence'] > 90 for label in
-                                  response.get('CustomLabels', []))
-
-            image_url = os.path.join(settings.MEDIA_URL, image.name)
+            detected_labels = detect_custom_labels_in_image(image_path)
+            date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            location = request.POST.get('location', 'Unknown')
 
             return render(request, 'app/result.html', {
-                'high_confidence': high_confidence,
-                'image_url': image_url
+                'labels': detected_labels['CustomLabels'],
+                'date_time': date_time,
+                'location': location,
+                'image_url': settings.MEDIA_URL + image.name
             })
     else:
         form = UploadImageForm()

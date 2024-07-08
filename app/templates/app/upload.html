@@ -1,14 +1,44 @@
-<!-- app/templates/app/upload.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Upload Image</title>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            document.getElementById('id_location').value = position.coords.latitude + ", " + position.coords.longitude;
+        }
+
+        function getCurrentDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = ('0' + (now.getMonth() + 1)).slice(-2);
+            const day = ('0' + now.getDate()).slice(-2);
+            const hours = ('0' + now.getHours()).slice(-2);
+            const minutes = ('0' + now.getMinutes()).slice(-2);
+            const seconds = ('0' + now.getSeconds()).slice(-2);
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+
+        window.onload = function() {
+            getLocation();
+            document.getElementById('id_image').onchange = getLocation;
+            document.getElementById('date_time_display').innerText = getCurrentDateTime();
+        }
+    </script>
 </head>
 <body>
     <h1>Upload Image</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        <p>Date and Time: <span id="date_time_display"></span></p>
         <button type="submit">Upload</button>
     </form>
 </body>

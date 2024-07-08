@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Analysis Result</title>
+    <title>Result</title>
 </head>
 <body>
-    <h1>Analysis Result</h1>
-    {% if high_confidence %}
-        <p style="color:red;">ダメ！</p>
-    {% else %}
-        <img src="{{ image_url }}" alt="Uploaded Image">
-        <p>良い！</p>
-    {% endif %}
-    <a href="{% url 'upload_image' %}">Upload another image</a>
+    <h1>Upload Result</h1>
+    <p>Location: {{ location }}</p>
+    <p>Date and Time: {{ date_time }}</p>
+    <p>Image:</p>
+    <img src="{{ image_url }}" alt="Uploaded Image">
+    <p>Detected Labels:</p>
+    <ul>
+        {% for label in labels %}
+            <li>{{ label.Name }}: {{ label.Confidence }}%</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
