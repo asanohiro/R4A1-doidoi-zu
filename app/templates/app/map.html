@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map View</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTheiF0rr8chsdrv8vFMXVruV4JMLDhqY&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: {lat: 35.6895, lng: 139.6917}  // 東京中心
+            });
+
+            var items = JSON.parse('{{ items_json|escapejs }}');  // JSONデータをパース
+
+            items.forEach(function(item) {
+                var fields = item.fields;
+                var coords = fields.location.split(', ');
+                var latLng = new google.maps.LatLng(parseFloat(coords[0]), parseFloat(coords[1]));
+
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: fields.description
+                });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `<img src="/media/${fields.image}" alt="Lost Item" style="width:100px;height:100px;">
+                              <p>品名: ${fields.description}</p>
+                              <p>色: ${fields.status}</p>
+                              <p>ジャンル: ${fields.genre || 'ジャンル不明'}</p>
+                              <p>拾った場所: ${fields.location}</p>
+                              <p>拾った時間: ${fields.date_time}</p>`
+                });
+
+                marker.addListener('click', function() {
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+
+        window.onload = initMap;
+    </script>
+</head>
+<body>
+    <h1>地図にアイテムを表示</h1>
+    <div id="map" style="width:100%;height:500px;"></div>
+
+    <!-- 画像URLを表示 -->
+    {% for item in items %}
+        <p>{{ item.image.url }}</p>
+    {% endfor %}
+
+    <form method="POST" action="{% url 'delete_all_items' %}">
+        {% csrf_token %}
+        <button type="submit">全て削除</button>
+    </form>
+</body>
+</html>

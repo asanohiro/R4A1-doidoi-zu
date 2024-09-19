@@ -4,14 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="カスタムラベルの利用ができるようになっているはず、、">
-      <change afterPath="$PROJECT_DIR$/app/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/gettyimages-498278414-1024x1024.jpg" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="コミット">
+      <change afterPath="$PROJECT_DIR$/app/migrations/0002_rename_comment_lostitem_description_lostitem_status.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/migrations/0003_alter_lostitem_description_alter_lostitem_image_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/019001_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/Crazit.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_5PRuQju.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_B5zczja.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_JfSGtgj.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_JikeYse.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_PyNfENZ.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_XGqgzVr.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_jNh01kR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008167_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008167_0_I1xr8sl.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/016001_0.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AWS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/AWS/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/result.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/app/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,8 +40,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -60,6 +75,11 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
@@ -118,6 +138,25 @@
       <workItem from="1720144151167" duration="748000" />
       <workItem from="1720225730955" duration="3103000" />
       <workItem from="1720233462845" duration="4830000" />
+      <workItem from="1720405911835" duration="1718000" />
+      <workItem from="1720586378929" duration="9000" />
+      <workItem from="1720594206577" duration="606000" />
+      <workItem from="1721096333292" duration="5000" />
+      <workItem from="1721197963120" duration="2465000" />
+      <workItem from="1721805393445" duration="603000" />
+      <workItem from="1721809789293" duration="599000" />
+      <workItem from="1721862189774" duration="595000" />
+      <workItem from="1721867104038" duration="608000" />
+      <workItem from="1723268077264" duration="415000" />
+      <workItem from="1723350578590" duration="1399000" />
+      <workItem from="1723437571864" duration="3629000" />
+      <workItem from="1723441663142" duration="1748000" />
+      <workItem from="1723518611878" duration="3559000" />
+      <workItem from="1723595263234" duration="915000" />
+      <workItem from="1723612939884" duration="1227000" />
+      <workItem from="1723703920676" duration="4991000" />
+      <workItem from="1726122391037" duration="4858000" />
+      <workItem from="1726707472453" duration="406000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -127,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720144894046</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="コミット">
+      <option name="closed" value="true" />
+      <created>1720405970414</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1720405970414</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,6 +183,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="カスタムラベルの利用ができるようになっているはず、、" />
-    <option name="LAST_COMMIT_MESSAGE" value="カスタムラベルの利用ができるようになっているはず、、" />
+    <MESSAGE value="コミット" />
+    <option name="LAST_COMMIT_MESSAGE" value="コミット" />
   </component>
 </project>

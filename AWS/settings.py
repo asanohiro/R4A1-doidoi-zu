@@ -2,6 +2,10 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import pymysql
+
+pymysql.install_as_MySQLdb()
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -55,10 +59,19 @@ WSGI_APPLICATION = 'AWS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sotuken',
+        'USER': 'sotuken',
+        'PASSWORD': 'p',
+        'HOST': 'localhost',  # あるいは、MySQLサーバーのホスト名
+        'PORT': '3306',  # あるいは、使用しているポート番号
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'use_unicode': True,
+        },
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

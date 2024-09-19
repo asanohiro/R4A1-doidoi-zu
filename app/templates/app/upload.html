@@ -1,20 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>Upload Image</title>
+    <meta charset="UTF-8">
+    <title>画像アップロード</title>
     <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        // 位置情報を取得
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
             } else {
-                alert("Geolocation is not supported by this browser.");
+                alert("このブラウザでは位置情報がサポートされていません。");
             }
         }
 
         function showPosition(position) {
-            document.getElementById('id_location').value = position.coords.latitude + ", " + position.coords.longitude;
+            document.getElementById('lost_location').value = position.coords.latitude + ", " + position.coords.longitude;
         }
 
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("位置情報の取得が拒否されました。");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("位置情報が利用できません。");
+                    break;
+                case error.TIMEOUT:
+                    alert("位置情報の取得がタイムアウトしました。");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("不明なエラーが発生しました。");
+                    break;
+            }
+        }
+
+        // 現在の日時を取得して拾った時間欄に自動入力
         function getCurrentDateTime() {
             const now = new Date();
             const year = now.getFullYear();
@@ -26,20 +63,113 @@
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         }
 
+        // 画像が選択されたときにラベル検出を行う
+        function detectLabels() {
+            const formData = new FormData();
+            const imageFile = document.getElementById('image').files[0];
+            if (!imageFile) return;
+
+            formData.append('image', imageFile);
+
+            // 非同期でラベル検出APIにリクエスト
+            fetch('/detect_labels_api/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': csrftoken  // CSRFトークンを追加
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    // 検出されたラベルデータをコンソールに表示
+                    console.log("検出結果:", data);
+
+                    // 検出結果をフォームに反映
+                    document.getElementById('item_name').value = data.labels[0] || '不明';
+                    document.getElementById('color').value = data.labels[1] || '不明';
+                    document.getElementById('genre').value = data.labels[2] || '不明';
+
+                    // 検出結果を表示エリアに表示
+                    document.getElementById('detected_labels').innerHTML =
+                        `<p>検出されたラベル:</p>
+                            <ul>
+                                ${data.labels.map(label => `<li>${label}</li>`).join('')}
+                            </ul>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("ラベル検出に失敗しました。");
+            });
+        }
+
+        // ページがロードされたときに位置情報と日時を取得
         window.onload = function() {
             getLocation();
-            document.getElementById('id_image').onchange = getLocation;
-            document.getElementById('date_time_display').innerText = getCurrentDateTime();
+            document.getElementById('found_time').value = getCurrentDateTime();  // 現在時刻を拾った時間に自動入力
+            document.getElementById('image').onchange = detectLabels;  // 画像が選択されたらラベル検出
         }
     </script>
 </head>
 <body>
-    <h1>Upload Image</h1>
+    <h1>画像アップロード</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <p>Date and Time: <span id="date_time_display"></span></p>
-        <button type="submit">Upload</button>
+
+        <!-- 画像 -->
+        <div>
+            <label for="image">画像:</label>
+            <input type="file" id="image" name="image" required>
+        </div>
+
+        <!-- 品名 -->
+        <div>
+            <label for="item_name">品名:</label>
+            <input type="text" id="item_name" name="item_name" required>
+        </div>
+
+        <!-- 色 -->
+        <div>
+            <label for="color">色:</label>
+            <input type="text" id="color" name="color" required>
+        </div>
+
+        <!-- ジャンル -->
+        <div>
+            <label for="genre">ジャンル:</label>
+            <input type="text" id="genre" name="genre" required>
+        </div>
+
+        <!-- 落とした場所 -->
+        <div>
+            <label for="lost_location">落とした場所:</label>
+            <input type="text" id="lost_location" name="lost_location" required>
+        </div>
+
+        <!-- 拾った時間 -->
+        <div>
+            <label for="found_time">拾った時間:</label>
+            <input type="text" id="found_time" name="found_time" required>
+        </div>
+
+        <!-- ラベル検出オプション -->
+        <div>
+            <label for="label_detection_option">ラベル検出オプション:</label>
+            <select id="label_detection_option" name="label_detection_option">
+                <option value="default">デフォルトラベルを使用</option>
+                <option value="custom">カスタムラベルを使用</option>
+            </select>
+        </div>
+
+        <input type="hidden" id="location" name="location">
+
+        <button type="submit">アップロード</button>
     </form>
+
+    <!-- 検出結果を表示するエリア -->
+    <div id="detected_labels"></div>
 </body>
 </html>
