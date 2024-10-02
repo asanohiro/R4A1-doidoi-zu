@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="スマホからアップロード&#10;（奮闘中）" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="Procfile作成">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -143,7 +145,7 @@
       <workItem from="1727226185618" duration="1875000" />
       <workItem from="1727232647774" duration="1983000" />
       <workItem from="1727236765313" duration="1331000" />
-      <workItem from="1727830396491" duration="1500000" />
+      <workItem from="1727830396491" duration="2289000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -177,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727831286179</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Procfile作成">
+      <option name="closed" value="true" />
+      <created>1727832111873</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727832111873</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,6 +199,7 @@
     <MESSAGE value="コミット" />
     <MESSAGE value="自動入力&#10;地図上に表示&#10;デモ版" />
     <MESSAGE value="スマホからアップロード&#10;（奮闘中）" />
-    <option name="LAST_COMMIT_MESSAGE" value="スマホからアップロード&#10;（奮闘中）" />
+    <MESSAGE value="Procfile作成" />
+    <option name="LAST_COMMIT_MESSAGE" value="Procfile作成" />
   </component>
 </project>
