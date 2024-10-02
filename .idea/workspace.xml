@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="Procfile作成">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="Procfile作成" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -145,7 +143,7 @@
       <workItem from="1727226185618" duration="1875000" />
       <workItem from="1727232647774" duration="1983000" />
       <workItem from="1727236765313" duration="1331000" />
-      <workItem from="1727830396491" duration="2289000" />
+      <workItem from="1727830396491" duration="2663000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
