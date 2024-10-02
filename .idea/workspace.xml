@@ -4,27 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="コミット">
-      <change afterPath="$PROJECT_DIR$/app/migrations/0002_rename_comment_lostitem_description_lostitem_status.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/migrations/0003_alter_lostitem_description_alter_lostitem_image_and_more.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/019001_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/Crazit.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_5PRuQju.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_B5zczja.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_JfSGtgj.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_JikeYse.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_PyNfENZ.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_XGqgzVr.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_jNh01kR.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008167_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/008167_0_I1xr8sl.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/lost_items/016001_0.png" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="自動入力&#10;地図上に表示&#10;デモ版">
+      <change afterPath="$PROJECT_DIR$/app/migrations/0004_lostitem_prefecture.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/lost_items/008052_0_DLPR8I4.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AWS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/AWS/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/app/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/app/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
@@ -98,13 +85,14 @@
         <env name="DJANGO_SETTINGS_MODULE" value="AWS.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (AWS)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="launchJavascriptDebuger" value="false" />
-      <option name="port" value="8000" />
-      <option name="host" value="localhost" />
+      <option name="port" value="80" />
+      <option name="host" value="0.0.0.0" />
       <option name="additionalOptions" value="" />
       <option name="browserUrl" value="" />
       <option name="runTestServer" value="false" />
@@ -156,7 +144,17 @@
       <workItem from="1723612939884" duration="1227000" />
       <workItem from="1723703920676" duration="4991000" />
       <workItem from="1726122391037" duration="4858000" />
-      <workItem from="1726707472453" duration="406000" />
+      <workItem from="1726707472453" duration="678000" />
+      <workItem from="1726722104108" duration="1085000" />
+      <workItem from="1727095540001" duration="2650000" />
+      <workItem from="1727140385376" duration="4484000" />
+      <workItem from="1727151154198" duration="5607000" />
+      <workItem from="1727159858767" duration="2923000" />
+      <workItem from="1727224618787" duration="1559000" />
+      <workItem from="1727226185618" duration="1875000" />
+      <workItem from="1727232647774" duration="1983000" />
+      <workItem from="1727236765313" duration="1331000" />
+      <workItem from="1727830396491" duration="765000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -174,7 +172,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720405970414</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="自動入力&#10;地図上に表示&#10;デモ版">
+      <option name="closed" value="true" />
+      <created>1726707952182</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1726707952182</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,6 +190,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="カスタムラベルの利用ができるようになっているはず、、" />
     <MESSAGE value="コミット" />
-    <option name="LAST_COMMIT_MESSAGE" value="コミット" />
+    <MESSAGE value="自動入力&#10;地図上に表示&#10;デモ版" />
+    <option name="LAST_COMMIT_MESSAGE" value="自動入力&#10;地図上に表示&#10;デモ版" />
   </component>
 </project>

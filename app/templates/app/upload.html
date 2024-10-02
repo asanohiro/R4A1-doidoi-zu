@@ -21,14 +21,30 @@
 
         const csrftoken = getCookie('csrftoken');
 
-        // 位置情報を取得
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                alert("このブラウザでは位置情報がサポートされていません。");
-            }
+        window.onload = function() {
+        if (navigator.userAgent.match(/iPhone|Android/i)) {
         }
+            // カメラを起動させるinput
+            document.getElementById('image').setAttribute('capture', 'camera');
+            document.getElementById('image').setAttribute('accept', 'image/*');
+        }
+
+
+        function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                console.log("Position successfully obtained:", position);
+                showPosition(position);
+            },
+            (error) => {
+                console.log("Error obtaining position:", error);
+                showError(error);
+            });
+    } else {
+        alert("このブラウザでは位置情報がサポートされていません。");
+    }
+}
 
         function showPosition(position) {
             document.getElementById('lost_location').value = position.coords.latitude + ", " + position.coords.longitude;
@@ -63,6 +79,15 @@
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         }
 
+        // ラベルマッピング辞書
+        const labelMapping = {
+            'Credit Card': 'クレジットカード',
+            'ID Card': '証明書',
+            'Electronics': '電子機器',
+            'Phone': '携帯電話'
+            // 必要に応じて他のラベルを追加
+        };
+
         // 画像が選択されたときにラベル検出を行う
         function detectLabels() {
             const formData = new FormData();
@@ -84,19 +109,31 @@
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    // 検出されたラベルデータをコンソールに表示
-                    console.log("検出結果:", data);
+                    // 検出結果のラベルをフォームに反映
+                    const detectedLabels = data.labels;
+                    let itemName = '不明';
+                    let genre = '不明';
+                    let color = '不明';
 
-                    // 検出結果をフォームに反映
-                    document.getElementById('item_name').value = data.labels[0] || '不明';
-                    document.getElementById('color').value = data.labels[1] || '不明';
-                    document.getElementById('genre').value = data.labels[2] || '不明';
+                    detectedLabels.forEach(label => {
+                        if (labelMapping[label]) {
+                            if (label === 'Credit Card' || label === 'ID Card') {
+                                itemName = labelMapping[label];
+                            } else if (label === 'Electronics' || label === 'Phone') {
+                                genre = labelMapping[label];
+                            }
+                        }
+                    });
+
+                    document.getElementById('item_name').value = itemName;
+                    document.getElementById('genre').value = genre;
+                    document.getElementById('color').value = color;
 
                     // 検出結果を表示エリアに表示
                     document.getElementById('detected_labels').innerHTML =
                         `<p>検出されたラベル:</p>
                             <ul>
-                                ${data.labels.map(label => `<li>${label}</li>`).join('')}
+                                ${detectedLabels.map(label => `<li>${label}</li>`).join('')}
                             </ul>`;
                 }
             })
@@ -106,9 +143,8 @@
             });
         }
 
-        // ページがロードされたときに位置情報と日時を取得
         window.onload = function() {
-            getLocation();
+            getLocation();  // ページがロードされたときに位置情報を取得
             document.getElementById('found_time').value = getCurrentDateTime();  // 現在時刻を拾った時間に自動入力
             document.getElementById('image').onchange = detectLabels;  // 画像が選択されたらラベル検出
         }

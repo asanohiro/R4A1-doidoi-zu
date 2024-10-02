@@ -7,11 +7,11 @@
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 10,
-                center: {lat: 35.6895, lng: 139.6917}  // 東京中心
+                center: {lat: 35.6895, lng: 139.6917}  // Tokyo center
             });
 
-            var items = JSON.parse('{{ items_json|escapejs }}');  // JSONデータをパース
-
+            // 地図上にマーカーを表示
+            var items = JSON.parse('{{ items_json|escapejs }}');
             items.forEach(function(item) {
                 var fields = item.fields;
                 var coords = fields.location.split(', ');
@@ -24,12 +24,7 @@
                 });
 
                 var infoWindow = new google.maps.InfoWindow({
-                    content: `<img src="/media/${fields.image}" alt="Lost Item" style="width:100px;height:100px;">
-                              <p>品名: ${fields.description}</p>
-                              <p>色: ${fields.status}</p>
-                              <p>ジャンル: ${fields.genre || 'ジャンル不明'}</p>
-                              <p>拾った場所: ${fields.location}</p>
-                              <p>拾った時間: ${fields.date_time}</p>`
+                    content: `<img src="/media/${fields.image}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
                 });
 
                 marker.addListener('click', function() {
@@ -38,21 +33,49 @@
             });
         }
 
-        window.onload = initMap;
+        // 検索条件が選択されているかをチェック
+        function validateSearch() {
+            var itemSelect = document.getElementById('item_name');
+            var prefectureSelect = document.getElementById('prefecture');
+
+            if (itemSelect.value !== '' || prefectureSelect.value !== '') {
+                return true;  // どちらかが選択されていればOK
+            } else {
+                alert("品名または都道府県を選択してください。");
+                return false;
+            }
+        }
     </script>
 </head>
 <body>
-    <h1>地図にアイテムを表示</h1>
-    <div id="map" style="width:100%;height:500px;"></div>
+    <h1>落とし物検索</h1>
 
-    <!-- 画像URLを表示 -->
-    {% for item in items %}
-        <p>{{ item.image.url }}</p>
-    {% endfor %}
+    <!-- 検索フォーム -->
+    <form method="GET" action="{% url 'search_items' %}" onsubmit="return validateSearch()">
+        <label for="item_name">品名:</label>
+        <select id="item_name" name="item_name">
+            <option value="">品名を選択</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="ID Card">ID Card</option>
+            <option value="Phone">Phone</option>
+            <option value="Wallet">Wallet</option>
+            <option value="Key">Key</option>
+        </select>
 
-    <form method="POST" action="{% url 'delete_all_items' %}">
-        {% csrf_token %}
-        <button type="submit">全て削除</button>
+        <label for="prefecture">都道府県:</label>
+        <select id="prefecture" name="prefecture">
+            <option value="">都道府県を選択</option>
+            <!-- 47都道府県を選択肢として追加 -->
+            <option value="Tokyo">Tokyo</option>
+            <option value="Osaka">Osaka</option>
+            <option value="Hokkaido">Hokkaido</option>
+            <option value="Hiroshima">Hiroshima</option>
+            <!-- 以下省略 -->
+        </select>
+
+        <button type="submit">検索</button>
     </form>
+
+    <div id="map" style="width:100%;height:500px;"></div>
 </body>
 </html>
