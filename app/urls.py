@@ -6,5 +6,5 @@ urlpatterns = [
     path('map/', views.map_view, name='map_view'),
     path('delete_all/', views.delete_all_items, name='delete_all_items'),
     path('detect_labels_api/', views.detect_labels_api, name='detect_labels_api'),
-    path('detect_labels/', views.search_items, name='search_items'),
+    path('search/', views.search_items, name='search_items'),
 ]

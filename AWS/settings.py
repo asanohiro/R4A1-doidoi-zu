@@ -66,7 +66,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sotuken',
-        'USER': 'sotuken',
+        'USER': 'Sotuken',
         'PASSWORD': 'p',
         'HOST': 'localhost',  # あるいは、MySQLサーバーのホスト名
         'PORT': '3306',  # あるいは、使用しているポート番号
@@ -135,4 +135,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # AWS credentials
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 AWS_REGION = os.getenv('AWS_REGION', 'ap-northeast-1')
+
+# S3をデフォルトのファイルストレージに設定
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# 画像やファイルのURLを取得するための設定
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'

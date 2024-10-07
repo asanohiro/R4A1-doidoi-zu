@@ -94,6 +94,8 @@ def get_prefecture_from_location(latitude, longitude):
                     return component['long_name']  # 都道府県名を返す
 
 # 実際の検出と自動入力の実行
+# views.py
+
 def upload_image(request):
     if request.method == 'POST':
         image = request.FILES.get('image')
@@ -116,7 +118,16 @@ def upload_image(request):
                 prefecture=prefecture  # 都道府県を保存
             )
 
-            return redirect('map_view')
+            # データをテンプレートに渡して表示
+            context = {
+                'item_name': form_data['item_name'],
+                'genre': form_data['genre'],
+                'latitude': latitude,
+                'longitude': longitude,
+                'prefecture': prefecture,
+                'image_url': lost_item.image.url  # 画像のURLをテンプレートに渡す
+            }
+            return render(request, 'app/upload_result.html', context)
 
     return render(request, 'app/upload.html')
 
