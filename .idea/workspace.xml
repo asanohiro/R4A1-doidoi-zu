@@ -4,22 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="エラーに四苦八苦中">
-      <change afterPath="$PROJECT_DIR$/app/migrations/0005_remove_lostitem_location_remove_lostitem_status_and_more.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/app/upload_result.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database_dump.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my_project.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="AWS EC2で構築することを考え、プラグインのバージョンを下げた">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AWS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/AWS/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +169,7 @@
       <workItem from="1728018361458" duration="3063000" />
       <workItem from="1728023803801" duration="10000" />
       <workItem from="1728261242161" duration="10902000" />
-      <workItem from="1728276033265" duration="2773000" />
+      <workItem from="1728276033265" duration="3988000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -241,7 +227,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727833622937</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="AWS EC2で構築することを考え、プラグインのバージョンを下げた">
+      <option name="closed" value="true" />
+      <created>1728279709423</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1728279709423</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +249,7 @@
     <MESSAGE value="スマホからアップロード&#10;（奮闘中）" />
     <MESSAGE value="Procfile作成" />
     <MESSAGE value="エラーに四苦八苦中" />
-    <option name="LAST_COMMIT_MESSAGE" value="エラーに四苦八苦中" />
+    <MESSAGE value="AWS EC2で構築することを考え、プラグインのバージョンを下げた" />
+    <option name="LAST_COMMIT_MESSAGE" value="AWS EC2で構築することを考え、プラグインのバージョンを下げた" />
   </component>
 </project>
