@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Map View</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTheiF0rr8chsdrv8vFMXVruV4JMLDhqY&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
     <script>
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {

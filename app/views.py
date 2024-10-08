@@ -11,8 +11,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-PROJECT_VERSION_ARN = 'arn:aws:rekognition:ap-northeast-1:637423229169:project/Sotuken1/version/Sotuken1.2024-06-28T10.33.08/1719538390200'
-
+PROJECT_VERSION_ARN = os.getenv('PROJECT_VERSION_ARN')
 
 def detect_labels_api(request):
     if request.method == 'POST':
@@ -135,7 +134,11 @@ def upload_image(request):
 def map_view(request):
     items = LostItem.objects.all()
     items_json = serialize('json', items)
-    return render(request, 'app/map.html', {'items_json': items_json})
+    context ={
+        'items_json': items_json,
+        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY
+    }
+    return render(request, 'app/map.html', context)
 
 
 # 全てのアイテムを削除

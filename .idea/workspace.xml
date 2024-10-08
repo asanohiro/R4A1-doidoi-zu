@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="AWS EC2で構築することを考え、プラグインのバージョンを下げた">
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="python manage.py collectstatic --noinput&#10;上記コマンドを実行。staticfilesディレクトリを追加。">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AWS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/AWS/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/app/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +56,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -62,6 +68,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/templates" />
       <recent name="$PROJECT_DIR$/app" />
     </key>
   </component>
@@ -169,7 +176,8 @@
       <workItem from="1728018361458" duration="3063000" />
       <workItem from="1728023803801" duration="10000" />
       <workItem from="1728261242161" duration="10902000" />
-      <workItem from="1728276033265" duration="3988000" />
+      <workItem from="1728276033265" duration="4754000" />
+      <workItem from="1728348871584" duration="4182000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -235,7 +243,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728279709423</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="upload.htmlをindex.htmlに変更">
+      <option name="closed" value="true" />
+      <created>1728280832249</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1728280832249</updated>
+    </task>
+    <task id="LOCAL-00010" summary="upload_image関数に修正。&#10;元&#10;return render(request, 'templates/index.html')">
+      <option name="closed" value="true" />
+      <created>1728349271474</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1728349271474</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +274,9 @@
     <MESSAGE value="Procfile作成" />
     <MESSAGE value="エラーに四苦八苦中" />
     <MESSAGE value="AWS EC2で構築することを考え、プラグインのバージョンを下げた" />
-    <option name="LAST_COMMIT_MESSAGE" value="AWS EC2で構築することを考え、プラグインのバージョンを下げた" />
+    <MESSAGE value="upload.htmlをindex.htmlに変更" />
+    <MESSAGE value="upload_image関数に修正。&#10;元&#10;return render(request, 'templates/index.html')" />
+    <MESSAGE value="python manage.py collectstatic --noinput&#10;上記コマンドを実行。staticfilesディレクトリを追加。" />
+    <option name="LAST_COMMIT_MESSAGE" value="python manage.py collectstatic --noinput&#10;上記コマンドを実行。staticfilesディレクトリを追加。" />
   </component>
 </project>
