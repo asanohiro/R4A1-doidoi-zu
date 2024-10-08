@@ -1,9 +1,11 @@
 import os
+import environ
 from datetime import datetime
 import boto3
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.conf import settings
+from AWS.settings import env
 from .models import LostItem
 from django.core.serializers import serialize
 import logging
@@ -11,7 +13,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-PROJECT_VERSION_ARN = os.getenv('PROJECT_VERSION_ARN')
+PROJECT_VERSION_ARN = env('PROJECT_VERSION_ARN')
 
 def detect_labels_api(request):
     if request.method == 'POST':
@@ -77,7 +79,6 @@ def extract_relevant_labels(labels):
 
     print(f"Final form_data: {form_data}")
     return form_data
-
 
 # Geocoding APIを使用して都道府県を取得する関数
 def get_prefecture_from_location(latitude, longitude):
