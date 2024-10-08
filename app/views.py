@@ -129,7 +129,7 @@ def upload_image(request):
             }
             return render(request, 'app/upload_result.html', context)
 
-    return render(request, 'app/templates/index.html')
+    return render(request, 'index.html')
 
 # マップ表示
 def map_view(request):
