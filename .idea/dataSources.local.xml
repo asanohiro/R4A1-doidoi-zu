@@ -15,5 +15,17 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
+    <data-source name="rds" uuid="f12af9a9-aba5-43a6-8d8b-da5f8117d375">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL_AURORA" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>djangodb</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="djangods" uuid="c4a69e50-2c51-43c8-94af-55c5ca91c75f">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>djangodb</user-name>
+      <schema-mapping />
+    </data-source>
   </component>
 </project>

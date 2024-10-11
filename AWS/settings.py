@@ -5,18 +5,19 @@ import os
 from dotenv import load_dotenv
 import pymysql
 
-pymysql.install_as_MySQLdb()
-
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# pymysql.install_as_MySQLdb()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# .envファイルからの読み込み
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = 'django-insecure-u!+jtvp6q2#rg579@3osd^8@b%p1!m2klaz8lzx$l&*j@ch@4k'
+SECRET_KEY = env('SECRET_KEY')
 
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -69,11 +70,11 @@ WSGI_APPLICATION = 'AWS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sotuken',
-        'USER': 'Sotuken',
-        'PASSWORD': 'p',
-        'HOST': 'localhost',  # あるいは、MySQLサーバーのホスト名
-        'PORT': '3306',  # あるいは、使用しているポート番号
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),  # あるいは、MySQLサーバーのホスト名
+        'PORT': env('DATABASE_PORT'),  # あるいは、使用しているポート番号
         'OPTIONS': {
             'charset': 'utf8mb4',
             'use_unicode': True,
