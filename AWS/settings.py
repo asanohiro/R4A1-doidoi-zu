@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import pymysql
 
 # pymysql.install_as_MySQLdb()
+pymysql.install_as_MySQLdb()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -141,7 +142,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
-AWS_REGION = env('AWS_REGION', 'ap-northeast-1')
+AWS_REGION = env('AWS_REGION')
 GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY')
 
 # S3をデフォルトのファイルストレージに設定

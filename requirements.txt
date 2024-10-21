@@ -6,14 +6,14 @@ cffi==1.17.0
 charset-normalizer==3.3.2
 cryptography==43.0.0
 Django==4.2.16
+django-environ==0.11.2
 environ==1.0
 gunicorn==23.0.0
 idna==3.10
 jmespath==1.0.1
 mysqlclient==2.2.4
-ngrok==1.4.0
 packaging==24.1
-pillow==10.3.0
+pillow==10.4.0
 pycparser==2.22
 PyMySQL==1.1.1
 python-dateutil==2.9.0.post0
