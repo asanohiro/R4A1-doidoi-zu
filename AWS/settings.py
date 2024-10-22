@@ -20,7 +20,27 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*',
+                 'https://327f-153-246-98-230.ngrok-free.app',
+                 'https://ee1f-153-246-98-230.ngrok-free.app',
+                 'https://f920-153-246-98-230.ngrok-free.app',
+                 'https://7a0a-153-246-98-230.ngrok-free.app',
+                 'cc96-153-246-98-230.ngrok-free.app',
+                 'https://0142-153-246-98-230.ngrok-free.app',
+                 'https://e98f-153-246-98-230.ngrok-free.app'
+                 ]
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://2f79-240a-61-60d3-d79e-2800-9c7-dd24-e684.ngrok-free.app',
+    'https://327f-153-246-98-230.ngrok-free.app',
+    'https://ee1f-153-246-98-230.ngrok-free.app',
+    'https://f920-153-246-98-230.ngrok-free.app',
+    'https://7a0a-153-246-98-230.ngrok-free.app',
+    'https://cc96-153-246-98-230.ngrok-free.app',
+    'https://0142-153-246-98-230.ngrok-free.app',
+    'https://e98f-153-246-98-230.ngrok-free.app'
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -143,6 +163,7 @@ AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
 AWS_REGION = env('AWS_REGION')
+AWS_S3_REGION_NAME = env('AWS_REGION')
 GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY')
 
 # S3をデフォルトのファイルストレージに設定

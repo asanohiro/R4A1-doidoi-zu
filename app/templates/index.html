@@ -31,23 +31,24 @@
 
 
         function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                console.log("Position successfully obtained:", position);
-                showPosition(position);
-            },
-            (error) => {
-                console.log("Error obtaining position:", error);
-                showError(error);
-            });
-    } else {
-        alert("このブラウザでは位置情報がサポートされていません。");
-    }
-}
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    console.log("Position successfully obtained:", position);
+                    showPosition(position);
+                },
+                (error) => {
+                    console.log("Error obtaining position:", error);
+                    showError(error);
+                });
+            } else {
+            alert("このブラウザでは位置情報がサポートされていません。");
+            }
+        }
 
         function showPosition(position) {
-            document.getElementById('lost_location').value = position.coords.latitude + ", " + position.coords.longitude;
+            document.getElementById('latitude').value = position.coords.latitude;
+            document.getElementById('longitude').value = position.coords.longitude;
         }
 
         function showError(error) {
@@ -101,46 +102,40 @@
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-CSRFToken': csrftoken  // CSRFトークンを追加
+                'X-CSRFToken': csrftoken  // CSRFトークンを追加
                 }
             })
             .then(response => response.json())
             .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    // 検出結果のラベルをフォームに反映
-                    const detectedLabels = data.labels;
-                    let itemName = '不明';
-                    let genre = '不明';
-                    let color = '不明';
+            if (data.error) {
+                alert(data.error);
+            } else {
+                // 検出結果のラベルをフォームに反映
+                const detectedLabels = data.labels;
+                let itemName = '不明';
 
-                    detectedLabels.forEach(label => {
-                        if (labelMapping[label]) {
-                            if (label === 'Credit Card' || label === 'ID Card') {
-                                itemName = labelMapping[label];
-                            } else if (label === 'Electronics' || label === 'Phone') {
-                                genre = labelMapping[label];
-                            }
+                detectedLabels.forEach(label => {
+                    if (labelMapping[label]) {
+                        if (label === 'Credit Card' || label === 'ID Card') {
+                            itemName = labelMapping[label];
                         }
-                    });
+                    }
+                });
 
-                    document.getElementById('item_name').value = itemName;
-                    document.getElementById('genre').value = genre;
-                    document.getElementById('color').value = color;
+                document.getElementById('item_name').value = itemName;
 
-                    // 検出結果を表示エリアに表示
-                    document.getElementById('detected_labels').innerHTML =
-                        `<p>検出されたラベル:</p>
-                            <ul>
-                                ${detectedLabels.map(label => `<li>${label}</li>`).join('')}
-                            </ul>`;
-                }
+                // 検出結果を表示エリアに表示
+                document.getElementById('detected_labels').innerHTML =
+                    `<p>検出されたラベル:</p>
+                        <ul>
+                            ${detectedLabels.map(label => `<li>${label}</li>`).join('')}
+                        </ul>`;
+            }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("ラベル検出に失敗しました。");
-            });
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("ラベル検出に失敗しました。");
+                });
         }
 
         window.onload = function() {
@@ -162,25 +157,14 @@
         </div>
 
         <!-- 品名 -->
-{#        <div>#}
-{#            <input type="hidden" id="item_name" name="item_name" required>#}
-{#        </div>#}
-
-        <!-- 色 -->
-{#        <div>#}
-{#            <label for="color">色:</label>#}
-{#            <input type="text" id="color" name="color" required>#}
-{#        </div>#}
-
-        <!-- ジャンル -->
-{#        <div>#}
-{#            <label for="genre">ジャンル:</label>#}
-{#            <input type="text" id="genre" name="genre" required>#}
-{#        </div>#}
+        <div>
+            <input type="hidden" id="item_name" name="item_name" required>
+        </div>
 
         <!-- 落とした場所 -->
         <div>
-            <input type="hidden" id="lost_location" name="lost_location" required>
+            <input type="text" id="latitude" name="latitude">
+            <input type="text" id="longitude" name="longitude">
         </div>
 
         <!-- 拾った時間 -->

@@ -1,6 +1,4 @@
-import os
-import environ
-from datetime import datetime
+import io
 import boto3
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -8,6 +6,8 @@ from django.conf import settings
 from AWS.settings import env
 from .models import LostItem
 from django.core.serializers import serialize
+from uuid import uuid4
+import json
 import logging
 import requests
 
@@ -33,15 +33,20 @@ def detect_labels_api(request):
 # AWSのデフォルトモデルでラベルを検出
 # AWSからのラベルを検出する関数
 def detect_labels_in_image(image):
+    # 最初にファイルデータを全て読み込み、メモリに保存
+    image_data = image.read()
+    # 読み込んだデータを使ってバイトストリームに変換
+    image_bytes = io.BytesIO(image_data)
+    # Rekognition APIに送信
     client = boto3.client('rekognition',
                           aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
                           aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
                           region_name=settings.AWS_REGION)
 
-    image_bytes = image.read()
-    response = client.detect_labels(Image={'Bytes': image_bytes}, MaxLabels=10, MinConfidence=75)
-    return response['Labels']
+    # ラベル検出
+    response = client.detect_labels(Image={'Bytes': image_bytes.getvalue()}, MaxLabels=10, MinConfidence=75)
 
+    return response['Labels']
 
 # ラベルマッピング辞書
 label_mapping = {
@@ -80,52 +85,87 @@ def extract_relevant_labels(labels):
     print(f"Final form_data: {form_data}")
     return form_data
 
-# Geocoding APIを使用して都道府県を取得する関数
+
 def get_prefecture_from_location(latitude, longitude):
-    api_key = 'AIzaSyBTheiF0rr8chsdrv8vFMXVruV4JMLDhqY&callback=initMap'  # Google Maps APIキー
+    api_key = settings.GOOGLE_MAPS_API_KEY
     url = f"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={api_key}"
 
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        if data['results']:
-            for component in data['results'][0]['address_components']:
-                if 'administrative_area_level_1' in component['types']:
-                    return component['long_name']  # 都道府県名を返す
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            print(f"API Response: {json.dumps(data, indent=2)}")  # デバッグのためにAPIレスポンス全体を表示
+
+            if data['results']:
+                # フィルタリングによる都道府県名の取得
+                results = list(filter(lambda component: "administrative_area_level_1" in component['types'],
+                                      data['results'][0]['address_components']))
+
+                if results:
+                    prefecture = results[0]['long_name']
+                    print(f"Found prefecture: {prefecture}")
+                    return prefecture
+                else:
+                    print("administrative_area_level_1 が見つかりませんでした。")
+            else:
+                print("結果が空でした。")
+        else:
+            print(f"Error: API request failed with status code {response.status_code}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+    return "不明"
 
 # 実際の検出と自動入力の実行
 # views.py
+s3 = boto3.client('s3',
+                  aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                  aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                  region_name=settings.AWS_S3_REGION_NAME)
 
+bucket_name = settings.AWS_STORAGE_BUCKET_NAME
 def upload_image(request):
     if request.method == 'POST':
         image = request.FILES.get('image')
-        latitude = request.POST.get('latitude')  # 緯度
-        longitude = request.POST.get('longitude')  # 経度
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
 
         if image and latitude and longitude:
+            # 画像データをメモリに読み込む
+            image_data = image.read()  # ファイルデータをすべて読み込む
+
             # 都道府県を取得
             prefecture = get_prefecture_from_location(latitude, longitude)
 
-            # AWS Rekognitionでラベル検出
-            detected_labels = detect_labels_in_image(image)
-            form_data = extract_relevant_labels(detected_labels)
+            # ファイル名にUUIDを使用して一意にする
+            file_extension = image.name.split('.')[-1]
+            file_name = f'{uuid4()}.{file_extension}'
+
+            # S3に画像をアップロード
+            s3.upload_fileobj(io.BytesIO(image_data), bucket_name, file_name)
+            # 画像のURLを作成 (公開URLを生成)
+            image_url = f'https://{bucket_name}.s3.{settings.AWS_S3_REGION_NAME}.amazonaws.com/{file_name}'
+
+            # ラベル検出を実行
+            detected_labels = detect_labels_in_image(io.BytesIO(image_data))  # 画像データを再利用
+            item_name = detected_labels[0]['Name'] if detected_labels else "不明"
 
             # LostItemに保存
             lost_item = LostItem.objects.create(
-                image=image,
-                location=f"{latitude}, {longitude}",
-                description=form_data['item_name'],  # ここで品名を使用
-                prefecture=prefecture  # 都道府県を保存
+                image_url=image_url,  # S3の画像URLを保存
+                latitude=latitude,
+                longitude=longitude,
+                description=item_name,
+                prefecture=prefecture
             )
 
             # データをテンプレートに渡して表示
             context = {
-                'item_name': form_data['item_name'],
-                'genre': form_data['genre'],
+                'item_name': item_name,
                 'latitude': latitude,
                 'longitude': longitude,
                 'prefecture': prefecture,
-                'image_url': lost_item.image.url  # 画像のURLをテンプレートに渡す
+                'image_url': image_url  # S3の画像URL
             }
             return render(request, 'app/upload_result.html', context)
 
