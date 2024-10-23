@@ -204,3 +204,32 @@ def search_items(request):
     # 検索結果をJSON形式で返す
     items_json = serialize('json', items)
     return render(request, 'app/map.html', {'items_json': items_json})
+
+def search_lost_items(request):
+    search_term = request.GET.get('search', '')
+    search_condition = request.GET.get('search-condition', '')
+
+    # 検索条件に基づいてフィルタリング
+    if search_condition == '場所':
+        items = LostItem.objects.filter(location__icontains=search_term)
+    elif search_condition == '時間':
+        items = LostItem.objects.filter(date_time__icontains=search_term)
+    elif search_condition == '特徴':
+        items = LostItem.objects.filter(description__icontains=search_term)
+    else:
+        items = LostItem.objects.all()
+
+    # 結果をJSONで返す
+    results = []
+    for item in items:
+        results.append({
+            'id': item.id,
+            'description': item.description,
+            'location': item.location,  # 緯度経度の文字列
+            'date_time': item.date_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'image_url': item.image.url if item.image else '',
+            'latitude': item.latitude,  # 緯度
+            'longitude': item.longitude  # 経度
+        })
+
+    return JsonResponse(results, safe=False)
