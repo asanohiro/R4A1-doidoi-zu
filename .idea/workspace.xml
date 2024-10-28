@@ -4,10 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="10/21　コミット">
-      <change afterPath="$PROJECT_DIR$/app/templates/app/error.html" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="10/28（月）&#10;テーブルの中身をGoogle Map上に表示成功">
+      <change afterPath="$PROJECT_DIR$/app/templates/app/upload.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/app/upload_completion.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/map.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/register_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sotuken_dump.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/JS/map.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/upload.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AWS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/AWS/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/app/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/app/upload_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload_result.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
@@ -25,7 +35,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="CSS File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -52,6 +64,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -71,6 +84,8 @@
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/templates" />
+      <recent name="$PROJECT_DIR$/app/templates/app" />
+      <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/app" />
     </key>
   </component>
@@ -81,6 +96,8 @@
       <visibility group="HTTP リクエスト" flag="true" />
       <visibility group="Node.js" flag="true" />
       <visibility group="Python ファイルの実行" flag="true" />
+      <visibility group="Recent projects" flag="true" />
+      <visibility group="Run configurations" flag="true" />
       <visibility group="conda コマンドの実行" flag="true" />
       <visibility group="npm" flag="true" />
       <visibility group="pip コマンドを実行" flag="true" />
@@ -107,7 +124,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="launchJavascriptDebuger" value="false" />
       <option name="port" value="80" />
-      <option name="host" value="0.0.0.0" />
+      <option name="host" value="localhost" />
       <option name="additionalOptions" value="" />
       <option name="browserUrl" value="" />
       <option name="runTestServer" value="false" />
@@ -190,7 +207,13 @@
       <workItem from="1728722515683" duration="649000" />
       <workItem from="1729476699237" duration="14731000" />
       <workItem from="1729564228341" duration="2524000" />
-      <workItem from="1729571241048" duration="4326000" />
+      <workItem from="1729571241048" duration="10704000" />
+      <workItem from="1729649118782" duration="12970000" />
+      <workItem from="1729731723338" duration="8791000" />
+      <workItem from="1729822158715" duration="4875000" />
+      <workItem from="1729831221372" duration="3731000" />
+      <workItem from="1729909713832" duration="4578000" />
+      <workItem from="1730081080193" duration="3604000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -304,7 +327,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729477649368</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="10/22&#10;画像表示成功">
+      <option name="closed" value="true" />
+      <created>1729576092751</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1729576092751</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -329,6 +360,8 @@
     <MESSAGE value="os.getenvをenvに変更" />
     <MESSAGE value="ec2とrdsできた。&#10;プラグイン整理で一旦プラグインを全部消す。" />
     <MESSAGE value="10/21　コミット" />
-    <option name="LAST_COMMIT_MESSAGE" value="10/21　コミット" />
+    <MESSAGE value="10/22&#10;画像表示成功" />
+    <MESSAGE value="10/28（月）&#10;テーブルの中身をGoogle Map上に表示成功" />
+    <option name="LAST_COMMIT_MESSAGE" value="10/28（月）&#10;テーブルの中身をGoogle Map上に表示成功" />
   </component>
 </project>

@@ -1,4 +1,3 @@
-# AWS/settings.py
 from pathlib import Path
 import environ
 import os
@@ -10,6 +9,11 @@ pymysql.install_as_MySQLdb()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # "static" フォルダがプロジェクトのルートにある場合
+]
+
 # .envファイルからの読み込み
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -20,27 +24,15 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*',
-                 'https://327f-153-246-98-230.ngrok-free.app',
-                 'https://ee1f-153-246-98-230.ngrok-free.app',
-                 'https://f920-153-246-98-230.ngrok-free.app',
-                 'https://7a0a-153-246-98-230.ngrok-free.app',
-                 'cc96-153-246-98-230.ngrok-free.app',
-                 'https://0142-153-246-98-230.ngrok-free.app',
-                 'https://e98f-153-246-98-230.ngrok-free.app'
-                 ]
-
+ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://2f79-240a-61-60d3-d79e-2800-9c7-dd24-e684.ngrok-free.app',
-    'https://327f-153-246-98-230.ngrok-free.app',
-    'https://ee1f-153-246-98-230.ngrok-free.app',
-    'https://f920-153-246-98-230.ngrok-free.app',
-    'https://7a0a-153-246-98-230.ngrok-free.app',
-    'https://cc96-153-246-98-230.ngrok-free.app',
-    'https://0142-153-246-98-230.ngrok-free.app',
-    'https://e98f-153-246-98-230.ngrok-free.app'
+    'http://sotuken.f5.si',
+    'https://sotuken.f5.si'
 ]
+
+SECURE_SSL_REDIRECT = True  # HTTPからHTTPSへリダイレクト
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -103,7 +95,6 @@ DATABASES = {
     }
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -150,8 +141,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

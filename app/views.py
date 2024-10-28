@@ -3,6 +3,7 @@ import boto3
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.conf import settings
+import AWS.settings
 from AWS.settings import env
 from .models import LostItem
 from django.core.serializers import serialize
@@ -14,6 +15,9 @@ import requests
 logger = logging.getLogger(__name__)
 
 PROJECT_VERSION_ARN = env('PROJECT_VERSION_ARN')
+
+def index(request):
+    return render(request, 'index.html')
 
 def detect_labels_api(request):
     if request.method == 'POST':
@@ -124,6 +128,7 @@ s3 = boto3.client('s3',
                   region_name=settings.AWS_S3_REGION_NAME)
 
 bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+
 def upload_image(request):
     if request.method == 'POST':
         image = request.FILES.get('image')
@@ -143,6 +148,7 @@ def upload_image(request):
 
             # S3に画像をアップロード
             s3.upload_fileobj(io.BytesIO(image_data), bucket_name, file_name)
+
             # 画像のURLを作成 (公開URLを生成)
             image_url = f'https://{bucket_name}.s3.{settings.AWS_S3_REGION_NAME}.amazonaws.com/{file_name}'
 
@@ -150,36 +156,50 @@ def upload_image(request):
             detected_labels = detect_labels_in_image(io.BytesIO(image_data))  # 画像データを再利用
             item_name = detected_labels[0]['Name'] if detected_labels else "不明"
 
-            # LostItemに保存
-            lost_item = LostItem.objects.create(
-                image_url=image_url,  # S3の画像URLを保存
-                latitude=latitude,
-                longitude=longitude,
-                description=item_name,
-                prefecture=prefecture
-            )
-
             # データをテンプレートに渡して表示
             context = {
                 'item_name': item_name,
                 'latitude': latitude,
                 'longitude': longitude,
                 'prefecture': prefecture,
-                'image_url': image_url  # S3の画像URL
+                'image_url': image_url
             }
             return render(request, 'app/upload_result.html', context)
 
-    return render(request, 'index.html')
+    return render(request, 'app/upload.html')
 
-# マップ表示
+
+def upload_image_result(request):
+    if request.method == 'POST':
+        item_name = request.POST.get('item_name')
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+        prefecture = request.POST.get('prefecture')
+        image_url = request.POST.get('image_url')
+
+        # LostItemに保存
+        lost_item = LostItem.objects.create(
+            image_url=image_url,
+            latitude=latitude,
+            longitude=longitude,
+            description=item_name,
+            prefecture=prefecture
+        )
+        lost_item.save()
+
+        return render(request, 'app/upload_completion.html')
+
+
 def map_view(request):
-    items = LostItem.objects.all()
-    items_json = serialize('json', items)
-    context ={
-        'items_json': items_json,
-        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY
-    }
-    return render(request, 'app/map.html', context)
+    if request.method == 'GET':
+        google_maps_api_key = AWS.settings.env('GOOGLE_MAPS_API_KEY')
+        items = LostItem.objects.all()
+        items_json = serialize('json', items)
+        context = {
+            'items_json': items_json,
+            'google_maps_api_key': google_maps_api_key
+        }
+        return render(request, 'app/map.html', context)
 
 
 # 全てのアイテムを削除
