@@ -19,6 +19,12 @@ PROJECT_VERSION_ARN = env('PROJECT_VERSION_ARN')
 def index(request):
     return render(request, 'index.html')
 
+def map(request):
+  return render(request, 'map.html')
+
+def register(request):
+   return render(request,'index.html')
+
 def detect_labels_api(request):
     if request.method == 'POST':
         image = request.FILES.get('image')

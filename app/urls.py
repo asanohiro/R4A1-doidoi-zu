@@ -9,4 +9,5 @@ urlpatterns = [
     path('delete_all/', views.delete_all_items, name='delete_all_items'),
     path('detect_labels_api/', views.detect_labels_api, name='detect_labels_api'),
     path('search/', views.search_items, name='search_items'),
+    path('register/', views.register, name='register'),
 ]
