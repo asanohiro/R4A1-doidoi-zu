@@ -8,19 +8,28 @@
     <h1>アップロード結果確認</h1>
 
     <!-- アップロードされた情報を表示するエリア -->
-    <div>
-        <p><strong>品名:</strong> {{ item_name }}</p>
-        <p><strong>ジャンル:</strong> {{ genre }}</p>
-        <p><strong>位置情報 (緯度・経度):</strong> {{ latitude }}, {{ longitude }}</p>
-        <p><strong>都道府県:</strong> {{ prefecture }}</p>
-        <p><strong>アップロードされた画像:</strong><br>
+    <form method="post" action="{% url 'upload_image_result' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label><strong>品名:</strong></label>
+            <input type="text" name="item_name" value="{{ item_name }}" readonly>
+        </div>
+            <input type="hidden" name="latitude" value="{{ latitude }}" readonly>
+            <input type="hidden" name="longitude" value="{{ longitude }}" readonly>
+        <div>
+            <label><strong>都道府県:</strong></label>
+            <input type="text" name="prefecture" value="{{ prefecture }}" readonly>
+        </div>
+        <div>
+            <label><strong>アップロードされた画像:</strong></label><br>
             <img src="{{ image_url }}" alt="アップロードされた画像" style="max-width:300px; height:auto;">
-        </p>
-    </div>
+        </div>
+        <input type="submit" value="この内容で登録する">
+    </form>
 
     <!-- 再アップロードや戻るボタンを表示 -->
     <div>
-        <form action="{% url 'upload_page' %}" method="get">
+        <form action="{% url 'upload_image' %}" method="get">
             <button type="submit">再アップロード</button>
         </form>
     </div>
