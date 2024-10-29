@@ -9,16 +9,17 @@
     function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
-        center: {lat: 35.6895, lng: 139.6917}  // Tokyo center
+        mapTypeId:'roadmap',
     });
 
     var items = JSON.parse('{{ items_json|escapejs }}');
     items.forEach(function(item) {
         var fields = item.fields;
-        var MyLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        map.setCenter(MyLatLng);
         if (fields.latitude && fields.longitude) {
-            var latLng = new google.maps.LatLng(parseFloat(fields.latitude), parseFloat(fields.longitude));
+            var MyLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+            map.setCenter(MyLatLng);
+
             var marker = new google.maps.Marker({
                 position: latLng,
                 map: map,
