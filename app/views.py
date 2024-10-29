@@ -245,6 +245,7 @@ def search_lost_items(request):
     else:
         items = LostItem.objects.all()
 
+
     # 結果をJSONで返す
     results = []
     for item in items:
