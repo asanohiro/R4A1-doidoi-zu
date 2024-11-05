@@ -1,168 +1,235 @@
-/* 画像アップロードのタイトル */
-h1 {
-    font-size: 2.5rem;
-    color: #fff;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* 背景色とフォントの調整 */
+/* 全体レイアウト */
 body {
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* リセットCSS */
-* {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-
-
-h1 {
-    font-size: 2rem;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
 }
 
 form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 100%;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    width: 90%; /* パソコンでは90%の幅 */
+    transition: width 0.3s ease;
+}
+
+h1 {
+    font-size: 2.2em;
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* 入力フィールドとボタンのスタイル */
+.image, .form-group {
+    margin-bottom: 25px;
 }
 
 label {
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 5px;
     display: block;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #666;
 }
 
-input[type="text"],
-input[type="file"],
-select {
+/* 「ファイルを選択」ボタンのスタイル */
+input[type="file"] {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: border-color 0.2s ease-in-out;
-}
-
-input[type="text"]:focus,
-input[type="file"]:focus,
-select:focus {
-    border-color: #006eff;
-    outline: none;
-}
-
-button {
-    background-color: #006eff;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #555;
+    background-color: #e0e0e0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1rem;
+    text-align: center;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="file"]::file-selector-button {
+    font-size: 1.1em;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #0056b3;
+}
+
+/* アップロードボタン */
+button {
     width: 100%;
-    transition: background-color 0.3s ease-in-out;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 button:hover {
-    background-color: #00aaff;
+    background-color: #0056b3;
 }
 
+button:active {
+    transform: scale(0.98); /* ボタンを押したときの軽い縮小効果 */
+}
+
+/* 検出結果のスタイル */
 #detected_labels {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f1f1f1;
-    border-radius: 5px;
-}
-
-#detected_labels p {
-    font-size: 1rem;
-    margin-bottom: 10px;
+    margin-top: 25px;
+    font-size: 1em;
     color: #333;
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
 }
 
-#detected_labels ul {
-    list-style-type: disc;
-    padding-left: 20px;
-}
-
-#detected_labels li {
-    font-size: 0.9rem;
-    color: #555;
-}
-
-/* レスポンシブ対応: タブレット以上の画面 */
-@media (min-width: 768px) {
-    body {
-        padding: 40px;
+/* タブレット向けスタイル */
+@media (max-width: 768px) {
+    form {
+        padding: 30px;
+        width: 95%;
     }
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 2em;
     }
 
-    form {
-        max-width: 600px; /* フォームをもう少し広く */
-    }
-
-    button {
-        font-size: 1.2rem;
-    }
-
-    input[type="text"],
+    label,
     input[type="file"],
-    select {
-        font-size: 1.1rem; /* インプットフィールドを少し大きく */
+    select,
+    button {
+        font-size: 1.2em;
+        padding: 14px;
+    }
+
+    #detected_labels {
+        font-size: 1.1em;
+        padding: 12px;
     }
 }
 
-/* スマートフォン向けのデザイン調整 */
+/* スマホ向けスタイル (画面幅480px以下) */
 @media (max-width: 480px) {
-    h1 {
-        font-size: 1.8rem;
+    /* 全体レイアウト */
+    body {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
     }
 
     form {
-        padding: 15px;
+        background-color: #ffffff;
+        padding: 60px 20px; /* 上下の余白を広く設定 */
+        width: 100vw; /* 画面幅いっぱいに */
+        height: 100vh; /* 画面高さいっぱいに広げる */
+        max-width: none; /* 幅の制限を解除 */
+        border-radius: 10px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        margin: 0; /* 中央配置を維持 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around; /* 各要素の間隔を均等に */
     }
 
+    /* タイトル */
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 30px; /* タイトル下の余白 */
+        color: #333;
+        text-align: center;
+        line-height: 1.3;
+    }
+
+    /* ラベル */
     label {
-        font-size: 0.9rem;
+        font-size: 1.6em;
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 15px;
+        display: block;
+        width: 100%;
+        text-align: left;
     }
 
-    input[type="text"],
-    input[type="file"],
-    select {
-        font-size: 0.9rem;
-        padding: 8px; /* インプットフィールドを少し小さく */
+    /* ファイル選択ボタン */
+    input[type="file"] {
+        width: 100%;
+        padding: 18px; /* 高さを増やしてクリックしやすく */
+        font-size: 1.4em;
+        color: #333;
+        background-color: #e0e0e0;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-bottom: 30px; /* 下に余白を追加 */
     }
 
+    input[type="file"]::file-selector-button {
+        font-size: 1.2em;
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: #ffffff;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    input[type="file"]::file-selector-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* アップロードボタン */
     button {
-        font-size: 0.9rem;
-        padding: 10px; /* ボタンも少し小さく */
+        width: 100%;
+        padding: 10px;
+        font-size: 1.6em;
+        font-weight: bold;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 5px;
     }
 
-    #detected_labels p {
-        font-size: 0.9rem;
+    button:hover {
+        background-color: #0056b3;
     }
 
-    #detected_labels li {
-        font-size: 0.8rem;
+    /* 検出結果の表示エリア */
+    #detected_labels {
+        font-size: 1.4em;
+        color: #333;
+        background-color: #f1f3f5;
+        padding: 25px; /* 検出結果の余白 */
+        border-radius: 10px;
+        margin-top: 30px;
+        width: 100%;
+        text-align: center;
     }
 }

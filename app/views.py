@@ -3,6 +3,7 @@ import boto3
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.conf import settings
+from django.urls import reverse
 import AWS.settings
 from AWS.settings import env
 from .models import LostItem
@@ -11,13 +12,88 @@ from uuid import uuid4
 import json
 import logging
 import requests
+from PIL import Image
+import base64
 
 logger = logging.getLogger(__name__)
 
 PROJECT_VERSION_ARN = env('PROJECT_VERSION_ARN')
 
+# views.py
+s3 = boto3.client('s3',
+                  aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                  aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                  region_name=settings.AWS_S3_REGION_NAME
+                  )
+
+bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+
+# ラベルマッピング辞書
+label_mapping = {
+    'Accessories': '付属品',
+    'Animal': '動物',
+    'Bag': 'バック',
+    'Binoculars': '双眼鏡',
+    'Book': '本',
+    'Camera': 'カメラ',
+    'Clothing': '衣服',
+    'Computer Hardware': '機械',
+    'Contact Lens': 'コンタクトレンズ',
+    'Cosmetics': '化粧品',
+    'Credit Card': 'クレジットカード',
+    'Diaper': 'おむつ',
+    'Electrical Device': '電気機器',
+    'Electronics': '電子機器',
+    'Envelope': '封筒',
+    'Glasses': '眼鏡',
+    'Glove': '手袋',
+    'Hat': '帽子',
+    'ID Card': '証明書',
+    'Jewelry': 'ジュエリー',
+    'Key': '鍵',
+    'Light': 'ライト',
+    'Lighter': 'ライター',
+    'Medication': '薬',
+    'Mobile Phone': '携帯電話',
+    'Money': 'お金',
+    'Page': '書類',
+    'Pants': 'パンツ',
+    'Perfume': '香水',
+    'Photography': '写真',
+    'Plant': '植物',
+    'Raincoat': '合羽',
+    'Saucer': '皿',
+    'Scarf': 'マフラー',
+    'Shoe': '靴',
+    'Sock': '靴下',
+    'Stick': '杖',
+    'Suitcase': 'スーツケース',
+    'Tobacco': 'タバコ',
+    'Tool': '工具',
+    'Toy': '人形',
+    'Umbrella': '傘',
+    'Underwear': '下着',
+    'Wallet': '財布',
+    'Water Bottle': '水筒',
+    'Wristwatch': '腕時計',
+    # 他に必要なラベルをここに追加
+}
+# 不適切なラベルリストを定義（定数として扱う）
+INAPPROPRIATE_LABELS = {
+    'Face',
+    'Food',
+    'Finger',
+    'Body Part'
+    'Person Description'
+}
+
 def index(request):
     return render(request, 'index.html')
+
+
+def return_upload_image(request):
+    return render(request, 'app/upload.html')
+
 
 def detect_labels_api(request):
     if request.method == 'POST':
@@ -34,60 +110,176 @@ def detect_labels_api(request):
             return JsonResponse({'labels': labels, 'form_data': form_data})  # form_dataを追加して返す
     return JsonResponse({'error': '無効なリクエストです。'})
 
+def resize_image_api(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        image_file = request.FILES.get('image')
+
+        resized_image = resize_image(image_file)
+
+        encoded_image = base64.b64encode(resized_image).decode('utf-8')
+        return JsonResponse({'resized_image': encoded_image})
+    return JsonResponse({'error': '画像が見つかりませんでした。'}, status=400)
+
 # AWSのデフォルトモデルでラベルを検出
-# AWSからのラベルを検出する関数
-def detect_labels_in_image(image):
-    # 最初にファイルデータを全て読み込み、メモリに保存
-    image_data = image.read()
-    # 読み込んだデータを使ってバイトストリームに変換
-    image_bytes = io.BytesIO(image_data)
-    # Rekognition APIに送信
-    client = boto3.client('rekognition',
-                          aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                          aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-                          region_name=settings.AWS_REGION)
+def detect_labels_in_image(image_data):
+    # Rekognition API に送信
+    client = boto3.client(
+        'rekognition',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        region_name=settings.AWS_REGION
+    )
 
     # ラベル検出
-    response = client.detect_labels(Image={'Bytes': image_bytes.getvalue()}, MaxLabels=10, MinConfidence=75)
-
+    response = client.detect_labels(
+        Image={'Bytes': image_data},
+        MaxLabels=5,
+        MinConfidence=85
+    )
     return response['Labels']
 
-# ラベルマッピング辞書
-label_mapping = {
-    'ID Card': '証明書',
-    'Credit Card': 'クレジットカード'
-    # 他に必要なラベルをここに追加
-}
 
 # ラベルのマッピングとフォームへの反映
 def extract_relevant_labels(labels):
     # 対応するフォームフィールドの値を保存する辞書
-    form_data = {
-        'item_name': '',
-        'genre': '',
-        'color': ''
-    }
+    item_name = "不明"
 
     for label in labels:
-        print(f"Detected label: {label['Name']}")
-
         if label['Name'] == 'Credit Card':
-            form_data['item_name'] = label_mapping['Credit Card']
+            item_name = label_mapping['Credit Card']
             break  # 「クレジットカード」を見つけたら以降の処理をしない
 
         elif label['Name'] == 'ID Card':
-            form_data['item_name'] = label_mapping['ID Card']
+            item_name = label_mapping['ID Card']
 
         # 他のラベルの処理
         elif label['Name'] == 'Electronics':
-            form_data['genre'] = '電子機器'
+            item_name = label_mapping['Electronics']
 
-    # 'item_name' が空の場合はデフォルト値を設定
-    if not form_data['item_name']:
-        form_data['item_name'] = '不明'
+        elif label['Name'] == 'Wristwatch':
+            item_name = label_mapping['Wristwatch']
 
-    print(f"Final form_data: {form_data}")
-    return form_data
+        elif label['Name'] == 'Mobile Phone':
+            item_name = label_mapping['Mobile Phone']
+
+        elif label['Name'] == 'Hat':
+            item_name = label_mapping['Hat']
+
+        elif label['Name'] == 'Scarf':
+            item_name = label_mapping['Scarf']
+
+        elif label['Name'] == 'Glove':
+            item_name = label_mapping['Glove']
+
+        elif label['Name'] == 'Key':
+            item_name = label_mapping['Key']
+
+        elif label['Name'] == 'Water Bottle':
+            item_name = label_mapping['Water Bottle']
+
+        elif label['Name'] == 'Shoe':
+            item_name = label_mapping['Shoe']
+
+        elif label['Name'] == 'Sock':
+            item_name = label_mapping['Sock']
+
+        elif label['Name'] == 'Underwear':
+            item_name = label_mapping['Underwear']
+
+        elif label['Name'] == 'Pants':
+            item_name = label_mapping['Pants']
+
+        elif label['Name'] == 'Jewelry':
+            item_name = label_mapping['Jewelry']
+
+        elif label['Name'] == 'Book':
+            item_name = label_mapping['Book']
+
+        elif label['Name'] == 'Suitcase':
+            item_name = label_mapping['Suitcase']
+
+        elif label['Name'] == 'Tobacco':
+            item_name = label_mapping['Tobacco']
+
+        elif label['Name'] == 'Lighter':
+            item_name = label_mapping['Lighter']
+
+        elif label['Name'] == 'Accessories':
+            item_name = label_mapping['Accessories']
+
+        elif label['Name'] == 'Camera':
+            item_name = label_mapping['Camera']
+
+        elif label['Name'] == 'Diaper':
+            item_name = label_mapping['Diaper']
+
+        elif label['Name'] == 'Contact Lens':
+            item_name = label_mapping['Contact Lens']
+
+        elif label['Name'] == 'Binoculars':
+            item_name = label_mapping['Binoculars']
+
+        elif label['Name'] == 'Light':
+            item_name = label_mapping['Light']
+
+        elif label['Name'] == 'Electrical Device':
+            item_name = label_mapping['Electrical Device']
+
+        elif label['Name'] == 'Plant':
+            item_name = label_mapping['Plant']
+
+        elif label['Name'] == 'Saucer':
+            item_name = label_mapping['Saucer']
+
+        elif label['Name'] == 'Tool':
+            item_name = label_mapping['Tool']
+
+        elif label['Name'] == 'Book':
+            item_name = label_mapping['Book']
+
+        elif label['Name'] == 'Suitcase':
+            item_name = label_mapping['Suitcase']
+
+        elif label['Name'] == 'Tobacco':
+            item_name = label_mapping['Tobacco']
+
+        elif label['Name'] == 'Underwear':
+            item_name = label_mapping['Underwear']
+
+        elif label['Name'] == 'Pants':
+            item_name = label_mapping['Pants']
+
+        elif label['Name'] == 'Jewelry':
+            item_name = label_mapping['Jewelry']
+
+        elif label['Name'] == 'Accessories':
+            item_name = label_mapping['Accessories']
+
+        elif label['Name'] == 'Camera':
+            item_name = label_mapping['Camera']
+
+        elif label['Name'] == 'Diaper':
+            item_name = label_mapping['Diaper']
+
+        elif label['Name'] == 'Body Part':
+            item_name = label_mapping['Body Part']
+
+        elif label['Name'] == 'Perfume':
+            item_name = label_mapping['Perfume']
+
+        elif label['Name'] == 'Photography':
+            item_name = label_mapping['Photography']
+
+        elif label['Name'] == 'Stick':
+            item_name = label_mapping['Stick']
+
+        elif label['Name'] == 'Medication':
+            item_name = label_mapping['Medication']
+
+        elif label['Name'] == 'Clothing':
+            item_name = label_mapping['Clothing']
+
+    return item_name
 
 
 def get_prefecture_from_location(latitude, longitude):
@@ -120,14 +312,25 @@ def get_prefecture_from_location(latitude, longitude):
 
     return "不明"
 
-# 実際の検出と自動入力の実行
-# views.py
-s3 = boto3.client('s3',
-                  aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                  aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-                  region_name=settings.AWS_S3_REGION_NAME)
 
-bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+def resize_image(image, max_size=(400, 400)):
+    # Open the image
+    img = Image.open(image)
+
+    # Convert the image to RGB mode if it's in P mode (or any other mode incompatible with JPEG)
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+
+    # 画像のリサイズ（アスペクト比を維持）
+    img.thumbnail(max_size, Image.Resampling.LANCZOS)
+
+    # Convert the resized image to a byte array
+    img_byte_arr = io.BytesIO()
+    img.save(img_byte_arr, format='JPEG', quality=10)  # Adjust quality as needed
+    img_byte_arr = img_byte_arr.getvalue()
+
+    return img_byte_arr
+
 
 def upload_image(request):
     if request.method == 'POST':
@@ -137,36 +340,57 @@ def upload_image(request):
 
         if image and latitude and longitude:
             # 画像データをメモリに読み込む
-            image_data = image.read()  # ファイルデータをすべて読み込む
+            image_data = image.read()
+            image_bytes_for_upload = io.BytesIO(image_data)  # S3アップロード用のファイルオブジェクト
+            image_bytes_for_resize = io.BytesIO(image_data)  # リサイズ用のファイルオブジェクト
 
-            # 都道府県を取得
+            # Get the prefecture from location data
             prefecture = get_prefecture_from_location(latitude, longitude)
 
-            # ファイル名にUUIDを使用して一意にする
+            # Generate a unique filename
             file_extension = image.name.split('.')[-1]
             file_name = f'{uuid4()}.{file_extension}'
 
-            # S3に画像をアップロード
-            s3.upload_fileobj(io.BytesIO(image_data), bucket_name, file_name)
+            # 画像をS3にアップロード
+            s3.upload_fileobj(image_bytes_for_upload, bucket_name, file_name)
+            image_bytes_for_upload.close()  # アップロード用ファイルオブジェクトをクローズ
 
-            # 画像のURLを作成 (公開URLを生成)
+            # 画像サイズのリサイズ
+            resized_image = resize_image(image_bytes_for_resize)
+            image_bytes_for_resize.close()  # リサイズ用ファイルオブジェクトをクローズ
+
+            # 画像ラベル検出
+            labels = detect_labels_in_image(resized_image)
+
+            # ラベル検出が完了した場合の処理
+            detected_inappropriate_labels = any(label['Name'] in INAPPROPRIATE_LABELS for label in labels)
+            if detected_inappropriate_labels:
+                return redirect('warning_page')
+
+            end_label = extract_relevant_labels(labels)
+
+            # S3 URL を生成
             image_url = f'https://{bucket_name}.s3.{settings.AWS_S3_REGION_NAME}.amazonaws.com/{file_name}'
 
-            # ラベル検出を実行
-            detected_labels = detect_labels_in_image(io.BytesIO(image_data))  # 画像データを再利用
-            item_name = detected_labels[0]['Name'] if detected_labels else "不明"
-
-            # データをテンプレートに渡して表示
+            # データをテンプレートに渡す
             context = {
-                'item_name': item_name,
+                'item_name': end_label,
                 'latitude': latitude,
                 'longitude': longitude,
                 'prefecture': prefecture,
-                'image_url': image_url
+                'image_url': image_url,
+                'detected_labels': labels
             }
+
             return render(request, 'app/upload_result.html', context)
 
     return render(request, 'app/upload.html')
+
+
+def upload_result(request):
+    # セッションから context を取得
+    context = request.session.pop('upload_context', {})  # デフォルトは空の辞書
+    return render(request, 'app/upload_result.html', context)
 
 
 def upload_image_result(request):
@@ -188,6 +412,9 @@ def upload_image_result(request):
         lost_item.save()
 
         return render(request, 'app/upload_completion.html')
+
+def warning_page(request):
+    return render(request, 'warning.html', {'message': '不適切な画像は登録できません。'})
 
 
 def map_view(request):

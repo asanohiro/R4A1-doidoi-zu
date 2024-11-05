@@ -23,6 +23,7 @@
                 title: fields.description
             });
 
+            {#-- ここが表示領域を決めてるとこ --#}
             var infoWindow = new google.maps.InfoWindow({
                 content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
             });

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -12,10 +13,10 @@
         <h1>落とし物捜索画面</h1>
         <div class="button-container">
             <a class="button register-button" href="{% url 'map_view' %}">
-                マップ検索 <img src="map.png" alt="マップロゴ"> 
+                マップ検索 <img src="{% static 'Image/map.png' %}" alt="マップロゴ">
             </a>
             <a class="button search-button" href="{% url 'upload_image' %}">
-                落とし物登録 <img src="register_icon.png" alt="登録ロゴ"> 
+                落とし物登録 <img src="{% static 'Image/register_icon.png' %}" alt="登録ロゴ">
             </a>
         </div>
     </div>
