@@ -6,82 +6,81 @@
 </head>
 <body>
 <script>
-let map; // グローバルに宣言
-let initialLat, initialLng; // 初期の現在地を保存する変数
+        let map; // グローバルに宣言
+        let initialLat, initialLng; // 初期の現在地を保存する変数
 
-function initMap() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            initialLat = position.coords.latitude;
-            initialLng = position.coords.longitude;
+        function initMap() {
+            // 現在地を取得して地図を初期化する
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    initialLat = position.coords.latitude;
+                    initialLng = position.coords.longitude;
 
-            // 地図の初期化
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: initialLat, lng: initialLng },
-                zoom: 16
-            });
+                    // 地図の初期化
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        center: { lat: initialLat, lng: initialLng },
+                        zoom: 16
+                    });
 
-            // 現在地マーカーを設定
-            new google.maps.Marker({
-                position: { lat: initialLat, lng: initialLng },
-                map: map,
-                title: "現在地"
-            });
+                    // 現在地マーカーを設定
+                    new google.maps.Marker({
+                        position: { lat: initialLat, lng: initialLng },
+                        map: map,
+                        title: "現在地"
+                    });
 
-            // 他のアイテムデータをマッピング
-            displayItems();
-        }, function() {
-            alert("現在地の取得に失敗しました。");
-        });
-    } else {
-        alert("このブラウザは位置情報をサポートしていません。");
-    }
-}
-
-function displayItems() {
-    const items = JSON.parse('{{ items_json|escapejs }}');
-    items.forEach(item => {
-        const fields = item.fields;
-        if (fields.latitude && fields.longitude) {
-            const latLng = new google.maps.LatLng(fields.latitude, fields.longitude);
-            const marker = new google.maps.Marker({
-                position: latLng,
-                map: map,
-                title: fields.description
-            });
-            const infoWindow = new google.maps.InfoWindow({
-                content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
-            });
-            marker.addListener('click', () => {
-                infoWindow.open(map, marker);
-            });
-        } else {
-            console.error('Latitude or longitude data is missing for item:', fields.description);
+                    // 他のアイテムデータをマッピング
+                    displayItems();
+                }, function() {
+                    alert("現在地の取得に失敗しました。");
+                });
+            } else {
+                alert("このブラウザは位置情報をサポートしていません。");
+            }
         }
-    });
-}
 
-function validateSearch() {
-    const itemSelect = document.getElementById('item_name');
-    const prefectureSelect = document.getElementById('prefecture');
-    if (itemSelect.value !== '' || prefectureSelect.value !== '') {
-        return true;
-    } else {
-        alert("品名または都道府県を選択してください。");
-        return false;
-    }
-}
+        function displayItems() {
+            // Djangoのデータを取得
+            const items = JSON.parse('{{ items_json|escapejs }}');
+            items.forEach(item => {
+                const fields = item.fields;
+                if (fields.latitude && fields.longitude) {
+                    const latLng = new google.maps.LatLng(fields.latitude, fields.longitude);
+                    const marker = new google.maps.Marker({
+                        position: latLng,
+                        map: map,
+                        title: fields.description
+                    });
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
+                    });
+                    marker.addListener('click', () => {
+                        infoWindow.open(map, marker);
+                    });
+                } else {
+                    console.error('Latitude or longitude data is missing for item:', fields.description);
+                }
+            });
+        }
 
-// 検索関数で初期の位置情報を利用する場合
-function performSearch() {
-    if (validateSearch()) {
-        // ここで `initialLat` と `initialLng` を利用して検索条件を設定
-        console.log("初期位置:", initialLat, initialLng);
-        // ここで検索処理を行う
-    }
-}
+        function validateSearch() {
+            const itemSelect = document.getElementById('item_name');
+            const prefectureSelect = document.getElementById('prefecture');
+            if (itemSelect.value !== '' || prefectureSelect.value !== '') {
+                return true;
+            } else {
+                alert("品名または都道府県を選択してください。");
+                return false;
+            }
+        }
 
-</script>
+        function performSearch() {
+            if (validateSearch()) {
+                console.log("初期位置:", initialLat, initialLng);
+                // ここで検索処理を行う
+            }
+        }
+    </script>
 
 <h1>落とし物検索</h1>
 
