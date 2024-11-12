@@ -1,5 +1,6 @@
 import io
 import boto3
+from PIL import Image
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.conf import settings
@@ -20,27 +21,35 @@ def index(request):
     return render(request, 'index.html')
 
 def map(request):
-  return render(request, 'map.html')
+  return render(request, 'app/map.html')
 
-def register(request):
-   return render(request,'index.html')
 
-def detect_labels_api(request):
-    if request.method == 'POST':
-        image = request.FILES.get('image')
-        if image:
-            # ラベルを検出
-            detected_labels = detect_labels_in_image(image)
+def return_upload_image(request):
+    return render(request, 'app/upload.html')
 
-            # 検出されたラベルを使って必要なデータを抽出
-            form_data = extract_relevant_labels(detected_labels)
+def warning_page(request):
+    render(request,'warning.html')
 
-            # ラベルとともにJSONレスポンスを返す
-            labels = [label['Name'] for label in detected_labels]
-            return JsonResponse({'labels': labels, 'form_data': form_data})  # form_dataを追加して返す
-    return JsonResponse({'error': '無効なリクエストです。'})
 
-# AWSのデフォルトモデルでラベルを検出
+def resize_image(image, max_size=(400, 400)):
+    # Open the image
+    img = Image.open(image)
+
+    # Convert the image to RGB mode if it's in P mode (or any other mode incompatible with JPEG)
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+
+    # 画像のリサイズ（アスペクト比を維持）
+    img.thumbnail(max_size, Image.Resampling.LANCZOS)
+
+    # Convert the resized image to a byte array
+    img_byte_arr = io.BytesIO()
+    img.save(img_byte_arr, format='JPEG', quality=50)  # Adjust quality as needed
+    img_byte_arr = img_byte_arr.getvalue()
+
+    return img_byte_arr
+
+
 # AWSからのラベルを検出する関数
 def detect_labels_in_image(image):
     # 最初にファイルデータを全て読み込み、メモリに保存
@@ -60,9 +69,57 @@ def detect_labels_in_image(image):
 
 # ラベルマッピング辞書
 label_mapping = {
+    'Accessories': '付属品',
+    'Animal': '動物',
+    'Bag': 'バック',
+    'Binoculars': '双眼鏡',
+    'Book': '本',
+    'Camera': 'カメラ',
+    'Clothing': '衣服',
+    'Computer Hardware': '機械',
+    'Contact Lens': 'コンタクトレンズ',
+    'Cosmetics': '化粧品',
+    'Credit Card': 'クレジットカード',
+    'Diaper': 'おむつ',
+    'Electrical Device': '電気機器',
+    'Electronics': '電子機器',
+    'Envelope': '封筒',
+    'Glasses': '眼鏡',
+    'Glove': '手袋',
+    'Hat': '帽子',
     'ID Card': '証明書',
-    'Credit Card': 'クレジットカード'
+    'Jewelry': 'ジュエリー',
+    'Key': '鍵',
+    'Light': 'ライト',
+    'Lighter': 'ライター',
+    'Medication': '薬',
+    'Mobile Phone': '携帯電話',
+    'Money': 'お金',
+    'Page': '書類',
+    'Pants': 'パンツ',
+    'Perfume': '香水',
+    'Photography': '写真',
+    'Plant': '植物',
+    'Raincoat': '合羽',
+    'Saucer': '皿',
+    'Scarf': 'マフラー',
+    'Shoe': '靴',
+    'Sock': '靴下',
+    'Stick': '杖',
+    'Suitcase': 'スーツケース',
+    'Tobacco': 'タバコ',
+    'Tool': '工具',
+    'Toy': '人形',
+    'Umbrella': '傘',
+    'Underwear': '下着',
+    'Wallet': '財布',
+    'Water Bottle': '水筒',
+    'Wristwatch': '腕時計',
     # 他に必要なラベルをここに追加
+}
+# 不適切なラベル辞書
+INAPPROPRIATE_LABELS = {
+    'Face'
 }
 
 # ラベルのマッピングとフォームへの反映
@@ -143,33 +200,52 @@ def upload_image(request):
 
         if image and latitude and longitude:
             # 画像データをメモリに読み込む
-            image_data = image.read()  # ファイルデータをすべて読み込む
+            image_data = image.read()
+            image_bytes_for_upload = io.BytesIO(image_data)  # S3アップロード用のファイルオブジェクト
+            image_bytes_for_resize = io.BytesIO(image_data)# リサイズ用のファイルオブジェクト
 
-            # 都道府県を取得
+            print(image_bytes_for_upload)
+            print(image_bytes_for_resize)
+
+            # Get the prefecture from location data
             prefecture = get_prefecture_from_location(latitude, longitude)
 
-            # ファイル名にUUIDを使用して一意にする
+            # Generate a unique filename
             file_extension = image.name.split('.')[-1]
             file_name = f'{uuid4()}.{file_extension}'
 
-            # S3に画像をアップロード
-            s3.upload_fileobj(io.BytesIO(image_data), bucket_name, file_name)
+            # 画像をS3にアップロード
+            s3.upload_fileobj(image_bytes_for_upload, bucket_name, file_name)
+            image_bytes_for_upload.close()  # アップロード用ファイルオブジェクトをクローズ
 
-            # 画像のURLを作成 (公開URLを生成)
+            # 画像サイズのリサイズ
+            resized_image = resize_image(image_bytes_for_resize)
+            resized_image_io = io.BytesIO(resized_image)
+            image_bytes_for_resize.close()  # リサイズ用ファイルオブジェクトをクローズ
+
+            # 画像ラベル検出
+            labels = detect_labels_in_image(resized_image_io)
+
+            # ラベル検出が完了した場合の処理
+            detected_inappropriate_labels = any(label['Name'] in INAPPROPRIATE_LABELS for label in labels)
+            if detected_inappropriate_labels:
+                return redirect('warning_page')
+
+            end_label = extract_relevant_labels(labels)
+
+            # S3 URL を生成
             image_url = f'https://{bucket_name}.s3.{settings.AWS_S3_REGION_NAME}.amazonaws.com/{file_name}'
 
-            # ラベル検出を実行
-            detected_labels = detect_labels_in_image(io.BytesIO(image_data))  # 画像データを再利用
-            item_name = detected_labels[0]['Name'] if detected_labels else "不明"
-
-            # データをテンプレートに渡して表示
+            # データをテンプレートに渡す
             context = {
-                'item_name': item_name,
+                'item_name': end_label,
                 'latitude': latitude,
                 'longitude': longitude,
                 'prefecture': prefecture,
-                'image_url': image_url
+                'image_url': image_url,
+                'detected_labels': labels
             }
+
             return render(request, 'app/upload_result.html', context)
 
     return render(request, 'app/upload.html')

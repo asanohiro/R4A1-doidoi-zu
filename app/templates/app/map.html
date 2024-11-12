@@ -6,76 +6,162 @@
 </head>
 <body>
 <script>
+    let map; // グローバルに宣言
+
     function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
-        mapTypeId:'roadmap',
-    });
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 35.6895, lng: 139.6917 }, // 東京の座標例
+            zoom: 10,
+        });
 
-    var items = JSON.parse('{{ items_json|escapejs }}');
-    items.forEach(function(item) {
-        var fields = item.fields;
-        if (fields.latitude && fields.longitude) {
-            var MyLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var items = JSON.parse('{{ items_json|escapejs }}');
+        items.forEach(function(item) {
+            var fields = item.fields;
+            if (fields.latitude && fields.longitude) {
+                var latLng = new google.maps.LatLng(fields.latitude, fields.longitude);
 
-            map.setCenter(MyLatLng);
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: fields.description
+                });
 
-            var marker = new google.maps.Marker({
-                position: latLng,
-                map: map,
-                title: fields.description
-            });
+                // ここが表示領域を決めてるとこ
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
+                });
 
-            {#-- ここが表示領域を決めてるとこ --#}
-            var infoWindow = new google.maps.InfoWindow({
-                content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
-            });
-
-            marker.addListener('click', function() {
-                infoWindow.open(map, marker);
-            });
-        } else {
-            console.error('Latitude or longitude data is missing for item:', fields.description);
-        }
-    });
-}
-
-function validateSearch() {
-    var itemSelect = document.getElementById('item_name');
-    var prefectureSelect = document.getElementById('prefecture');
-    if (itemSelect.value !== '' || prefectureSelect.value !== '') {
-        return true;
-    } else {
-        alert("品名または都道府県を選択してください。");
-        return false;
+                marker.addListener('click', function() {
+                    infoWindow.open(map, marker);
+                });
+            } else {
+                console.error('Latitude or longitude data is missing for item:', fields.description);
+            }
+        });
     }
-}
+
+    function validateSearch() {
+        var itemSelect = document.getElementById('item_name');
+        var prefectureSelect = document.getElementById('prefecture');
+        if (itemSelect.value !== '' || prefectureSelect.value !== '') {
+            return true;
+        } else {
+            alert("品名または都道府県を選択してください。");
+            return false;
+        }
+    }
 </script>
-    <h1>落とし物検索</h1>
 
-    <!-- 検索フォーム -->
-    <form method="GET" action="{% url 'search_items' %}" onsubmit="return validateSearch()">
-        <label for="item_name">品名:</label>
-        <select id="item_name" name="item_name">
-            <option value="">品名を選択</option>
-            <option value="Credit Card">Credit Card</option>
-            <option value="ID Card">ID Card</option>
-            <option value="Phone">Phone</option>
-            <option value="Wallet">Wallet</option>
-            <option value="Key">Key</option>
-        </select>
+<h1>落とし物検索</h1>
 
-        <label for="prefecture">都道府県:</label>
-        <select id="prefecture" name="prefecture">
-            <option value="">都道府県を選択</option>
-            <option value="Tokyo">Tokyo</option>
-            <option value="Osaka">Osaka</option>
-            <option value="Hokkaido">Hokkaido</option>
-            <option value="Hiroshima">Hiroshima</option>
-        </select>
+<!-- 検索フォーム -->
+<form method="GET" action="{% url 'search_items' %}" onsubmit="return validateSearch()">
+    <label for="item_name">品名:</label>
+    <select id="item_name" name="item_name">
+        <option value="Accessories">付属品</option>
+        <option value="Animal">動物</option>
+        <option value="Bag">バック</option>
+        <option value="Binoculars">双眼鏡</option>
+        <option value="Book">本</option>
+        <option value="Camera">カメラ</option>
+        <option value="Clothing">衣服</option>
+        <option value="Computer Hardware">機械</option>
+        <option value="Contact Lens">コンタクトレンズ</option>
+        <option value="Cosmetics">化粧品</option>
+        <option value="Credit Card">クレジットカード</option>
+        <option value="Diaper">おむつ</option>
+        <option value="Electrical Device">電気機器</option>
+        <option value="Electronics">電子機器</option>
+        <option value="Envelope">封筒</option>
+        <option value="Glasses">眼鏡</option>
+        <option value="Glove">手袋</option>
+        <option value="Hat">帽子</option>
+        <option value="ID Card">証明書</option>
+        <option value="Jewelry">ジュエリー</option>
+        <option value="Key">鍵</option>
+        <option value="Light">ライト</option>
+        <option value="Lighter">ライター</option>
+        <option value="Medication">薬</option>
+        <option value="Mobile Phone">携帯電話</option>
+        <option value="Money">お金</option>
+        <option value="Page">書類</option>
+        <option value="Pants">パンツ</option>
+        <option value="Perfume">香水</option>
+        <option value="Photography">写真</option>
+        <option value="Plant">植物</option>
+        <option value="Raincoat">合羽</option>
+        <option value="Saucer">皿</option>
+        <option value="Scarf">マフラー</option>
+        <option value="Shoe">靴</option>
+        <option value="Sock">靴下</option>
+        <option value="Stick">杖</option>
+        <option value="Suitcase">スーツケース</option>
+        <option value="Tobacco">タバコ</option>
+        <option value="Tool">工具</option>
+        <option value="Toy">人形</option>
+        <option value="Umbrella">傘</option>
+        <option value="Underwear">下着</option>
+        <option value="Wallet">財布</option>
+        <option value="Water Bottle">水筒</option>
+        <option value="Wristwatch">腕時計</option>
+    </select>
 
-        <button type="submit">検索</button>
-    </form>
-    <div id="map" style="width:100%;height:500px;"></div>
+    <label for="prefecture">都道府県:</label>
+    <select id="prefecture" name="prefecture">
+        <option value="">都道府県を選択</option>
+        <!-- 47都道府県のリスト -->
+        <option value="Hokkaido">北海道</option>
+        <option value="Aomori">青森</option>
+        <option value="Iwate">岩手</option>
+        <option value="Miyagi">宮城</option>
+        <option value="Akita">秋田</option>
+        <option value="Yamagata">山形</option>
+        <option value="Fukushima">福島</option>
+        <option value="Ibaraki">茨城</option>
+        <option value="Tochigi">栃木</option>
+        <option value="Gunma">群馬</option>
+        <option value="Saitama">埼玉</option>
+        <option value="Chiba">千葉</option>
+        <option value="Tokyo">東京</option>
+        <option value="Kanagawa">神奈川</option>
+        <option value="Niigata">新潟</option>
+        <option value="Toyama">富山</option>
+        <option value="Ishikawa">石川</option>
+        <option value="Fukui">福井</option>
+        <option value="Yamanashi">山梨</option>
+        <option value="Nagano">長野</option>
+        <option value="Gifu">岐阜</option>
+        <option value="Shizuoka">静岡</option>
+        <option value="Aichi">愛知</option>
+        <option value="Mie">三重</option>
+        <option value="Shiga">滋賀</option>
+        <option value="Kyoto">京都</option>
+        <option value="Osaka">大阪</option>
+        <option value="Hyogo">兵庫</option>
+        <option value="Nara">奈良</option>
+        <option value="Wakayama">和歌山</option>
+        <option value="Tottori">鳥取</option>
+        <option value="Shimane">島根</option>
+        <option value="Okayama">岡山</option>
+        <option value="Hiroshima">広島</option>
+        <option value="Yamaguchi">山口</option>
+        <option value="Tokushima">徳島</option>
+        <option value="Kagawa">香川</option>
+        <option value="Ehime">愛媛</option>
+        <option value="Kochi">高知</option>
+        <option value="Fukuoka">福岡</option>
+        <option value="Saga">佐賀</option>
+        <option value="Nagasaki">長崎</option>
+        <option value="Kumamoto">熊本</option>
+        <option value="Oita">大分</option>
+        <option value="Miyazaki">宮崎</option>
+        <option value="Kagoshima">鹿児島</option>
+        <option value="Okinawa">沖縄</option>
+    </select>
+
+    <button type="submit">検索</button>
+</form>
+
+<div id="map" style="width:100%;height:500px;"></div>
 </body>
 </html>

@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="11/5&#10;スマホからのアップロードと餃子の写真をアップするとエラーが出る。">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="11/7">
+      <change beforePath="$PROJECT_DIR$/.idea/AWS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AWS.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AWS/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/AWS/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/app/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/upload_completion.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload_completion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/upload_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload_result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
@@ -224,6 +220,9 @@
       <workItem from="1730787624655" duration="5124000" />
       <workItem from="1730858450652" duration="4103000" />
       <workItem from="1730867616985" duration="5284000" />
+      <workItem from="1730938936933" duration="4933000" />
+      <workItem from="1730949348566" duration="921000" />
+      <workItem from="1731376982720" duration="741000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -361,7 +360,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730791565174</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="11/7">
+      <option name="closed" value="true" />
+      <created>1730942548202</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1730942548202</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -389,6 +396,7 @@
     <MESSAGE value="10/22&#10;画像表示成功" />
     <MESSAGE value="10/28（月）&#10;テーブルの中身をGoogle Map上に表示成功" />
     <MESSAGE value="11/5&#10;スマホからのアップロードと餃子の写真をアップするとエラーが出る。" />
-    <option name="LAST_COMMIT_MESSAGE" value="11/5&#10;スマホからのアップロードと餃子の写真をアップするとエラーが出る。" />
+    <MESSAGE value="11/7" />
+    <option name="LAST_COMMIT_MESSAGE" value="11/7" />
   </component>
 </project>
