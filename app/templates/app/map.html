@@ -2,89 +2,75 @@
 <html>
 <head>
     <title>Map View</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA" async loading="async" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA" async defer></script>
 </head>
 <body>
 <script>
-        let map; // グローバルに宣言
-        let initialLat, initialLng; // 初期の現在地を保存する変数
+    let map; // グローバルに宣言
+    let initialLat, initialLng; // 初期の現在地を保存する変数
 
-        function initMap() {
-            // 現在地を取得して地図を初期化する
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var MyLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    function initMap() {
+        // 現在地を取得して地図を初期化する
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                initialLat = position.coords.latitude;
+                initialLng = position.coords.longitude;
 
-                    map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 16,
-                        mapTypeId: 'roadmap'
-                    });
-                    // 地図の中心を現在地に設定
-                    map.setCenter(MyLatLng);
+                var MyLatLng = new google.maps.LatLng(initialLat, initialLng);
 
-                    // 現在地にマーカーを設定
-                    const marker = new google.maps.marker.AdvancedMarkerElement({
-                        position: latLng,
-                        map: map,
-                        title: fields.description
-                    });
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 16,
+                    mapTypeId: 'roadmap'
+                });
 
-                    // 他のアイテムデータをマッピング
-                    displayItems();
-                }, function() {
-                    alert("現在地の取得に失敗しました。");
+                // 地図の中心を現在地に設定
+                map.setCenter(MyLatLng);
+
+                // 現在地にマーカーを設定
+                const marker = new google.maps.Marker({
+                    position: MyLatLng,
+                    map: map,
+                    title: "現在地"
+                });
+
+                // 他のアイテムデータをマッピング
+                displayItems();
+            }, function() {
+                alert("現在地の取得に失敗しました。");
+            });
+        } else {
+            alert("このブラウザは位置情報をサポートしていません。");
+        }
+    }
+
+    function displayItems() {
+        // Djangoのデータを取得
+        const items = JSON.parse('{{ items_json|escapejs }}');
+        items.forEach(item => {
+            const fields = item.fields;
+            if (fields.latitude && fields.longitude) {
+                const latLng = new google.maps.LatLng(fields.latitude, fields.longitude);
+                const marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: fields.description
+                });
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
+                });
+                marker.addListener('click', () => {
+                    infoWindow.open(map, marker);
                 });
             } else {
-                alert("このブラウザは位置情報をサポートしていません。");
+                console.error('Latitude or longitude data is missing for item:', fields.description);
             }
-        }
+        });
+    }
 
-        function displayItems() {
-            // Djangoのデータを取得
-            const items = JSON.parse('{{ items_json|escapejs }}');
-            items.forEach(item => {
-                const fields = item.fields;
-                if (fields.latitude && fields.longitude) {
-                    const latLng = new google.maps.LatLng(fields.latitude, fields.longitude);
-                    const marker = new google.maps.Marker({
-                        position: latLng,
-                        map: map,
-                        title: fields.description
-                    });
-                    const infoWindow = new google.maps.InfoWindow({
-                        content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
-                    });
-                    marker.addListener('click', () => {
-                        infoWindow.open(map, marker);
-                    });
-                } else {
-                    console.error('Latitude or longitude data is missing for item:', fields.description);
-                }
-            });
-        }
-
-        function validateSearch() {
-            const itemSelect = document.getElementById('item_name');
-            const prefectureSelect = document.getElementById('prefecture');
-            if (itemSelect.value !== '' || prefectureSelect.value !== '') {
-                return true;
-            } else {
-                alert("品名または都道府県を選択してください。");
-                return false;
-            }
-        }
-
-        function performSearch() {
-            if (validateSearch()) {
-                console.log("初期位置:", initialLat, initialLng);
-                // ここで検索処理を行う
-            }
-        }
-
-        window.onload = function() {
+    window.onload = function() {
         initMap(); // ページ読み込み時に地図を初期化
     };
-    </script>
+</script>
 
 <h1>落とし物検索</h1>
 
@@ -149,6 +135,8 @@
     <button type="submit">検索</button>
 </form>
 
-<div id="map" style="width:100%;height:auto;"></div>
+<!-- 地図の表示部分 -->
+<div id="map" style="width:100%; height:500px;"></div>
+
 </body>
 </html>
