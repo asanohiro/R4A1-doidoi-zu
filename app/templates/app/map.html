@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Map View</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA&callback=initMap" async loading="async" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA" async loading="async" defer></script>
 </head>
 <body>
 <script>
@@ -80,6 +80,10 @@
                 // ここで検索処理を行う
             }
         }
+
+        window.onload = function() {
+        initMap(); // ページ読み込み時に地図を初期化
+    };
     </script>
 
 <h1>落とし物検索</h1>
