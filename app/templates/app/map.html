@@ -6,50 +6,83 @@
 </head>
 <body>
 <script>
-    let map; // グローバルに宣言
+let map; // グローバルに宣言
 
-    function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 35.6895, lng: 139.6917 }, // 東京の座標例
-            zoom: 10,
+function initMap() {
+    // 現在地を取得して地図を初期化する
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var currentLat = position.coords.latitude;
+            var currentLng = position.coords.longitude;
+
+            // 現在地を地図の中心に設定
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: currentLat, lng: currentLng },
+                zoom: 16, // 50メートルの範囲を表示するためにズームレベルを高めに設定
+            });
+
+            // 現在地にマーカーを追加
+            var marker = new google.maps.Marker({
+                position: { lat: currentLat, lng: currentLng },
+                map: map,
+                title: "現在地"
+            });
+
+            // 地図に50メートルの範囲を表示するための円を追加
+            var circle = new google.maps.Circle({
+                map: map,
+                radius: 50, // 50メートル
+                fillColor: "#FF0000",
+                fillOpacity: 0.35,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+            });
+            circle.setCenter({ lat: currentLat, lng: currentLng });
+
+            // データを表示
+            var items = JSON.parse('{{ items_json|escapejs }}');
+            items.forEach(function(item) {
+                var fields = item.fields;
+                if (fields.latitude && fields.longitude) {
+                    var latLng = new google.maps.LatLng(fields.latitude, fields.longitude);
+
+                    var marker = new google.maps.Marker({
+                        position: latLng,
+                        map: map,
+                        title: fields.description
+                    });
+
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
+                    });
+
+                    marker.addListener('click', function() {
+                        infoWindow.open(map, marker);
+                    });
+                } else {
+                    console.error('Latitude or longitude data is missing for item:', fields.description);
+                }
+            });
+
+        }, function() {
+            alert("現在地の取得に失敗しました。");
         });
-
-        var items = JSON.parse('{{ items_json|escapejs }}');
-        items.forEach(function(item) {
-            var fields = item.fields;
-            if (fields.latitude && fields.longitude) {
-                var latLng = new google.maps.LatLng(fields.latitude, fields.longitude);
-
-                var marker = new google.maps.Marker({
-                    position: latLng,
-                    map: map,
-                    title: fields.description
-                });
-
-                // ここが表示領域を決めてるとこ
-                var infoWindow = new google.maps.InfoWindow({
-                    content: `<img src="${fields.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;"><p>${fields.description}</p><p>${fields.date_time}</p>`
-                });
-
-                marker.addListener('click', function() {
-                    infoWindow.open(map, marker);
-                });
-            } else {
-                console.error('Latitude or longitude data is missing for item:', fields.description);
-            }
-        });
+    } else {
+        alert("このブラウザは位置情報をサポートしていません。");
     }
+}
 
-    function validateSearch() {
-        var itemSelect = document.getElementById('item_name');
-        var prefectureSelect = document.getElementById('prefecture');
-        if (itemSelect.value !== '' || prefectureSelect.value !== '') {
-            return true;
-        } else {
-            alert("品名または都道府県を選択してください。");
-            return false;
-        }
+function validateSearch() {
+    var itemSelect = document.getElementById('item_name');
+    var prefectureSelect = document.getElementById('prefecture');
+    if (itemSelect.value !== '' || prefectureSelect.value !== '') {
+        return true;
+    } else {
+        alert("品名または都道府県を選択してください。");
+        return false;
     }
+}
 </script>
 
 <h1>落とし物検索</h1>
