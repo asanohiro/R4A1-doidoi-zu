@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="11/7">
-      <change beforePath="$PROJECT_DIR$/.idea/AWS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AWS.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-    </list>
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="検索の品名を手入力に変更" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -368,7 +360,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730942548202</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="検索画面表示時に現在地を取得＆表示">
+      <option name="closed" value="true" />
+      <created>1731378932754</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1731378932754</updated>
+    </task>
+    <task id="LOCAL-00020" summary="検索の品名を手入力に変更">
+      <option name="closed" value="true" />
+      <created>1731380154931</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1731380154931</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -397,6 +405,8 @@
     <MESSAGE value="10/28（月）&#10;テーブルの中身をGoogle Map上に表示成功" />
     <MESSAGE value="11/5&#10;スマホからのアップロードと餃子の写真をアップするとエラーが出る。" />
     <MESSAGE value="11/7" />
-    <option name="LAST_COMMIT_MESSAGE" value="11/7" />
+    <MESSAGE value="検索画面表示時に現在地を取得＆表示" />
+    <MESSAGE value="検索の品名を手入力に変更" />
+    <option name="LAST_COMMIT_MESSAGE" value="検索の品名を手入力に変更" />
   </component>
 </project>
