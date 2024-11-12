@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Map View</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA&callback=initMap" async loading="async" defer></script>
 </head>
 <body>
 <script>
@@ -23,10 +23,10 @@
                     map.setCenter(MyLatLng);
 
                     // 現在地にマーカーを設定
-                    var marker = new google.maps.Marker({
-                      position: MyLatLng,
-                      map: map,
-                      title: 'あなたの現在地'
+                    const marker = new google.maps.marker.AdvancedMarkerElement({
+                        position: latLng,
+                        map: map,
+                        title: fields.description
                     });
 
                     // 他のアイテムデータをマッピング
