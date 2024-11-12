@@ -13,20 +13,20 @@
             // 現在地を取得して地図を初期化する
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    initialLat = position.coords.latitude;
-                    initialLng = position.coords.longitude;
+                    var MyLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-                    // 地図の初期化
-                    map = new google.maps.Map(document.getElementById("map"), {
-                        center: { lat: initialLat, lng: initialLng },
-                        zoom: 16
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 16,
+                        mapTypeId: 'roadmap'
                     });
+                    // 地図の中心を現在地に設定
+                    map.setCenter(MyLatLng);
 
-                    // 現在地マーカーを設定
-                    new google.maps.Marker({
-                        position: { lat: initialLat, lng: initialLng },
-                        map: map,
-                        title: "現在地"
+                    // 現在地にマーカーを設定
+                    var marker = new google.maps.Marker({
+                      position: MyLatLng,
+                      map: map,
+                      title: 'あなたの現在地'
                     });
 
                     // 他のアイテムデータをマッピング
