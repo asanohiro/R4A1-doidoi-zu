@@ -28,17 +28,8 @@ function initMap() {
                 title: "現在地"
             });
 
-            // 地図に50メートルの範囲を表示するための円を追加
-            var circle = new google.maps.Circle({
-                map: map,
-                radius: 50, // 50メートル
-                fillColor: "#FF0000",
-                fillOpacity: 0.35,
-                strokeColor: "#FF0000",
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-            });
-            circle.setCenter({ lat: currentLat, lng: currentLng });
+
+            map.setCenter({ lat: currentLat, lng: currentLng });
 
             // データを表示
             var items = JSON.parse('{{ items_json|escapejs }}');
@@ -90,54 +81,7 @@ function validateSearch() {
 <!-- 検索フォーム -->
 <form method="GET" action="{% url 'search_items' %}" onsubmit="return validateSearch()">
     <label for="item_name">品名:</label>
-    <select id="item_name" name="item_name">
-        <option value="Accessories">付属品</option>
-        <option value="Animal">動物</option>
-        <option value="Bag">バック</option>
-        <option value="Binoculars">双眼鏡</option>
-        <option value="Book">本</option>
-        <option value="Camera">カメラ</option>
-        <option value="Clothing">衣服</option>
-        <option value="Computer Hardware">機械</option>
-        <option value="Contact Lens">コンタクトレンズ</option>
-        <option value="Cosmetics">化粧品</option>
-        <option value="Credit Card">クレジットカード</option>
-        <option value="Diaper">おむつ</option>
-        <option value="Electrical Device">電気機器</option>
-        <option value="Electronics">電子機器</option>
-        <option value="Envelope">封筒</option>
-        <option value="Glasses">眼鏡</option>
-        <option value="Glove">手袋</option>
-        <option value="Hat">帽子</option>
-        <option value="ID Card">証明書</option>
-        <option value="Jewelry">ジュエリー</option>
-        <option value="Key">鍵</option>
-        <option value="Light">ライト</option>
-        <option value="Lighter">ライター</option>
-        <option value="Medication">薬</option>
-        <option value="Mobile Phone">携帯電話</option>
-        <option value="Money">お金</option>
-        <option value="Page">書類</option>
-        <option value="Pants">パンツ</option>
-        <option value="Perfume">香水</option>
-        <option value="Photography">写真</option>
-        <option value="Plant">植物</option>
-        <option value="Raincoat">合羽</option>
-        <option value="Saucer">皿</option>
-        <option value="Scarf">マフラー</option>
-        <option value="Shoe">靴</option>
-        <option value="Sock">靴下</option>
-        <option value="Stick">杖</option>
-        <option value="Suitcase">スーツケース</option>
-        <option value="Tobacco">タバコ</option>
-        <option value="Tool">工具</option>
-        <option value="Toy">人形</option>
-        <option value="Umbrella">傘</option>
-        <option value="Underwear">下着</option>
-        <option value="Wallet">財布</option>
-        <option value="Water Bottle">水筒</option>
-        <option value="Wristwatch">腕時計</option>
-    </select>
+    <input type="text" id="item_name" name="item_name">
 
     <label for="prefecture">都道府県:</label>
     <select id="prefecture" name="prefecture">
@@ -195,6 +139,6 @@ function validateSearch() {
     <button type="submit">検索</button>
 </form>
 
-<div id="map" style="width:100%;height:500px;"></div>
+<div id="map" style="width:100%;height:auto;"></div>
 </body>
 </html>
