@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="検索の品名を手入力に変更" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="検索結果をマーカー表示＆リスト表示">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,6 +30,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -215,6 +221,7 @@
       <workItem from="1730938936933" duration="4933000" />
       <workItem from="1730949348566" duration="921000" />
       <workItem from="1731376982720" duration="741000" />
+      <workItem from="1731395838386" duration="4787000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -376,7 +383,71 @@
       <option name="project" value="LOCAL" />
       <updated>1731380154931</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="検索で現在地取得許可しないようにする">
+      <option name="closed" value="true" />
+      <created>1731380472639</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1731380472639</updated>
+    </task>
+    <task id="LOCAL-00022" summary="検索で現在地取得許可しないようにする">
+      <option name="closed" value="true" />
+      <created>1731380668097</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1731380668098</updated>
+    </task>
+    <task id="LOCAL-00023" summary="地図表示">
+      <option name="closed" value="true" />
+      <created>1731381059864</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1731381059864</updated>
+    </task>
+    <task id="LOCAL-00024" summary="地図表示">
+      <option name="closed" value="true" />
+      <created>1731381342143</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1731381342143</updated>
+    </task>
+    <task id="LOCAL-00025" summary="非推奨なやつを書き換えた">
+      <option name="closed" value="true" />
+      <created>1731381494488</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1731381494488</updated>
+    </task>
+    <task id="LOCAL-00026" summary="callbackを削除して、window.onloadを導入">
+      <option name="closed" value="true" />
+      <created>1731386301048</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1731386301048</updated>
+    </task>
+    <task id="LOCAL-00027" summary="callbackを削除して、window.onloadを導入_v2">
+      <option name="closed" value="true" />
+      <created>1731386615227</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1731386615227</updated>
+    </task>
+    <task id="LOCAL-00028" summary="検索結果をマーカー表示＆リスト表示">
+      <option name="closed" value="true" />
+      <created>1731388619453</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1731388619453</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -387,7 +458,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="カスタムラベルの利用ができるようになっているはず、、" />
     <MESSAGE value="コミット" />
     <MESSAGE value="自動入力&#10;地図上に表示&#10;デモ版" />
     <MESSAGE value="スマホからアップロード&#10;（奮闘中）" />
@@ -407,6 +477,12 @@
     <MESSAGE value="11/7" />
     <MESSAGE value="検索画面表示時に現在地を取得＆表示" />
     <MESSAGE value="検索の品名を手入力に変更" />
-    <option name="LAST_COMMIT_MESSAGE" value="検索の品名を手入力に変更" />
+    <MESSAGE value="検索で現在地取得許可しないようにする" />
+    <MESSAGE value="地図表示" />
+    <MESSAGE value="非推奨なやつを書き換えた" />
+    <MESSAGE value="callbackを削除して、window.onloadを導入" />
+    <MESSAGE value="callbackを削除して、window.onloadを導入_v2" />
+    <MESSAGE value="検索結果をマーカー表示＆リスト表示" />
+    <option name="LAST_COMMIT_MESSAGE" value="検索結果をマーカー表示＆リスト表示" />
   </component>
 </project>
