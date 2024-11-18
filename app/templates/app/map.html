@@ -1,125 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <title>Map View</title>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqHlGwfNy0uPR4h0GakNZW16cRtHr1cWg&callback=initMap"></script>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        ul#item-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul#item-list li {
+            margin-bottom: 20px;
+        }
+
+        ul#item-list img {
+            max-width: 100px;
+            max-height: 100px;
+            display: block;
+        }
+    </style>
 </head>
-<script>
-        let map;
-        let markers = [];
-        let infoWindows = [];
-
-        // 初期マップの設定
-        function initMap() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    const initialLat = position.coords.latitude;
-                    const initialLng = position.coords.longitude;
-                    map = new google.maps.Map(document.getElementById('map'), {
-                        center: {lat: initialLat, lng: initialLng},
-                        zoom: 16,
-                        mapTypeId: 'roadmap'
-                    });
-                    // 現在地のマーカー
-                    new google.maps.Marker({
-                        position: {lat: initialLat, lng: initialLng},
-                        map: map,
-                        title: "現在地"
-                    });
-                    fetchItems();
-                }, () => {
-                    alert("現在地の取得に失敗しました。");
-                });
-            } else {
-                alert("このブラウザは位置情報をサポートしていません。");
-            }
-        }
-
-        // サーバーから検索結果を取得
-        function fetchItems() {
-            const itemName = document.getElementById('item_name').value;
-            const prefecture = document.getElementById('prefecture').value;
-            const url = `{% url 'search_items' %}?item_name=${itemName}&prefecture=${prefecture}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    clearMarkers();
-                    if (data.length > 0) {
-                        displayItems(data);
-                    } else {
-                        alert("該当するアイテムがありません。");
-                    }
-                });
-        }
-
-        // マーカーの表示
-        function displayItems(items) {
-            items.forEach((item, index) => {
-                if (item.latitude && item.longitude) {
-                    const latLng = new google.maps.LatLng(item.latitude, item.longitude);
-                    const marker = new google.maps.Marker({
-                        position: latLng,
-                        map: map,
-                        title: item.description
-                    });
-                    const infoWindow = new google.maps.InfoWindow({
-                        content: `
-                            <div>
-                                <img src="${item.image || ''}" alt="Lost Item" style="width:100px;height:100px;">
-                                <p><strong>${item.description}</strong></p>
-                                <p>${item.date_time}</p>
-                            </div>`
-                    });
-                    marker.addListener('click', () => {
-                        infoWindows.forEach(iw => iw.close());
-                        infoWindow.open(map, marker);
-                    });
-
-                    markers.push(marker);
-                    infoWindows.push(infoWindow);
-                    addItemToList(item, index);
-                }
-            });
-        }
-
-        // マーカーとリストのリセット
-        function clearMarkers() {
-            markers.forEach(marker => marker.setMap(null));
-            markers = [];
-            infoWindows = [];
-            document.getElementById('item-list').innerHTML = '';
-        }
-
-        // リスト表示の追加
-        function addItemToList(item, index) {
-            const li = document.createElement('li');
-            li.textContent = item.description;
-            li.onclick = function() {
-                const marker = markers[index];
-                const infoWindow = infoWindows[index];
-                map.panTo(marker.getPosition());
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-                infoWindow.open(map, marker);
-            };
-            document.getElementById('item-list').appendChild(li);
-        }
-
-        window.onload = initMap;
-    </script>
-<style>
-    #map {
-        height: 500px; /* 地図の高さを設定 */
-        width: 100%; /* 地図の幅を設定 */
-    }
-</style>
 <body>
-
-
 <h1>落とし物検索</h1>
 
 <!-- 検索フォーム -->
-<form method="GET" action="{% url 'search_items' %}" onsubmit="return validateSearch()">
+<form onsubmit="fetchItems(); return false;">
     <label for="item_name">品名:</label>
     <input type="text" id="item_name" name="item_name">
 
@@ -178,10 +89,128 @@
     <button type="submit">検索</button>
 </form>
 
+<!-- 検索URLのための隠しフィールド -->
+<input type="hidden" id="search-url" value="{% url 'search_items' %}">
+
 <!-- 地図の表示部分 -->
 <div id="map"></div>
 
 <!-- 検索結果のリスト -->
 <ul id="item-list"></ul>
+
+<script>
+    let map;
+    let markers = [];
+    let infoWindows = [];
+    let initialMarker;
+
+    function initMap() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const initialLat = position.coords.latitude;
+                const initialLng = position.coords.longitude;
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: initialLat, lng: initialLng},
+                    zoom: 16,
+                    mapTypeId: 'roadmap'
+                });
+                initialMarker = new google.maps.Marker({
+                    position: {lat: initialLat, lng: initialLng},
+                    map: map,
+                    title: "現在地"
+                });
+                fetchItems();
+            }, () => {
+                alert("現在地の取得に失敗しました。");
+            });
+        } else {
+            alert("このブラウザは位置情報をサポートしていません。");
+        }
+    }
+
+    function fetchItems() {
+        const itemName = document.getElementById('item_name').value;
+        const prefecture = document.getElementById('prefecture').value;
+        const url = document.getElementById('search-url').value + `?item_name=${itemName}&prefecture=${prefecture}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                clearMarkers();
+                if (data.length > 0) {
+                    displayItems(data);
+                    updateItemList(data);
+                } else {
+                    alert("該当するアイテムがありません。");
+                    document.getElementById('item-list').innerHTML = '<li>該当するアイテムがありません。</li>';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function displayItems(items) {
+        items.forEach((item, index) => {
+            if (item.latitude && item.longitude) {
+                const latLng = new google.maps.LatLng(item.latitude, item.longitude);
+                const marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: item.description
+                });
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `
+                        <div>
+                            <img src="${item.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;">
+                            <p><strong>${item.description}</strong></p>
+                            <p>${item.date_time}</p>
+                        </div>`
+                });
+                marker.addListener('click', () => {
+                    infoWindows.forEach(iw => iw.close());
+                    infoWindow.open(map, marker);
+                });
+
+                markers.push(marker);
+                infoWindows.push(infoWindow);
+            }
+        });
+    }
+
+    function clearMarkers() {
+        markers.forEach(marker => marker.setMap(null));
+        markers = [];
+        infoWindows = [];
+        document.getElementById('item-list').innerHTML = '';
+    }
+
+    function updateItemList(items) {
+        const itemList = document.getElementById('item-list');
+        itemList.innerHTML = '';
+
+        items.forEach((item, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <div>
+                    ${item.image_url ? `<img src="${item.image_url}" alt="Image" onclick="focusMarker(${index}); return false;">` : ''}
+                    <p>品目：${item.description}</p>
+                    <p>場所: ${item.prefecture}</p>
+                    <p>時間: ${item.date_time}</p>
+                </div>
+            `;
+            itemList.appendChild(li);
+        });
+    }
+
+    function focusMarker(index) {
+        const marker = markers[index];
+        const infoWindow = infoWindows[index];
+        map.panTo(marker.getPosition());
+        map.setZoom(16);
+        infoWindows.forEach(iw => iw.close());
+        infoWindow.open(map, marker);
+    }
+
+    window.onload = initMap;
+</script>
 </body>
 </html>
