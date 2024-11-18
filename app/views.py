@@ -1,4 +1,6 @@
 import io
+from datetime import datetime
+
 import boto3
 from PIL import Image
 from django.http import JsonResponse
@@ -486,35 +488,52 @@ def delete_all_items(request):
     return redirect('map_view')
 
 def search_items(request):
-    try:
-        # クエリパラメータの取得
-        item_name = request.GET.get('item_name', '').strip()
-        prefecture = request.GET.get('prefecture', '').strip()
+  try:
+    # クエリパラメータの取得
+    item_name = request.GET.get('item_name', '').strip()
+    prefecture = request.GET.get('prefecture', '').strip()
+    start_date = request.GET.get('start_date', '')
+    end_date = request.GET.get('end_date', '')
 
-        # フィルタリング条件
-        items = LostItem.objects.all()
-        if item_name:
-            items = items.filter(description__icontains=item_name)
-        if prefecture:
-            items = items.filter(prefecture__icontains=prefecture)
+    # 日時の比較
+    if start_date and end_date:
+      start_date_obj = datetime.strptime(start_date, '%Y-%m-%dT%H:%M')
+      end_date_obj = datetime.strptime(end_date, '%Y-%m-%dT%H:%M')
+      if end_date_obj < start_date_obj:
+        return JsonResponse({'error': '日時が正しくありません'}, status=400)
 
-        # 結果のシリアライズ
-        items_data = [
-            {
-                'id': item.id,
-                'date_time': item.date_time.strftime('%Y-%m-%d %H:%M:%S'),
-                'description': item.description,
-                'image_url': item.image_url if item.image_url else None,
-                'latitude': item.latitude,
-                'longitude': item.longitude,
-                'prefecture': item.prefecture,
-            }
-            for item in items
-        ]
+    # 基本のフィルタリング
+    items = LostItem.objects.all()
+    if item_name:
+      items = items.filter(description__icontains=item_name)
+    if prefecture:
+      items = items.filter(prefecture__icontains=prefecture)
 
-        return JsonResponse(items_data, safe=False)
-    except Exception as e:
-        # ログの出力 (必要に応じて)
-        print(f"Error in search_items: {e}")
-        return JsonResponse({'error': str(e)}, status=500)
+    # 日時検索のフィルタリング
+    if start_date:
+      start_date = datetime.strptime(start_date, '%Y-%m-%dT%H:%M')
+      items = items.filter(date_time__gte=start_date)
+    if end_date:
+      end_date = datetime.strptime(end_date, '%Y-%m-%dT%H:%M')
+      items = items.filter(date_time__lte=end_date)
+
+    # 結果のシリアライズ
+    items_data = [
+      {
+        'id': item.id,
+        'date_time': item.date_time.strftime('%Y-%m-%d %H:%M:%S'),
+        'description': item.description,
+        'image_url': item.image_url if item.image_url else None,
+        'latitude': float(item.latitude),
+        'longitude': float(item.longitude),
+        'prefecture': item.prefecture,
+      }
+      for item in items
+    ]
+
+    return JsonResponse(items_data, safe=False)
+  except Exception as e:
+    # エラーログの出力
+    print(f"Error in search_items: {e}")
+    return JsonResponse({'error': str(e)}, status=500)
 

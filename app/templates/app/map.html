@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <title>Map View</title>
+    <title>落とし物検索</title>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqHlGwfNy0uPR4h0GakNZW16cRtHr1cWg&callback=initMap"></script>
     <style>
         #map {
@@ -86,7 +86,9 @@
       <option value="沖縄">沖縄県</option>
     </select>
 
-
+    <label for="date">日時:</label>
+    <input type="datetime-local" id="start_date" name="start_date"> 〜
+    <input type="datetime-local" id="end_date" name="end_date">
     <button type="submit">検索</button>
 </form>
 
@@ -132,7 +134,17 @@
     function fetchItems() {
         const itemName = document.getElementById('item_name').value;
         const prefecture = document.getElementById('prefecture').value;
-        const url = document.getElementById('search-url').value + `?item_name=${itemName}&prefecture=${prefecture}`;
+        const startDate = document.getElementById('start_date').value;
+        const endDate = document.getElementById('end_date').value;
+
+        let url = document.getElementById('search-url').value + `?item_name=${itemName}&prefecture=${prefecture}`;
+
+        if (startDate) {
+            url += `&start_date=${startDate}`;
+        }
+        if (endDate) {
+            url += `&end_date=${endDate}`;
+        }
 
         fetch(url)
             .then(response => response.json())
