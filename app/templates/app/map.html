@@ -286,6 +286,9 @@
         map.setCenter(marker.getPosition());
         map.setZoom(16);
         google.maps.event.trigger(marker, 'click');
+
+        document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
     }
 
     window.onload = function() {
