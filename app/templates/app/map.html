@@ -105,30 +105,54 @@
     let map;
     let markers = [];
     let infoWindows = [];
-    let initialMarker;
+    let currentLocation = null;
 
     function initMap() {
+        // 最初に地図を初期化
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,  // 初期ズームレベル
+            mapTypeId: 'roadmap'
+        });
+
+        // 現在地を取得して100m以内のアイテムを表示
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                const initialLat = position.coords.latitude;
-                const initialLng = position.coords.longitude;
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: initialLat, lng: initialLng},
-                    zoom: 16,
-                    mapTypeId: 'roadmap'
-                });
-                initialMarker = new google.maps.Marker({
-                    position: {lat: initialLat, lng: initialLng},
+            navigator.geolocation.getCurrentPosition((position) => {
+                currentLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setCenter(currentLocation);  // 地図の中心を現在地に設定
+                map.setZoom(16);  // ズームレベルを少し近づける
+
+                // 現在地を地図にマーカーとして表示
+                const currentMarker = new google.maps.Marker({
+                    position: currentLocation,
                     map: map,
-                    title: "現在地"
+                    title: '現在地'
                 });
-                fetchItems();
-            }, () => {
-                alert("現在地の取得に失敗しました。");
+
+                // 現在地から100m以内のアイテムを表示
+                fetchNearbyItems(currentLocation);
             });
         } else {
-            alert("このブラウザは位置情報をサポートしていません。");
+            alert("Geolocation is not supported by this browser.");
         }
+    }
+
+    function fetchNearbyItems(location) {
+        const url = `{% url 'search_items' %}?latitude=${location.lat}&longitude=${location.lng}&radius=100`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                clearMarkers();
+                if (data.length > 0) {
+                    displayItems(data);
+                    updateItemList(data);
+                } else {
+                    alert("100m以内に該当するアイテムはありません。");
+                }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     function fetchItems() {
@@ -173,9 +197,8 @@
                 const infoWindow = new google.maps.InfoWindow({
                     content: `
                         <div>
-                            <img src="${item.image_url || ''}" alt="Lost Item" style="width:100px;height:100px;">
+                            <img src="${item.image_url || ''}" alt="Lost Item" style="width:auto;height:auto;">
                             <p><strong>${item.description}</strong></p>
-                            <p>${item.date_time}</p>
                         </div>`
                 });
                 marker.addListener('click', () => {
