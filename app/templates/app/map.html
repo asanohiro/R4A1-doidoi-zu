@@ -17,6 +17,15 @@
 
         ul#item-list li {
             margin-bottom: 20px;
+            border: 2px solid #ccc; /* 縁を追加 */
+            width: 80%;
+            padding: 10px;
+            border-radius: 8px; /* 角を丸くする */
+            transition: border-color 0.3s ease;
+        }
+
+        ul#item-list li:hover {
+            border-color: #007bff; /* ホバー時に縁の色を変更 */
         }
 
         ul#item-list img {
@@ -28,6 +37,8 @@
         .pagination {
             margin: 20px 0;
         }
+
+
     </style>
 </head>
 <body>
@@ -259,8 +270,8 @@
         items.forEach((item, index) => {
             const li = document.createElement('li');
             li.innerHTML = `
-                <div>
-                    ${item.image_url ? `<img src="${item.image_url}" alt="Image" onclick="focusMarker(${index}); return false;">` : ''}
+                <div class="item-list" onclick="focusMarker(${index});">
+                    ${item.image_url ? `<img src="${item.image_url}" alt="Image">` : ''}
                     <p>品目：${item.description}</p>
                     <p>場所: ${item.prefecture}</p>
                     <p>時間: ${item.date_time}</p>
@@ -268,6 +279,13 @@
             `;
             itemList.appendChild(li);
         });
+    }
+
+    function focusMarker(index) {
+        const marker = markers[index];
+        map.setCenter(marker.getPosition());
+        map.setZoom(16);
+        google.maps.event.trigger(marker, 'click');
     }
 
     window.onload = function() {
