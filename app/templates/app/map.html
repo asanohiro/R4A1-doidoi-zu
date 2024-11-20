@@ -236,13 +236,13 @@
                 const marker = new google.maps.Marker({
                     position: latLng,
                     map: map,
-                    title: item.description
+                    title: item.product
                 });
                 const infoWindow = new google.maps.InfoWindow({
                     content: `
                         <div>
                             <img src="${item.image_url || ''}" alt="Lost Item" style="width:auto;height:auto;">
-                            <p><strong>${item.description}</strong></p>
+                            <p><button onclick="location.href='/item/${item.id}/';">詳細を見る</button></p>
                         </div>`
                 });
                 marker.addListener('click', () => {
@@ -272,9 +272,10 @@
             li.innerHTML = `
                 <div class="item-list" onclick="focusMarker(${index});">
                     ${item.image_url ? `<img src="${item.image_url}" alt="Image">` : ''}
-                    <p>品目：${item.description}</p>
+                    <p>品目：${item.product}</p>
                     <p>場所: ${item.prefecture}</p>
                     <p>時間: ${item.date_time}</p>
+                    <button onclick="location.href='/item/${item.id}/'; event.stopPropagation();">詳細を見る</button>
                 </div>
             `;
             itemList.appendChild(li);
@@ -288,7 +289,6 @@
         google.maps.event.trigger(marker, 'click');
 
         document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-
     }
 
     window.onload = function() {

@@ -4,7 +4,7 @@ from datetime import datetime
 import boto3
 from PIL import Image
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 import AWS.settings
 from AWS.settings import env
@@ -537,3 +537,6 @@ def search_items(request):
     print(f"Error in search_items: {e}")
     return JsonResponse({'error': str(e)}, status=500)
 
+def item_detail(request, item_id):
+    item = get_object_or_404(LostItem, id=item_id)
+    return render(request, 'item_detail.html', {'item': item})

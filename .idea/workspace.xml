@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="検索結果をマーカー表示＆リスト表示">
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="item-listを押したら、マップまでスクロールするよん">
+      <change afterPath="$PROJECT_DIR$/app/templates/app/item_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/AWS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AWS.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/app/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,33 +46,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Django サーバー.AWS.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/Users/asanohiro/PycharmProjects/AWS/app/templates/app",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django サーバー.AWS.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/asanohiro/PycharmProjects/AWS/app/templates/app&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql_aurora_aws",
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql_aurora_aws&quot;,
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/templates/app" />
@@ -228,6 +229,9 @@
       <workItem from="1730949348566" duration="921000" />
       <workItem from="1731376982720" duration="741000" />
       <workItem from="1731395838386" duration="4787000" />
+      <workItem from="1731904286415" duration="6361000" />
+      <workItem from="1731981684627" duration="8228000" />
+      <workItem from="1732077057489" duration="2020000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -453,7 +457,95 @@
       <option name="project" value="LOCAL" />
       <updated>1731388619453</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="検索結果をマーカー表示＆リスト表示_v3">
+      <option name="closed" value="true" />
+      <created>1731907761241</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1731907761241</updated>
+    </task>
+    <task id="LOCAL-00030" summary="検索結果をマーカー表示＆リスト表示_v3&#10;初期はデータベース内の情報が全抽出、検索後は画像クリックでマーカーに飛ぶ">
+      <option name="closed" value="true" />
+      <created>1731907851427</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1731907851427</updated>
+    </task>
+    <task id="LOCAL-00031" summary="検索結果をマーカー表示＆リスト表示_v4&#10;県名検索可能">
+      <option name="closed" value="true" />
+      <created>1731909491186</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1731909491187</updated>
+    </task>
+    <task id="LOCAL-00032" summary="検索結果をマーカー表示＆リスト表示_v5&#10;日時検索可能">
+      <option name="closed" value="true" />
+      <created>1731912976042</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1731912976042</updated>
+    </task>
+    <task id="LOCAL-00033" summary="現在地から100ｍ以内のものを表示、検索時は現在地から関係なく検索できるように">
+      <option name="closed" value="true" />
+      <created>1731983845428</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1731983845428</updated>
+    </task>
+    <task id="LOCAL-00034" summary="現在地から100ｍ以内のものを表示、検索時は現在地から関係なく検索できるように">
+      <option name="closed" value="true" />
+      <created>1731984018747</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1731984018747</updated>
+    </task>
+    <task id="LOCAL-00035" summary="現在地から100ｍ以内のものを表示、検索時は現在地から関係なく検索できるように">
+      <option name="closed" value="true" />
+      <created>1731984120693</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1731984120693</updated>
+    </task>
+    <task id="LOCAL-00036" summary="現在時間から１週間前の現在時間の間の期間に合致するものを表示">
+      <option name="closed" value="true" />
+      <created>1731992017208</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1731992017208</updated>
+    </task>
+    <task id="LOCAL-00037" summary="item-listを一件一件押せるようにした">
+      <option name="closed" value="true" />
+      <created>1731993491997</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1731993491997</updated>
+    </task>
+    <task id="LOCAL-00038" summary="item-listを一件一件押せるようにした">
+      <option name="closed" value="true" />
+      <created>1731993513589</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1731993513589</updated>
+    </task>
+    <task id="LOCAL-00039" summary="item-listを押したら、マップまでスクロールするよん">
+      <option name="closed" value="true" />
+      <created>1731993923661</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1731993923661</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -462,16 +554,19 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="コミット" />
-    <MESSAGE value="自動入力&#10;地図上に表示&#10;デモ版" />
-    <MESSAGE value="スマホからアップロード&#10;（奮闘中）" />
-    <MESSAGE value="Procfile作成" />
-    <MESSAGE value="エラーに四苦八苦中" />
-    <MESSAGE value="AWS EC2で構築することを考え、プラグインのバージョンを下げた" />
-    <MESSAGE value="upload.htmlをindex.htmlに変更" />
-    <MESSAGE value="upload_image関数に修正。&#10;元&#10;return render(request, 'templates/index.html')" />
     <MESSAGE value="python manage.py collectstatic --noinput&#10;上記コマンドを実行。staticfilesディレクトリを追加。" />
     <MESSAGE value="gitignore作成" />
     <MESSAGE value="os.getenvをenvに変更" />
@@ -489,6 +584,14 @@
     <MESSAGE value="callbackを削除して、window.onloadを導入" />
     <MESSAGE value="callbackを削除して、window.onloadを導入_v2" />
     <MESSAGE value="検索結果をマーカー表示＆リスト表示" />
-    <option name="LAST_COMMIT_MESSAGE" value="検索結果をマーカー表示＆リスト表示" />
+    <MESSAGE value="検索結果をマーカー表示＆リスト表示_v3" />
+    <MESSAGE value="検索結果をマーカー表示＆リスト表示_v3&#10;初期はデータベース内の情報が全抽出、検索後は画像クリックでマーカーに飛ぶ" />
+    <MESSAGE value="検索結果をマーカー表示＆リスト表示_v4&#10;県名検索可能" />
+    <MESSAGE value="検索結果をマーカー表示＆リスト表示_v5&#10;日時検索可能" />
+    <MESSAGE value="現在地から100ｍ以内のものを表示、検索時は現在地から関係なく検索できるように" />
+    <MESSAGE value="現在時間から１週間前の現在時間の間の期間に合致するものを表示" />
+    <MESSAGE value="item-listを一件一件押せるようにした" />
+    <MESSAGE value="item-listを押したら、マップまでスクロールするよん" />
+    <option name="LAST_COMMIT_MESSAGE" value="item-listを押したら、マップまでスクロールするよん" />
   </component>
 </project>

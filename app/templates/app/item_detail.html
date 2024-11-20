@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>アイテム詳細</title>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA&callback=initMap"></script>
+    <style>
+        #map {
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .details-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .details-container > div {
+            flex: 1;
+            min-width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="details-container">
+        <div>
+          <h1><img src="{{ item.image_url }}" alt="Image" style="max-width: 100%; height: auto;"></h1>
+          <p>{{ item.product }}</p>
+            <p><strong>登録された場所:</strong> <span id="address">{{ item.prefecture }}県</span></p>
+            <p><strong>登録された日時:</strong> {{ item.date_time|date:"n月j日G時i分" }}</p>
+            <p><strong>説明や備考:</strong> {{ item.comment }}</p>
+        </div>
+        <div>
+            <div id="map"></div>
+        </div>
+    </div>
+    <a href="{% url 'chat' %}">戻る</a>
+    <script>
+        let map;
+
+        function initMap() {
+            const location = {
+                lat: {{ item.latitude }},
+                lng: {{ item.longitude }}
+            };
+
+            // 地図を表示
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: location,
+                zoom: 15,
+            });
+
+            // マーカーを追加
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: '{{ item.product }}'
+            });
+
+            // 逆ジオコーディングで住所を取得
+            const geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({ location: location }, (results, status) => {
+                if (status === "OK" && results[0]) {
+                    const addressComponents = results[0].address_components;
+
+                    // 住所の各部分を分類
+                    const addressParts = {
+                        administrative_area_level_1: "", // 都道府県
+                        locality: "",                   // 市区町村
+                        sublocality_level_1: "",        // 区
+                        sublocality_level_2: "",        // 町
+
+                    };
+
+                    // 各部分を取得
+                    addressComponents.forEach(component => {
+                        if (component.types.includes("administrative_area_level_1")) {
+                            addressParts.administrative_area_level_1 = component.long_name;
+                        } else if (component.types.includes("locality")) {
+                            addressParts.locality = component.long_name;
+                        } else if (component.types.includes("sublocality_level_1")) {
+                            addressParts.sublocality_level_1 = component.long_name;
+                        } else if (component.types.includes("sublocality_level_2")) {
+                            addressParts.sublocality_level_2 = component.long_name;
+                        }
+                    });
+
+                    // 必要な順序で住所を構築
+                    const formattedAddress = [
+                        addressParts.administrative_area_level_1,
+                        addressParts.locality,
+                        addressParts.sublocality_level_1,
+                        addressParts.sublocality_level_2,
+                    ].filter(Boolean).join(" ");
+
+                    // フォーマットされた住所を表示
+                    const addressElement = document.getElementById("address");
+                    addressElement.innerText = formattedAddress;
+                } else {
+                    console.error("住所を取得できませんでした:", status);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
