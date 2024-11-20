@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="item-listを押したら、マップまでスクロールするよん">
-      <change afterPath="$PROJECT_DIR$/app/templates/app/item_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/AWS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AWS.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="詳細ページ作ってみた">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/map.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,9 +20,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -231,7 +226,7 @@
       <workItem from="1731395838386" duration="4787000" />
       <workItem from="1731904286415" duration="6361000" />
       <workItem from="1731981684627" duration="8228000" />
-      <workItem from="1732077057489" duration="2020000" />
+      <workItem from="1732077057489" duration="3593000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -545,7 +540,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731993923661</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="詳細ページ作ってみた">
+      <option name="closed" value="true" />
+      <created>1732084556710</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1732084556711</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -567,7 +570,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="python manage.py collectstatic --noinput&#10;上記コマンドを実行。staticfilesディレクトリを追加。" />
     <MESSAGE value="gitignore作成" />
     <MESSAGE value="os.getenvをenvに変更" />
     <MESSAGE value="ec2とrdsできた。&#10;プラグイン整理で一旦プラグインを全部消す。" />
@@ -592,6 +594,7 @@
     <MESSAGE value="現在時間から１週間前の現在時間の間の期間に合致するものを表示" />
     <MESSAGE value="item-listを一件一件押せるようにした" />
     <MESSAGE value="item-listを押したら、マップまでスクロールするよん" />
-    <option name="LAST_COMMIT_MESSAGE" value="item-listを押したら、マップまでスクロールするよん" />
+    <MESSAGE value="詳細ページ作ってみた" />
+    <option name="LAST_COMMIT_MESSAGE" value="詳細ページ作ってみた" />
   </component>
 </project>
