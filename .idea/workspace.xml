@@ -5,7 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="詳細ページ、戻る時に位置情報確認しなくても済むように">
+      <change afterPath="$PROJECT_DIR$/app/migrations/0006_remove_lostitem_color_lostitem_comment.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/migrations/0007_remove_lostitem_description_lostitem_product.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/migrations/0008_alter_lostitem_product.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/app/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/app/upload_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload_result.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -226,6 +237,7 @@
       <workItem from="1731904286415" duration="6361000" />
       <workItem from="1731981684627" duration="8228000" />
       <workItem from="1732077057489" duration="4550000" />
+      <workItem from="1732148362931" duration="8046000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />

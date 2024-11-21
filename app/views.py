@@ -68,20 +68,14 @@ def detect_labels_in_image(image):
 
 # ラベルマッピング辞書
 label_mapping = {
-    'Accessories': 'アクセサリー',
     'Animal': '動物',
     'Bag': 'バック',
     'Binoculars': '双眼鏡',
     'Book': '本',
     'Camera': 'カメラ',
-    'Clothing': '衣服',
-    'Computer Hardware': '機械',
     'Contact Lens': 'コンタクトレンズ',
-    'Cosmetics': '化粧品',
     'Credit Card': 'クレジットカード',
     'Diaper': 'おむつ',
-    'Electrical Device': '電気機器',
-    'Electronics': '電子機器',
     'Envelope': '封筒',
     'Glasses': '眼鏡',
     'Glove': '手袋',
@@ -92,13 +86,10 @@ label_mapping = {
     'Light': 'ライト',
     'Lighter': 'ライター',
     'Medication': '薬',
-    'Mobile Phone': '携帯電話',
     'Money': 'お金',
     'Page': '書類',
     'Pants': 'パンツ',
     'Perfume': '香水',
-    'Photography': '写真',
-    'Plant': '植物',
     'Raincoat': '合羽',
     'Saucer': '皿',
     'Scarf': 'マフラー',
@@ -107,7 +98,6 @@ label_mapping = {
     'Stick': '杖',
     'Suitcase': 'スーツケース',
     'Tobacco': 'タバコ',
-    'Tool': '工具',
     'Toy': '人形',
     'Umbrella': '傘',
     'Underwear': '下着',
@@ -116,6 +106,34 @@ label_mapping = {
     'Wristwatch': '腕時計',
     # 他に必要なラベルをここに追加
 }
+#ラベルのみ
+label_words = [
+    'Animal', 'Bag', 'Binoculars', 'Book', 'Camera',
+    'Contact Lens', 'Credit Card', 'Diaper', 'Envelope',
+    'Glasses', 'Glove', 'Hat', 'ID Card', 'Jewelry', 'Key',
+    'Light', 'Lighter', 'Medication', 'Mobile Phone', 'Money',
+    'Page', 'Pants', 'Perfume', 'Raincoat', 'Saucer', 'Scarf',
+    'Shoe', 'Sock', 'Stick', 'Suitcase', 'Tobacco', 'Toy',
+    'Umbrella', 'Underwear', 'Wallet', 'Water Bottle', 'Wristwatch'
+]
+#カテゴリ辞書
+category_mapping = {
+    'Accessories': 'アクセサリー',
+    'Clothing': '衣服',
+    'Computer Hardware': '機械',
+    'Cosmetics': '化粧品',
+    'Electrical Device': '電気機器',
+    'Electronics': '電子機器',
+    'Photography': '写真',
+    'Plant': '植物',
+    'Tool': '工具'
+}
+#カテゴリラベルのみ
+category_labels = [
+        'Accessories', 'Clothing', 'Computer Hardware',
+        'Cosmetics', 'Electrical Device', 'Electronics',
+        'Photography', 'Plant', 'Tool'
+    ]
 # 不適切なラベル辞書
 INAPPROPRIATE_LABELS = {
     'Face'
@@ -174,85 +192,18 @@ prefecture_mapping = {
 # ラベルのマッピングとフォームへの反映
 def extract_relevant_labels(labels):
     item_name = None
+
     for label in labels:
-        if label['Name'] == 'Accessories':
-            item_name = label_mapping['Accessories']
+        if label['Name'] in label_mapping:
+            item_name = label_mapping[label['Name']]
             break
-        elif label['Name'] == 'Animal':
-            item_name = label_mapping['Animal']
-            break
-        elif label['Name'] == 'Bag':
-            item_name = label_mapping['Bag']
-            break
-        elif label['Name'] == 'Binoculars':
-            item_name = label_mapping['Binoculars']
-            break
-        elif label['Name'] == 'Book':
-            item_name = label_mapping['Book']
-            break
-        elif label['Name'] == 'Camera':
-            item_name = label_mapping['Camera']
-            break
-        elif label['Name'] == 'Clothing':
-            item_name = label_mapping['Clothing']
-            break
-        elif label['Name'] == 'Computer Hardware':
-            item_name = label_mapping['Computer Hardware']
-            break
-        elif label['Name'] == 'Contact Lens':
-            item_name = label_mapping['Contact Lens']
-            break
-        elif label['Name'] == 'Cosmetics':
-            item_name = label_mapping['Cosmetics']
-            break
-        elif label['Name'] == 'Credit Card':
-            item_name = label_mapping['Credit Card']
-            break
-        elif label['Name'] == 'Diaper':
-            item_name = label_mapping['Diaper']
-            break
-        elif label['Name'] == 'Electrical Device':
-            item_name = label_mapping['Electrical Device']
-            break
-        elif label['Name'] == 'Electronics':
-            item_name = label_mapping['Electronics']
-            break
-        elif label['Name'] == 'Envelope':
-            item_name = label_mapping['Envelope']
-            break
-        elif label['Name'] == 'Glasses':
-            item_name = label_mapping['Glasses']
-            break
-        elif label['Name'] == 'Glove':
-            item_name = label_mapping['Glove']
-            break
-        elif label['Name'] == 'Hat':
-            item_name = label_mapping['Hat']
-            break
-        elif label['Name'] == 'ID Card':
-            item_name = label_mapping['ID Card']
-            break
-        elif label['Name'] == 'Jewelry':
-            item_name = label_mapping['Jewelry']
-            break
-        elif label['Name'] == 'Key':
-            item_name = label_mapping['Key']
-            break
-        elif label['Name'] == 'Light':
-            item_name = label_mapping['Light']
-            break
-        elif label['Name'] == 'Lighter':
-            item_name = label_mapping['Lighter']
-            break
-        elif label['Name'] == 'Medication':
-            item_name = label_mapping['Medication']
-            break
-        elif label['Name'] == 'Mobile Phone':
-            item_name = label_mapping['Mobile Phone']
-            break
-        elif label['Name'] == 'Money':
-            item_name = label_mapping['Money']
-            break
+
+    if item_name is None:
+        for label in labels:
+            if label['Name'] in category_labels:
+                item_name = category_mapping[label['Name']]
+                break
+
     return item_name
 
 def get_prefecture_from_location(latitude, longitude):
@@ -399,6 +350,7 @@ def upload_image(request):
         image = request.FILES.get('image')
         latitude = request.POST.get('latitude')
         longitude = request.POST.get('longitude')
+        comment = request.POST.get('comment')
 
         if image and latitude and longitude:
             # 画像データをメモリに読み込む
@@ -444,7 +396,7 @@ def upload_image(request):
                 'longitude': longitude,
                 'prefecture': prefecture_jp,
                 'image_url': image_url,
-                'detected_labels': labels
+                'comment': comment,
             }
 
             return render(request, 'app/upload_result.html', context)
@@ -458,14 +410,16 @@ def upload_image_result(request):
         longitude = request.POST.get('longitude')
         prefecture = request.POST.get('prefecture')
         image_url = request.POST.get('image_url')
+        comment = request.POST.get('comment')
 
         # LostItemに保存
         lost_item = LostItem.objects.create(
             image_url=image_url,
             latitude=latitude,
             longitude=longitude,
-            description=item_name,
-            prefecture=prefecture
+            product=item_name,
+            prefecture=prefecture,
+            comment=comment
         )
         lost_item.save()
 
@@ -522,11 +476,12 @@ def search_items(request):
       {
         'id': item.id,
         'date_time': item.date_time.strftime('%Y-%m-%d %H:%M:%S'),
-        'description': item.description,
+        'product': item.product,
         'image_url': item.image_url if item.image_url else None,
         'latitude': float(item.latitude),
         'longitude': float(item.longitude),
         'prefecture': item.prefecture,
+        'comment': item.comment
       }
       for item in items
     ]

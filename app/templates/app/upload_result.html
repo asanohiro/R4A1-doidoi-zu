@@ -19,11 +19,12 @@
                 <label><strong>品名:</strong></label>
                 <input type="text" name="item_name" value="{{ item_name }}" readonly>
             </div>
-            <input type="hidden" name="latitude" value="{{ latitude }}" readonly>
-            <input type="hidden" name="longitude" value="{{ longitude }}" readonly>
             <div>
                 <label><strong>都道府県:</strong></label>
                 <input type="text" name="prefecture" value="{{ prefecture }}" readonly>
+            </div>
+            <div>
+                <input type="text" name="comment" value="{{ comment }}" readonly>
             </div>
             <div>
                 <label><strong>アップロードされた画像:</strong></label><br>
@@ -44,9 +45,6 @@
                 </div>
             </div>
         </form>
-        {# デバック用。本番では消しておく #}
-        <p>{{ item_name }}</p>
-        <p>{{ detected_labels }}</p>
     </div>
 </body>
 </html>

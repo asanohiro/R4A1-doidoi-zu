@@ -28,7 +28,7 @@
         <div>
           <h1><img src="{{ item.image_url }}" alt="Image" style="max-width: 100%; height: auto;"></h1>
           <p><strong>品目：</strong>{{ item.product }}</p>
-            <p><strong>登録された場所：</strong> <span id="address">{{ item.prefecture }}県</span></p>
+            <p><strong>登録された場所：</strong> <span id="address">{{ item.prefecture }}</span></p>
             <p><strong>登録された日時：</strong> {{ item.date_time|date:"n月j日G時i分" }}</p>
             <p><strong>説明や備考：</strong> {% if item.comment %}{{ item.comment }}{% else %}なし{% endif %}</p>
         </div>
