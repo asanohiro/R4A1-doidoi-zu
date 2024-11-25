@@ -2,7 +2,8 @@
 <html lang="ja">
 <head>
     <title>落とし物検索</title>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA&callback=initMap&libraries=places"></script>
+
     <style>
         #map {
             height: 500px;
@@ -37,7 +38,7 @@
         }
 
         ul#item-list img {
-            width: auto;
+            max-width: 100px;
             max-height: 100px;
             display: block;
         }
@@ -109,6 +110,8 @@
       <option value="沖縄">沖縄県</option>
     </select>
 
+
+
     <label for="date">日時:</label>
     <input type="datetime-local" id="start_date" name="start_date"> 〜
     <input type="datetime-local" id="end_date" name="end_date">
@@ -130,6 +133,8 @@
     <span id="page-info"> 1 / 1</span>
     <button id="next-page" onclick="changePage(1);" disabled>次のページ</button>
 </div>
+
+<a href="{% url 'index' %}">ホームに戻る</a>
 
 <script>
     let map;
@@ -206,6 +211,7 @@
         fetch(url)
             .then(response => response.json())
             .then(data => {
+              console.log(data);
                 currentItems = data;
                 updatePagination();
                 displayCurrentPage();
