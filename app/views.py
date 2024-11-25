@@ -19,6 +19,8 @@ logger = logging.getLogger(__name__)
 
 PROJECT_VERSION_ARN = env('PROJECT_VERSION_ARN')
 
+DUMMY_IMAGE_URL = 'https://placehold.jp/200x200.png'
+
 def index(request):
     return render(request, 'index.html')
 
@@ -29,7 +31,7 @@ def return_upload_image(request):
     return render(request, 'app/upload.html')
 
 def warning_page(request):
-    render(request,'warning.html')
+    return render(request,'warning.html')
 
 def resize_image(image, max_size=(400, 400)):
     # Open the image
@@ -68,15 +70,17 @@ def detect_labels_in_image(image):
 
 # ラベルマッピング辞書
 label_mapping = {
-    'Animal': '動物',
     'Bag': 'バック',
     'Binoculars': '双眼鏡',
     'Book': '本',
     'Camera': 'カメラ',
     'Contact Lens': 'コンタクトレンズ',
     'Credit Card': 'クレジットカード',
+    'Can': '缶',
     'Diaper': 'おむつ',
+    'Education': '教科書',
     'Envelope': '封筒',
+    'Everyday objects': '日用品',
     'Glasses': '眼鏡',
     'Glove': '手袋',
     'Hat': '帽子',
@@ -87,6 +91,7 @@ label_mapping = {
     'Lighter': 'ライター',
     'Medication': '薬',
     'Money': 'お金',
+    'Musical Instrument': '楽器',
     'Page': '書類',
     'Pants': 'パンツ',
     'Perfume': '香水',
@@ -97,8 +102,10 @@ label_mapping = {
     'Sock': '靴下',
     'Stick': '杖',
     'Suitcase': 'スーツケース',
+    'Telescope': '望遠鏡',
     'Tobacco': 'タバコ',
     'Toy': '人形',
+    'Toys and Gaming': 'おもちゃ',
     'Umbrella': '傘',
     'Underwear': '下着',
     'Wallet': '財布',
@@ -108,12 +115,12 @@ label_mapping = {
 }
 #ラベルのみ
 label_words = [
-    'Animal', 'Bag', 'Binoculars', 'Book', 'Camera',
-    'Contact Lens', 'Credit Card', 'Diaper', 'Envelope',
+    'Bag', 'Binoculars', 'Book', 'Camera', 'Can',
+    'Contact Lens', 'Credit Card', 'Diaper', 'Education', 'Envelope', 'Everyday objects',
     'Glasses', 'Glove', 'Hat', 'ID Card', 'Jewelry', 'Key',
-    'Light', 'Lighter', 'Medication', 'Mobile Phone', 'Money',
+    'Light', 'Lighter', 'Medication', 'Mobile Phone', 'Money','Musical Instrument',
     'Page', 'Pants', 'Perfume', 'Raincoat', 'Saucer', 'Scarf',
-    'Shoe', 'Sock', 'Stick', 'Suitcase', 'Tobacco', 'Toy',
+    'Shoe', 'Sock', 'Stick', 'Suitcase', 'Telescope', 'Tobacco','Toy','Toys and Gaming',
     'Umbrella', 'Underwear', 'Wallet', 'Water Bottle', 'Wristwatch'
 ]
 #カテゴリ辞書
@@ -136,7 +143,11 @@ category_labels = [
     ]
 # 不適切なラベル辞書
 INAPPROPRIATE_LABELS = {
-    'Face'
+    'Face','Animal','Weapon','Food', 'Credit Card'
+}
+# ダミー画像を用いて登録する単語リスト
+dummy_labels = {
+    'Credit Card', 'ID Card'
 }
 # 47都道府県辞書
 prefecture_mapping = {
@@ -356,20 +367,15 @@ def upload_image(request):
             # 画像データをメモリに読み込む
             image_data = image.read()
             image_bytes_for_upload = io.BytesIO(image_data)  # S3アップロード用のファイルオブジェクト
-            image_bytes_for_resize = io.BytesIO(image_data)# リサイズ用のファイルオブジェクト
+            image_bytes_for_resize = io.BytesIO(image_data)  # リサイズ用のファイルオブジェクト
 
             # Get the prefecture from location data
             prefecture = get_prefecture_from_location(latitude, longitude)
             prefecture_jp = prefecture_change_japan(prefecture)
 
-
             # Generate a unique filename
             file_extension = image.name.split('.')[-1]
             file_name = f'{uuid4()}.{file_extension}'
-
-            # 画像をS3にアップロード
-            s3.upload_fileobj(image_bytes_for_upload, bucket_name, file_name)
-            image_bytes_for_upload.close()  # アップロード用ファイルオブジェクトをクローズ
 
             # 画像サイズのリサイズ
             resized_image = resize_image(image_bytes_for_resize)
@@ -379,10 +385,44 @@ def upload_image(request):
             # 画像ラベル検出
             labels = detect_labels_in_image(resized_image_io)
 
-            # ラベル検出が完了した場合の処理
+            #ラベル検出が完了した場合の処理
             detected_inappropriate_labels = any(label['Name'] in INAPPROPRIATE_LABELS for label in labels)
+            print("Detected inappropriate labels:", detected_inappropriate_labels)
+
             if detected_inappropriate_labels:
-                return redirect('warning_page')
+                matched_labels = [label['Name'] for label in labels if label['Name'] in dummy_labels]
+                print("Matched labels:", matched_labels)
+
+                if matched_labels:
+                    try:
+                        response = requests.get(DUMMY_IMAGE_URL)
+                        response.raise_for_status()
+
+                        dummy_image = io.BytesIO(response.content)
+                        s3.upload_fileobj(dummy_image, bucket_name, file_name)
+
+                        end_label = extract_relevant_labels(labels)
+
+                        image_url = f'https://{bucket_name}.s3.{settings.AWS_S3_REGION_NAME}.amazonaws.com/{file_name}'
+                        context = {
+                            'item_name': end_label,
+                            'latitude': latitude,
+                            'longitude': longitude,
+                            'prefecture': prefecture_jp,
+                            'image_url': image_url,
+                            'comment': comment,
+                        }
+                        print("Rendering upload_dummy.html with context:", context)
+                        return render(request, 'app/upload_dummy.html', context)
+                    except Exception as e:
+                        print("Error during dummy image processing:", str(e))
+                else:
+                    print("No matched labels found. Redirecting to warning_page.")
+                    return redirect('warning_page')
+
+            # 画像をS3にアップロード
+            s3.upload_fileobj(image_bytes_for_upload, bucket_name, file_name)
+            image_bytes_for_upload.close()  # アップロード用ファイルオブジェクトをクローズ
 
             end_label = extract_relevant_labels(labels)
 
@@ -411,6 +451,7 @@ def upload_image_result(request):
         prefecture = request.POST.get('prefecture')
         image_url = request.POST.get('image_url')
         comment = request.POST.get('comment')
+
 
         # LostItemに保存
         lost_item = LostItem.objects.create(
@@ -494,4 +535,8 @@ def search_items(request):
 
 def item_detail(request, item_id):
     item = get_object_or_404(LostItem, id=item_id)
-    return render(request, 'app/item_detail.html', {'item': item})
+    context = {
+        'item': item,
+        'google_maps_api_key': AWS.settings.env('GOOGLE_MAPS_API_KEY')
+    }
+    return render(request, 'app/item_detail.html', context)

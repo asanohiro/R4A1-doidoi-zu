@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="詳細ページ、戻る時に位置情報確認しなくても済むように">
-      <change afterPath="$PROJECT_DIR$/app/migrations/0006_remove_lostitem_color_lostitem_comment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/migrations/0007_remove_lostitem_description_lostitem_product.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/migrations/0008_alter_lostitem_product.py" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="11/21&#10;既存ロジックの変更">
+      <change afterPath="$PROJECT_DIR$/app/templates/app/upload_dummy.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/app/upload_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload_result.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
@@ -237,7 +231,12 @@
       <workItem from="1731904286415" duration="6361000" />
       <workItem from="1731981684627" duration="8228000" />
       <workItem from="1732077057489" duration="4550000" />
-      <workItem from="1732148362931" duration="8046000" />
+      <workItem from="1732148362931" duration="10051000" />
+      <workItem from="1732163597737" duration="505000" />
+      <workItem from="1732164106212" duration="4279000" />
+      <workItem from="1732242536163" duration="3586000" />
+      <workItem from="1732250124333" duration="5148000" />
+      <workItem from="1732500323876" duration="1797000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -567,7 +566,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732086378700</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="11/21&#10;既存ロジックの変更">
+      <option name="closed" value="true" />
+      <created>1732158434353</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1732158434353</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -589,7 +596,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="os.getenvをenvに変更" />
     <MESSAGE value="ec2とrdsできた。&#10;プラグイン整理で一旦プラグインを全部消す。" />
     <MESSAGE value="10/21　コミット" />
     <MESSAGE value="10/22&#10;画像表示成功" />
@@ -614,6 +620,7 @@
     <MESSAGE value="item-listを押したら、マップまでスクロールするよん" />
     <MESSAGE value="詳細ページ作ってみた" />
     <MESSAGE value="詳細ページ、戻る時に位置情報確認しなくても済むように" />
-    <option name="LAST_COMMIT_MESSAGE" value="詳細ページ、戻る時に位置情報確認しなくても済むように" />
+    <MESSAGE value="11/21&#10;既存ロジックの変更" />
+    <option name="LAST_COMMIT_MESSAGE" value="11/21&#10;既存ロジックの変更" />
   </component>
 </project>
