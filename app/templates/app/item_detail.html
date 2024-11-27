@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <title>アイテム詳細</title>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA&callback=initMap"></script>
     <style>
         #map {
             width: 100%;
@@ -20,52 +20,71 @@
             flex: 1;
             min-width: 300px;
         }
+
+        #directions-panel {
+            margin-top: 20px;
+            max-width: 500px;
+            display: none; /* 初期状態で非表示 */
+        }
     </style>
 </head>
 <body>
-
     <div class="details-container">
         <div>
-          <h1><img src="{{ item.image_url }}" alt="Image" style="max-width: 100%; height: auto;"></h1>
-          <p><strong>品目：</strong>{{ item.product }}</p>
-            <p><strong>登録された場所：</strong> <span id="address">{{ item.prefecture }}</span></p>
+            <h1><img src="{{ item.image_url }}" alt="Image" style="max-width: 100%; height: auto;"></h1>
+            <p><strong>品目：</strong>{{ item.product }}</p>
+            <p><strong>登録された場所：</strong> <span id="address">{{ item.prefecture }}県</span></p>
             <p><strong>登録された日時：</strong> {{ item.date_time|date:"n月j日G時i分" }}</p>
             <p><strong>説明や備考：</strong> {% if item.comment %}{{ item.comment }}{% else %}なし{% endif %}</p>
+            <p><strong>現在地からの距離：</strong> <span id="distance">計算中...</span></p>
+          <p><strong>経路情報：</strong><button id="open-map">マップで確認する</button></p>
         </div>
         <div>
             <div id="map"></div>
         </div>
     </div>
 
+    <!-- マップで確認するボタン -->
+    <div style="margin-top: 20px;">
+
+    </div>
+
     <!-- 戻るボタン -->
-    <button onclick="goBack()">戻る</button>
+    <button onclick="goBack()" style="margin-top: 20px;">戻る</button>
 
     <script>
         let map;
+        let currentLocation;
 
         function initMap() {
-            const location = {
+            const itemLocation = {
                 lat: {{ item.latitude }},
                 lng: {{ item.longitude }}
             };
 
             // 地図を表示
             map = new google.maps.Map(document.getElementById('map'), {
-                center: location,
+                center: itemLocation,
                 zoom: 15,
+                mapTypeId: 'hybrid',
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                    position: google.maps.ControlPosition.TOP_RIGHT
+                }
             });
 
-            // マーカーを追加
-            const marker = new google.maps.Marker({
-                position: location,
+            const itemMarker = new google.maps.Marker({
+                position: itemLocation,
                 map: map,
                 title: '{{ item.product }}'
             });
 
-            // 逆ジオコーディングで住所を取得
+            // Geocoderインスタンスを作成
             const geocoder = new google.maps.Geocoder();
 
-            geocoder.geocode({ location: location }, (results, status) => {
+            // アイテムの位置を逆ジオコーディング
+            geocoder.geocode({ location: itemLocation }, (results, status) => {
                 if (status === "OK" && results[0]) {
                     const addressComponents = results[0].address_components;
 
@@ -105,13 +124,77 @@
                     console.error("住所を取得できませんでした:", status);
                 }
             });
+
+    // 現在地取得処理
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                currentLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                const currentLocationMarker = new google.maps.Marker({
+                    position: currentLocation,
+                    map: map,
+                    title: '現在地',
+                    label: {
+                        text: '現在地',
+                        color: '#000000',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                    }
+                });
+
+
+
+                const distance = calculateDistance(
+                    currentLocation.lat,
+                    currentLocation.lng,
+                    itemLocation.lat,
+                    itemLocation.lng
+                );
+
+                document.getElementById("distance").innerText =
+                        distance >= 1000 ? `${(distance / 1000).toFixed(1)}km` : `${distance}m`;
+            },
+            error => {
+                console.error("現在地を取得できませんでした:", error);
+                document.getElementById("distance").innerText = "現在地を取得できません";
+            }
+        );
+    } else {
+        document.getElementById("distance").innerText = "ブラウザが現在地をサポートしていません";
+    }
+
+    // 「マップで確認する」ボタンの動作
+    document.getElementById("open-map").addEventListener("click", () => {
+        if (currentLocation) {
+            const url = `https://www.google.com/maps?saddr=${currentLocation.lat},${currentLocation.lng}&daddr=${itemLocation.lat},${itemLocation.lng}`;
+            window.open(url, '_blank');
+        } else {
+            alert("現在地が取得できませんでした。");
+        }
+    });
+}
+
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371000; // 地球の半径 (メートル)
+            const toRad = x => (x * Math.PI) / 180;
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return Math.round(R * c); // 距離を丸める
         }
 
-        // 戻るボタン用の関数
         function goBack() {
             window.history.back();
         }
     </script>
 </body>
 </html>
-
