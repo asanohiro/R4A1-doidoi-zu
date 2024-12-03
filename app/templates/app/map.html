@@ -255,7 +255,8 @@
                 const infoWindow = new google.maps.InfoWindow({
                     content: `
                         <div>
-                            <img src="${item.image_url || ''}" alt="Lost Item" style="width:auto;height:auto;">                            <p><button onclick="location.href='/item/${item.id}/';">詳細を見る</button></p>
+                            <img src="${item.image_url || ''}" alt="Lost Item" style="width:auto;height:auto;">
+                            <p><button onclick="location.href='/item/${item.id}/';">詳細を見る</button></p>
                         </div>`
                 });
                 marker.addListener('click', () => {

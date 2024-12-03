@@ -46,6 +46,13 @@ INSTALLED_APPS = [
     'app',  # ここに追加
 ]
 
+SITE_ID = 1
+# セッションをブラウザセッションの終了時まで有効にする
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# セッションエンジン（デフォルト設定）
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="11/21&#10;既存ロジックの変更">
-      <change afterPath="$PROJECT_DIR$/app/templates/app/upload_dummy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="詳細情報が詳しく">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/upload_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/upload_result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,6 +234,12 @@
       <workItem from="1732242536163" duration="3586000" />
       <workItem from="1732250124333" duration="5148000" />
       <workItem from="1732500323876" duration="1797000" />
+      <workItem from="1732672954569" duration="3614000" />
+      <workItem from="1732697469447" duration="632000" />
+      <workItem from="1732763528096" duration="599000" />
+      <workItem from="1732764524802" duration="4144000" />
+      <workItem from="1733114076288" duration="1801000" />
+      <workItem from="1733191431851" duration="678000" />
     </task>
     <task id="LOCAL-00001" summary="カスタムラベルの利用ができるようになっているはず、、">
       <option name="closed" value="true" />
@@ -574,7 +577,23 @@
       <option name="project" value="LOCAL" />
       <updated>1732158434353</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="品名検索できるように">
+      <option name="closed" value="true" />
+      <created>1732518198729</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1732518198729</updated>
+    </task>
+    <task id="LOCAL-00044" summary="詳細情報が詳しく">
+      <option name="closed" value="true" />
+      <created>1732673234391</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1732673234391</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -596,8 +615,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="ec2とrdsできた。&#10;プラグイン整理で一旦プラグインを全部消す。" />
-    <MESSAGE value="10/21　コミット" />
     <MESSAGE value="10/22&#10;画像表示成功" />
     <MESSAGE value="10/28（月）&#10;テーブルの中身をGoogle Map上に表示成功" />
     <MESSAGE value="11/5&#10;スマホからのアップロードと餃子の写真をアップするとエラーが出る。" />
@@ -621,6 +638,8 @@
     <MESSAGE value="詳細ページ作ってみた" />
     <MESSAGE value="詳細ページ、戻る時に位置情報確認しなくても済むように" />
     <MESSAGE value="11/21&#10;既存ロジックの変更" />
-    <option name="LAST_COMMIT_MESSAGE" value="11/21&#10;既存ロジックの変更" />
+    <MESSAGE value="品名検索できるように" />
+    <MESSAGE value="詳細情報が詳しく" />
+    <option name="LAST_COMMIT_MESSAGE" value="詳細情報が詳しく" />
   </component>
 </project>

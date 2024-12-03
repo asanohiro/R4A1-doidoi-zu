@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャットルーム</title>
+</head>
+<body>
+    <h1>チャット</h1>
+    <h2>過去のチャット</h2>
+    {% if past_users %}
+        <ul>
+            {% for user in past_users %}
+                <li>{{ user.nickname }}
+                  <!-- チャットルームIDを使ってURLを生成 -->
+                  <a href="{% url 'chat-room' chat_room_id=user.chatroom_id %}">
+                        <button>チャットをする</button>
+                  </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>過去にチャットしたユーザーはまだいません。</p>
+    {% endif %}
+    <a href="{% url 'index' %}">ホームに戻る</a>
+</body>
+</html>

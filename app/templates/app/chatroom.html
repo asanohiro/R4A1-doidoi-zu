@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャットルーム</title>
+    <style>
+        /* 全体のレイアウト */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* チャットメッセージ領域 */
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            margin-bottom: 70px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+
+        .message .text {
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        /* 相手のメッセージ */
+        .message.user2 {
+            justify-content: flex-start;
+        }
+
+        .message.user2 .text {
+            background-color: #f1f1f1;
+        }
+
+        /* 自分のメッセージ */
+        .message.user1 {
+            justify-content: flex-end;
+        }
+
+        .message.user1 .text {
+            background-color: #dcf8c6;
+        }
+
+        /* チャットフォームのスタイル */
+        #chat-form {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+            gap: 10px; /* テキストエリアとボタンの間の余白 */
+        }
+
+        #chat-form textarea {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            resize: none;
+        }
+
+        #chat-form button {
+            background-color: #34b7f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            flex-shrink: 0; /* ボタンのサイズを固定 */
+        }
+
+        #chat-form button:hover {
+            background-color: #128c7e;
+        }
+
+        /* ヘッダー */
+        .header {
+            background-color: #34b7f1;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #34b7f1;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="header">
+            <p>{{ user2.nickname }}</p>
+        </div>
+
+        <div id="chat-messages">
+            {% for message in messages %}
+                <div class="message {% if message.sender.nickname == user1.nickname %}user1{% else %}user2{% endif %}">
+                    <div class="text">
+                        <strong>{{ message.sender.nickname }}:</strong> {{ message.text }}<br>
+                        <small>{{ message.timestamp|date:"H:i" }}</small>
+                    </div>
+                </div>
+            {% empty %}
+                <p>まだメッセージはありません。</p>
+            {% endfor %}
+        </div>
+
+        <div id="chat-form">
+            <form method="POST" action="{% url 'send_message' chatroom_id=chatroom.id %}">
+                {% csrf_token %}
+                <textarea name="text" placeholder="メッセージを入力..." rows="2"></textarea>
+                <button type="submit">送信</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="{% url 'chat_room_list' %}">チャットリストに戻る</a>
+        <a href="{% url 'index' %}">ホームに戻る</a>
+    </div>
+</body>
+</html>
