@@ -1,17 +1,15 @@
-{% load static %}
-<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>アップロード結果確認</title>
-    <link rel="stylesheet" href="{% static 'upload_result.css' %}">
+    <link rel="stylesheet" href="upload_result.css">
 </head>
 <body>
 
     <div class="container">
         <h1>アップロード結果確認</h1>
         <form method="post" action="{% url 'upload_image_result' %}" enctype="multipart/form-data">
-            {% csrf_token %}
+            
             <div class="upload-info">
 
             </div>
@@ -24,11 +22,12 @@
                 <input type="text" name="prefecture" value="{{ prefecture }}" readonly>
             </div>
             <div>
+                <label><strong>コメント：</strong></label>
                 <input type="text" name="comment" value="{{ comment }}" readonly>
             </div>
             <div>
                 <label><strong>アップロードされた画像:</strong></label><br>
-                <img src="{{ image_url }}" alt="アップロードされた画像" style="max-width:300px; height:auto;">
+                <img src="{{ image_url }}" alt="アップロードされた画像" style="margin-top: 10px;height: 200px; width: 280px;">
             </div>
             <input type="hidden" name="latitude" value="{{ latitude }}">
             <input type="hidden" name="longitude" value="{{ longitude }}">
@@ -46,8 +45,5 @@
             </div>
         </form>
     </div>
-{#    `デバック用。本番では消しておく`#}
-{#    <p>{{ item_name }}</p>#}
-{#    <p>{{ detected_labels }}</p>#}
 </body>
 </html>

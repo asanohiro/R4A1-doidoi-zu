@@ -386,6 +386,7 @@ def upload_image(request):
 
             # 画像ラベル検出
             labels = detect_labels_in_image(resized_image_io)
+            label_test = labels
 
             #ラベル検出が完了した場合の処理
             detected_inappropriate_labels = any(label['Name'] in INAPPROPRIATE_LABELS for label in labels)
@@ -453,7 +454,10 @@ def upload_image_result(request):
         prefecture = request.POST.get('prefecture')
         image_url = request.POST.get('image_url')
         comment = request.POST.get('comment')
+        nickname = request.session.get('nickname')
 
+        if nickname == 'null' or nickname is None:
+            nickname = 'guest'
 
         # LostItemに保存
         lost_item = LostItem.objects.create(
@@ -462,7 +466,8 @@ def upload_image_result(request):
             longitude=longitude,
             product=item_name,
             prefecture=prefecture,
-            comment=comment
+            comment=comment,
+            nickname = nickname
         )
         lost_item.save()
 
@@ -502,7 +507,7 @@ def search_items(request):
     # 基本のフィルタリング
     items = LostItem.objects.all()
     if item_name:
-      items = items.filter(description__icontains=item_name)
+      items = items.filter(product__icontains=item_name)
     if prefecture:
       items = items.filter(prefecture__icontains=prefecture)
 
@@ -551,12 +556,12 @@ def item_detail(request, item_id):
   if user_nickname:
     user = User.objects.get(nickname=user_nickname)
 
-  return render(request, 'item_detail.html', {'item': item, 'user': user})
+  return render(request, 'app/item_detail.html', {'item': item, 'user': user})
 
 
 def login(request):
   if request.method == 'GET':
-    return render(request, 'login.html')
+    return render(request, 'app/login.html')
   elif request.method == 'POST':
     email = request.POST.get('email')
     password = request.POST.get('password')
@@ -574,15 +579,15 @@ def login(request):
         return render(request, 'index.html')
       else:
         # パスワードが一致しない場合
-        return render(request, 'login.html', {'error': 'メールアドレスかパスワードが違います'})
+        return render(request, 'app/login.html', {'error': 'メールアドレスかパスワードが違います'})
     except User.DoesNotExist:
 
-      return render(request, 'login.html', {'error': 'メールアドレスかパスワードが違います'})
+      return render(request, 'app/login.html', {'error': 'メールアドレスかパスワードが違います'})
 
 
 def User_register(request):
   if request.method == 'GET':
-    return render(request, 'User_register.html')
+    return render(request, 'app/User_register.html')
 
   elif request.method == 'POST':
     nickname = request.POST.get('nickname')
@@ -592,25 +597,25 @@ def User_register(request):
 
     # メールアドレスの重複チェック
     if User.objects.filter(email=email).exists():
-      return render(request, 'User_register.html', {'error': 'このメールアドレスはすでに登録されています'})
+      return render(request, 'app/User_register.html', {'error': 'このメールアドレスはすでに登録されています'})
 
     # ニックネームの重複チェック
     if User.objects.filter(nickname=nickname).exists():
-      return render(request, 'User_register.html', {'error': 'このニックネームはすでに使用されています'})
+      return render(request, 'app/User_register.html', {'error': 'このニックネームはすでに使用されています'})
 
     # ニックネームの検証（英数字を必ず含む）
     if not re.match(r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$', nickname):
-      return render(request, 'User_register.html',
+      return render(request, 'app/User_register.html',
                     {'error': 'ニックネームは英字と数字をそれぞれ1文字以上含む必要があります'})
 
     # パスワードの検証（8文字以上で英数字を必須）
     if len(password1) < 8 or not re.match(r'^(?=.*[a-zA-Z])(?=.*\d).+$', password1):
-      return render(request, 'User_register.html',
+      return render(request, 'app/User_register.html',
                     {'error': 'パスワードは8文字以上で、英字と数字を必ず含む必要があります'})
 
     # パスワードの一致確認
     if password1 != password2:
-      return render(request, 'User_register.html', {'error': 'パスワードが一致しません'})
+      return render(request, 'app/User_register.html', {'error': 'パスワードが一致しません'})
 
     # 確認画面へ遷移
     context = {
@@ -618,7 +623,7 @@ def User_register(request):
       'email': email,
       'password': password1,
     }
-    return render(request, 'User_register_confirm.html', context)
+    return render(request, 'app/User_register_confirm.html', context)
 
 
 def User_register_confirm(request):
@@ -629,7 +634,7 @@ def User_register_confirm(request):
       password = request.POST.get('password')
 
       if not nickname or not email or not password:
-        return render(request, 'User_register_confirm.html', {'error': 'すべての項目を入力してください'})
+        return render(request, 'app/User_register_confirm.html', {'error': 'すべての項目を入力してください'})
 
       user = User.objects.create(
         nickname=nickname,
@@ -637,9 +642,9 @@ def User_register_confirm(request):
         password=password
       )
       user.save()
-      return render(request, 'User_register_complete.html')
+      return render(request, 'app/User_register_complete.html')
     except Exception as e:
-      return render(request, 'User_register_confirm.html', {'error': f'登録中にエラーが発生しました: {str(e)}'})
+      return render(request, 'app/User_register_confirm.html', {'error': f'登録中にエラーが発生しました: {str(e)}'})
 
 
 def logout(request):
@@ -674,7 +679,7 @@ def chat_room_list(request):
     })
 
   # 結果を渡してチャットルーム画面を表示
-  return render(request, 'past_chatroom_list.html', {
+  return render(request, 'app/past_chatroom_list.html', {
     'past_users': past_users
   })
 
@@ -750,7 +755,7 @@ def chat_room(request, chat_room_id):
   # チャットルームのメッセージを取得
   messages = chatroom.messages.all().order_by('timestamp')
 
-  return render(request, 'chatroom.html', {
+  return render(request, 'app/chatroom.html', {
     'chatroom': chatroom,
     'messages': messages,
     'user1': user1,
@@ -781,7 +786,7 @@ def send_message(request, chatroom_id):
       return redirect('chat-room', chat_room_id=chatroom.id)  # チャットルームにリダイレクト
 
   # GETリクエストの場合（直接ページにアクセスした場合）はフォームを表示
-  return render(request, 'chatroom.html', {
+  return render(request, 'app/chatroom.html', {
     'chatroom': chatroom,
     'messages': chatroom.messages.all().order_by('timestamp'),  # チャットメッセージを順番に表示
   })

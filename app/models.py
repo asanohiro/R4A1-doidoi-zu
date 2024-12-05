@@ -1,10 +1,12 @@
 # app/models.py
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
+from datetime import timedelta
 from AWS import settings
 
-
-
+def default_expire_at():
+    return now() + timedelta(days=30)
 
 class LostItem(models.Model):
     image = models.ImageField(upload_to='lost_items/', blank=True, null=True)  # 画像をS3にアップロード
@@ -16,7 +18,26 @@ class LostItem(models.Model):
     prefecture = models.CharField(max_length=100, blank=True)
     comment = models.CharField(max_length=256, blank=True, null=True)
     nickname = models.CharField(max_length=50)
+    expire_at = models.DateTimeField(default=default_expire_at)
 
+
+    #　s3のurl保存と有効期限設定
+    def save(self, *args, **kwargs):
+        if self.image:
+            # S3にアップロードされた画像のURLを自動的に保存
+            self.image_url = f'https://{settings.AWS_S3_CUSTOM_DOMAIN}/{self.image.name}'
+        super().save(*args, **kwargs)
+
+        if not self.expire_at:
+            self.expire_at = now() + timedelta(days=30)
+        super().save(*args, **kwargs)
+
+    #　有効期限が過ぎてるか
+    def is_expired(self):
+        # データが有効期限を過ぎているかどうかを判定
+        return now() > self.expire_at
+
+    # s3のurl
     def save(self, *args, **kwargs):
         if self.image:
             # S3にアップロードされた画像のURLを自動的に保存

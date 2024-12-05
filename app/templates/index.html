@@ -14,7 +14,7 @@
   {% if request.session.nickname %}
     <p>おかえりなさい、{{ request.session.nickname }} さん</p>
     <ul>
-      <li><a href="{% url 'map' %}">マップ検索<img src="{% static 'Image/map.png' %}" alt="マップロゴ"></a></li>
+      <li><a href="{% url 'map_view' %}">マップ検索<img src="{% static 'Image/map.png' %}" alt="マップロゴ"></a></li>
       <li><a href="{% url 'upload_image' %}">落とし物登録 <img src="{% static 'Image/register_icon.png' %}" alt="登録ロゴ"></a></li>
       <li><a href="{% url 'chat_room_list' %}">チャット</a></li>
       <li><a href="{% url 'logout' %}">ログアウト</a></li>
@@ -22,7 +22,7 @@
   {% else %}
     <p>ようこそ、guest さん</p>
     <ul>
-      <li><a href="{% url 'map' %}">マップ検索</a></li>
+      <li><a href="{% url 'map_view' %}">マップ検索</a></li>
       <li><a href="{% url 'upload_image' %}">落とし物登録</a></li>
       <li><a href="{% url 'login' %}">ログイン/ユーザー登録</a></li>
     </ul>

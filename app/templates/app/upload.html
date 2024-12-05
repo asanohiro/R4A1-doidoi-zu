@@ -1,97 +1,28 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>画像アップロード</title>
-    <link rel="stylesheet" href="{% static 'upload.css' %}">
-{#    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@1.0.17/dist/browser-image-compression.js"></script>#}
-    <script>
-        let compressedFileGlobal;
+     <link rel="stylesheet" href="upload.css">
 
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        const csrftoken = getCookie('csrftoken');
-
-        // 位置情報取得関数
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                alert("このブラウザでは位置情報がサポートされていません。");
-            }
-        }
-
-        function showPosition(position) {
-            document.getElementById('latitude').value = position.coords.latitude;
-            document.getElementById('longitude').value = position.coords.longitude;
-        }
-
-        function showError(error) {
-            const messages = {
-                1: "位置情報の取得が拒否されました。",
-                2: "位置情報が利用できません。",
-                3: "位置情報の取得がタイムアウトしました。",
-                0: "不明なエラーが発生しました。"
-            };
-            alert(messages[error.code]);
-        }
-
-        // 日時取得
-        function getCurrentDateTime() {
-            const now = new Date();
-            return now.toISOString().slice(0, 19).replace("T", " ");
-        }
-
-        function  previewImage(event) {
-            const fileInput = event.target;
-            const previewArea = document.getElementById('preview-area');
-
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0]
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    previewArea.innerHTML = `<img src="${e.target.result}" alt="プレビュー画像" style="max-width: 100%; height: auto">`;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            getLocation();
-            document.getElementById('found_time').value = getCurrentDateTime();
-        });
-    </script>
+    <script src="{% static 'JS/upload.js' %}"></script> 
 </head>
 <body>
 
     <form method="POST" action="{% url 'upload_image' %}" enctype="multipart/form-data">
         <h1>画像アップロード</h1>
-        {% csrf_token %}
+        
 
         <!-- 画像 -->
         <div class="image">
-            <label for="image">画像:</label>
+            <label for="image">画像</label>
             <input type="file" id="image" name="image" required onchange="previewImage(event)">
         </div>
 
-        <div id="preview-area" style="margin-top: 10px;">
+        <div id="preview-area" style="margin-top: 10px;height: 200px;">
             <!-- プレビュー画像をここに表示 -->
+            <img src="" alt="プレビュー画像">
         </div>
 
         <div>
@@ -105,14 +36,10 @@
 
         <!-- 位置情報 -->
         <div>
-            <input type="text" id="latitude" name="latitude">
-            <input type="text" id="longitude" name="longitude">
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
         </div>
 
-        <!-- 現在の日時 -->
-{#        <div>#}
-{#            <input type="hidden" id="found_time" name="found_time" required>#}
-{#        </div>#}
 
         <input type="submit" value="アップロード">
     </form>

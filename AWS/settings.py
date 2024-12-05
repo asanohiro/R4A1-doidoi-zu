@@ -43,6 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django_celery_beat',
     'app',  # ここに追加
 ]
 
@@ -62,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
     # 他のミドルウェア
 ]
 
@@ -167,3 +173,8 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # 画像やファイルのURLを取得するための設定
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+# Celery 設定
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis の URL
+CELERY_ACCEPT_CONTENT = ['json']  # Celery が受け入れるコンテンツ形式
+CELERY_TASK_SERIALIZER = 'json'  # タスクのシリアライズ方法
