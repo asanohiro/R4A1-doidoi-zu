@@ -75,6 +75,12 @@
             background-color: #0092e6;
         }
 
+         @media (min-width: 768px) {
+          .hide-on-pc {
+            display: none;
+          }
+        }
+
         /* レスポンシブ対応: タブレット以上の画面 */
         @media (min-width: 768px) {
             .button-container {
