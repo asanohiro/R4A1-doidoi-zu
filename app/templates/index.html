@@ -1,32 +1,35 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'index.css' %}">
-  <title>落とし物捜索システム</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{% static 'new_index.css' %}">
+    <title>落とし物捜索画面</title>
 </head>
 <body>
-  <h1>落とし物捜索システム</h1>
-  <p>システム作るよ〜ん</p>
-  
-  {% if request.session.nickname %}
-    <p>おかえりなさい、{{ request.session.nickname }} さん</p>
-    <ul>
-      <li><a href="{% url 'map_view' %}">マップ検索<img src="{% static 'Image/map.png' %}" alt="マップロゴ"></a></li>
-      <li class="hide-on-pc"><a href="{% url 'upload_image' %}">落とし物登録 <img src="{% static 'Image/register_icon.png' %}" alt="登録ロゴ"></a></li>
-      <li><a href="{% url 'chat_room_list' %}">チャット</a></li>
-      <li><a href="{% url 'logout' %}">ログアウト</a></li>
-    </ul>
-  {% else %}
-    <p>ようこそ、guest さん</p>
-    <ul>
-      <li><a href="{% url 'map_view' %}">マップ検索</a></li>
-      <li class="hide-on-pc"><a href="{% url 'upload_image' %}">落とし物登録</a></li>
-      <li><a href="{% url 'login' %}">ログイン/ユーザー登録</a></li>
-    </ul>
-  {% endif %}
-
+    <div class="container">
+        <div style="display: flex; justify-content: flex-end;">
+            <a class="login-button" href="{% url 'login' %}">
+                <span>ログイン・ユーザー登録</span>
+                <img src="{% static 'Image/refister_icon.png' %}" alt="ログインロゴ" class="icon">
+            </a>
+        </div>
+        
+        
+        <h1>落とし物捜索 ホーム</h1>
+            
+        <div class="button-container">
+            <a class="button register-button" href="{% url 'map_view' %}">
+                マップ検索 <img src="{% static 'Image/map.png' %}" alt="マップロゴ">
+            </a>
+           
+            <a class="button search-button" href="{% url 'upload_image' %}">
+                落とし物登録 <img src="{% static 'Image/lostitem.png' %}" alt="登録ロゴ">
+            </a>
+            
+        </div>
+    </div>
 </body>
 </html>
