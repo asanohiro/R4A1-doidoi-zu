@@ -160,8 +160,13 @@
 
     <div class="chat-container">
         <div class="header">
-          <button id="backButton" class="back-button">←</button>
+            <button id="backButton" class="back-button">←</button>
             <p>{{ user2.nickname }}</p>
+            {% if not block_status %}
+                <a href="{% url 'block_user' user2.nickname %}" class="block-button"><button>ブロック</button></a>
+            {% else %}
+                <a href="{% url 'unblock_user' user2.nickname %}" class="unblock-button"><button>ブロック解除</button></a>
+            {% endif %}
         </div>
 
         <div id="chat-messages">
@@ -176,49 +181,66 @@
                 <p>まだメッセージはありません。</p>
             {% endfor %}
         </div>
-      <div id="chat-form">
-            <form method="POST" action="{% url 'send_message' chatroom_id=chatroom.id %}" id="chatForm">
-                {% csrf_token %}
-                <textarea name="text" placeholder="メッセージを入力..." rows="2" id="messageInput"></textarea>
-                <button type="submit">送信</button>
-            </form>
+
+        <div id="chat-form">
+            {% if not block_status %}
+                <form method="POST" action="{% url 'send_message' chatroom_id=chatroom.id %}" id="chatForm">
+                    {% csrf_token %}
+                    <textarea name="text" placeholder="メッセージを入力..." rows="2" id="messageInput"></textarea>
+                    <button type="submit">送信</button>
+                </form>
+            {% else %}
+                <p style="color: red; text-align: center;">現在、このユーザーをブロック中。</p>
+            {% endif %}
         </div>
     </div>
 
-    <!--<div class="nav-links">
-        <a href="{% url 'chat_room_list' %}">チャットリストに戻る</a>
-    </div>-->
-
     <script>
-        let isComposing = false;
+        document.addEventListener('DOMContentLoaded', function () {
+            // チャットメッセージリストを最下部にスクロール
+            const chatMessages = document.getElementById('chat-messages');
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
 
-        // 変換開始時にフラグを立てる
-        document.getElementById('messageInput').addEventListener('compositionstart', function() {
-            isComposing = true;
-        });
+            // 戻るボタンのクリックイベントを設定
+            const backButton = document.getElementById('backButton');
+            if (backButton) {
+                backButton.addEventListener('click', function () {
+                    window.location.href = "{% url 'chat_room_list' %}";
+                });
+            } else {
+                console.error("Back button not found");
+            }
 
-        // 変換確定時にフラグを戻す
-        document.getElementById('messageInput').addEventListener('compositionend', function() {
-            isComposing = false;
-        });
+            // メッセージ入力欄のEnterキー送信を設定
+            const messageInput = document.getElementById('messageInput');
+            const chatForm = document.getElementById('chatForm');
 
-        // エンターキーで送信をトリガーする
-        document.getElementById('messageInput').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' && !isComposing) {
-                event.preventDefault(); // 改行を防ぐ
-                document.getElementById('chatForm').submit(); // フォームを送信
+            if (messageInput && chatForm) {
+                let isComposing = false;
+
+                // 変換開始時フラグ設定
+                messageInput.addEventListener('compositionstart', function () {
+                    isComposing = true;
+                });
+
+                // 変換終了時フラグ解除
+                messageInput.addEventListener('compositionend', function () {
+                    isComposing = false;
+                });
+
+                // Enterキーで送信をトリガー
+                messageInput.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter' && !isComposing) {
+                        event.preventDefault(); // 改行を防ぐ
+                        chatForm.submit(); // フォーム送信
+                    }
+                });
+            } else {
+                console.warn("Message input or form not found");
             }
         });
-
-        // ページ読み込み時にスクロール位置を最下部に設定
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatMessages = document.getElementById('chat-messages');
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        });
-
-        document.getElementById('backButton').addEventListener('click', function() {
-        window.location.href = "{% url 'chat_room_list' %}";
-    });
     </script>
 </body>
 </html>

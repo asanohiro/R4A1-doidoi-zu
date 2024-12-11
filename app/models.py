@@ -71,3 +71,14 @@ class Message(models.Model):
 
   def __str__(self):
     return f"Message from {self.sender.username} in {self.chatroom}"
+
+class Block(models.Model):
+    blocker = models.ForeignKey(User, related_name='blocked_by', on_delete=models.CASCADE)
+    blocked = models.ForeignKey(User, related_name='blocks', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+      unique_together = ('blocker', 'blocked')  # 一人のユーザーが同じユーザーを複数回ブロックできないようにする
+
+    def __str__(self):
+      return f"{self.blocker.nickname} blocked {self.blocked.nickname}"

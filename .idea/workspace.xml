@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="詳細情報が詳しく">
-      <change afterPath="$PROJECT_DIR$/app/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="メール通知機能追加">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AWS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/AWS/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/chatroom.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/chatroom.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/item_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/item_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -606,7 +596,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732673234391</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="メール通知機能追加">
+      <option name="closed" value="true" />
+      <created>1733710584194</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1733710584194</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,7 +626,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="10/22&#10;画像表示成功" />
     <MESSAGE value="10/28（月）&#10;テーブルの中身をGoogle Map上に表示成功" />
     <MESSAGE value="11/5&#10;スマホからのアップロードと餃子の写真をアップするとエラーが出る。" />
     <MESSAGE value="11/7" />
@@ -653,6 +650,7 @@
     <MESSAGE value="11/21&#10;既存ロジックの変更" />
     <MESSAGE value="品名検索できるように" />
     <MESSAGE value="詳細情報が詳しく" />
-    <option name="LAST_COMMIT_MESSAGE" value="詳細情報が詳しく" />
+    <MESSAGE value="メール通知機能追加" />
+    <option name="LAST_COMMIT_MESSAGE" value="メール通知機能追加" />
   </component>
 </project>

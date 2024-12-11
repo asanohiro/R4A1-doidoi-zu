@@ -21,4 +21,6 @@ urlpatterns = [
     path('chat-room_create/', views.chat_room_create, name='chat_room_create'),
     path('chat-room/<int:chat_room_id>/', views.chat_room, name='chat-room'),
     path('chat/send_message/<int:chatroom_id>/', views.send_message, name='send_message'),
+    path('block_user/<str:user_nickname>/', views.block_user, name='block_user'),
+    path('unblock_user/<str:user_nickname>/', views.unblock_user, name='unblock_user'),
 ]
