@@ -1,7 +1,6 @@
 import io
 import re
 from datetime import datetime
-
 import boto3
 from PIL import Image
 from django.db.models import Q
@@ -19,6 +18,8 @@ import requests
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import User, ChatRoom, Message
 
 logger = logging.getLogger(__name__)
 
@@ -26,10 +27,12 @@ PROJECT_VERSION_ARN = env('PROJECT_VERSION_ARN')
 
 DUMMY_IMAGE_URL = 'https://placehold.jp/200x200.png'
 
-
 def index(request):
     return render(request, 'index.html')
 
+
+def login(request):
+    return render(request, 'app/login.html')
 
 def map(request):
     return render(request, 'app/map.html')
@@ -672,10 +675,6 @@ def logout(request):
     # セッションから情報を削除
     request.session.flush()  # すべてのセッションデータを削除
     return redirect('index')  # ログインページにリダイレクト
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import User, ChatRoom, Message
 
 
 def chat_room_list(request):

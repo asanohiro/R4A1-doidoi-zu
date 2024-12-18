@@ -1,16 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>画像アップロード</title>
-     <link rel="stylesheet" href="upload.css">
+     <link rel="stylesheet" href="{% static 'css/upload.css' %}">
 
     <script src="{% static 'JS/upload.js' %}"></script> 
 </head>
 <body>
 
     <form method="POST" action="{% url 'upload_image' %}" enctype="multipart/form-data">
+        {% csrf_token %}
         <h1>画像アップロード</h1>
         
 
@@ -21,8 +23,8 @@
         </div>
 
         <div id="preview-area" style="margin-top: 10px;height: 200px;">
-            <!-- プレビュー画像をここに表示 -->
-            <img src="" alt="プレビュー画像">
+{#            <!-- プレビュー画像をここに表示 -->#}
+{#            <img src="" alt="プレビュー画像">#}
         </div>
 
         <div>

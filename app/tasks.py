@@ -1,25 +1,22 @@
-from celery import shared_task
-
+from celery import Celery
+from datetime import datetime
 from app.models import LostItem
-from django.utils.timezone import now
-import os
 
-@shared_task
+app = Celery('tasks')
+
+@app.task
 def delete_expired_items():
-    expired_items = LostItem.objects.filter(expire_at__lt=now())
-    count = expired_items.count()
+    now = datetime.now()
+    expired_items = LostItem.objects.filter(expire_at__lt=now)
 
-    # 削除データを保存
-    save_deleted_items_to_file(expired_items)
+    deleted_count = expired_items.count()
+    if deleted_count > 0:
+        # ログを残す（例: ファイルやデータベース）
+        with open("deleted_lost_items_log.txt", "a") as file:
+            for item in expired_items:
+                file.write(f"Deleted: {item.id}, Product: {item.product}, Time: {now}\n")
 
-    # データベースから削除
-    expired_items.delete()
-    return f"Deleted {count} expired items."
+        # データを削除
+        expired_items.delete()
 
-def save_deleted_items_to_file(expired_items):
-    """削除されたデータをテキストとして保存"""
-    file_path = os.path.join('deleted_items_log.txt')  # ファイル名を設定
-    print(f"File path for deleted items log: {file_path}")
-    with open(file_path, 'a') as file:
-        for item in expired_items:
-            file.write(f"ID: {item.id}, Product: {item.product}, DateTime: {item.date_time}, Comment: {item.comment}\n")
+    return f"Deleted {deleted_count} expired items."

@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>落とし物捜索システム</title>
-  <link rel="stylesheet" href="{% static 'new_index.css' %}">
+  <link rel="stylesheet" href="{% static 'css/new_index.css' %}">
 </head>
 <body>
   <div class="container">
@@ -20,7 +21,7 @@
       <p>おかえりなさい、{{ request.session.nickname }} さん</p>
       <div class="button-container">
         <a href="{% url 'map' %}">マップ検索</a>
-        <a href="{% url 'lostitem_register' %}">落とし物登録</a>
+        <a href="{% url 'upload_image' %}">落とし物登録</a>
         <a href="{% url 'chat_room_list' %}">チャット</a>
       </div>
       
@@ -37,7 +38,7 @@
       
       <div class="button-container">
         <a href="{% url 'map' %}">マップ検索</a>
-        <a href="{% url 'lostitem_register' %}">落とし物登録</a>
+        <a href="{% url 'upload_image' %}">落とし物登録</a>
       </div>
     {% endif %}
   </div>

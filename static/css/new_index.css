@@ -1,0 +1,130 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 95%;
+    max-width: 600px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.button {
+    
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    width: 100%;
+}
+
+.button img {
+    margin-right: 10px;
+    width: 24px; /* ロゴのサイズ */
+    height: 24px;
+
+}
+/* 既存のCSSはそのままに、以下を追加・修正 */
+.login-button {
+    display: inline-flex; /* テキストとアイコンのサイズに応じた範囲にする */
+    align-items: center;
+    justify-content: flex-end; /* コンテンツを右側に配置 */
+    text-decoration: none;
+    color: black; /* 必要に応じて変更 */
+    margin-bottom: 20px; /* ボタンと見出しの間隔 */
+    padding: 0; /* クリック範囲を狭めるためパディングを削除 */
+    gap: 6px; /* アイコンとテキストの間隔 */
+    border: 1px solid #00e1ff; /* 枠の色を設定（ここでは青系） */
+    border-radius: 4px; /* 枠の角を丸める */
+    box-sizing: border-box; /* 枠を含めた要素サイズを計算 */
+    margin-left: auto; /* 要素を右側に移動 */
+}
+
+
+.login-button:hover {
+    border-color: #0092e6; /* ホバー時に枠の色を変更 */
+    background-color: #f0faff; /* ホバー時に背景色を追加 */
+}
+
+.login-button .icon {
+    width: 40px; /* アイコンの幅 */
+    height: 40px; /* アイコンの高さ */
+    margin-left: 10px; /* テキストとの間隔 */
+}
+
+
+
+.register-button {
+    background-color: #00e1ff;
+    color: white;
+}
+
+.register-button:hover {
+    background-color: #0092e6;
+}
+
+.search-button {
+    background-color: #00e1ff;
+    color: white;
+} 
+
+.search-button:hover {
+    background-color: #0092e6;
+}
+
+@media (min-width: 769px) {
+     .search-button{
+        display: none;
+     }
+}
+
+/* レスポンシブ対応: タブレット以上の画面 */
+@media (min-width: 768px) {
+    .button-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+/* スマートフォン向けのデザイン調整 */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}

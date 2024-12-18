@@ -3,6 +3,7 @@ import environ
 import os
 from dotenv import load_dotenv
 import pymysql
+from celery import Celery
 
 # pymysql.install_as_MySQLdb()
 pymysql.install_as_MySQLdb()
@@ -57,7 +58,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # セッションエンジン（デフォルト設定）
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -182,6 +183,18 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
 # Celery 設定
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis の URL
-CELERY_ACCEPT_CONTENT = ['json']  # Celery が受け入れるコンテンツ形式
-CELERY_TASK_SERIALIZER = 'json'  # タスクのシリアライズ方法
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AWS.settings')
+
+app = Celery('AWS')
+app.config_from_object('django.conf:settings', namespace='CELERY')
+app.autodiscover_tasks()
+
+# タスクモジュールの指定
+CELERY_IMPORTS = ('AWS.tasks',)
+
+# Redisの設定 (必要に応じて変更)
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'

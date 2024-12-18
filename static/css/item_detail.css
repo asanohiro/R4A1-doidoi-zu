@@ -1,0 +1,136 @@
+.title {
+    text-align: center; /* 水平方向に中央揃え */
+    margin: 20px 0;     /* 上下の余白を追加 */
+}
+
+/* 全体の文字サイズを大きくする */
+body {
+    font-size: 25px; /* 基本の文字サイズを指定 */
+}
+
+/* タイトルの文字サイズを大きくする */
+.title {
+    text-align: center;
+    margin: 5vh 0 3vh 0;
+    font-size: 32px; /* タイトルの文字サイズを大きく */
+    font-weight: bold; /* 強調する */
+}
+
+p {
+    font-size: 4vw; /* さらに文字サイズを小さく */
+}
+
+/* 戻るボタンを中央に配置 */
+.button-container {
+    display: flex; /* Flexboxを使用して中央寄せ */
+    justify-content: center; /* 水平方向に中央寄せ */
+    margin-top: 20px; /* 上部に余白 */
+}
+
+/* ボタンのスタイル */
+button {
+    font-size: 20px; /* ボタン内の文字サイズ */
+    padding: 12px 24px; /* 内側の余白 */
+    border-radius: 8px; /* 角を丸く */
+    cursor: pointer; /* ポインタを表示 */
+    background-color: #00e1fF; /* ボタンの背景色 */
+    color: #fff; /* ボタンの文字色 */
+    border: none; /* 枠線を消す */
+    height: 50px; /* ボタン全体の高さ */
+    width: auto; /* 幅はコンテンツに応じて調整 */
+}
+
+/* ホバー時の効果 */
+button:hover {
+    background-color: #0092e6; /* 少し暗い色に変更 */
+}
+
+/* ボタンを特定で調整する場合 */
+#start-chat, #open-map {
+    font-size: 20px;
+    padding: 12px 24px;
+    height: 50px;
+}
+
+#map {
+    width: 100%;
+    height: 600px;
+    margin-top: 20px;
+}
+
+.details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.details-container > div {
+    flex: 1;
+    width: 100%;
+}
+
+#directions-panel {
+    margin-top: 20px;
+    max-width: 500px;
+    display: none; /* 初期状態で非表示 */
+}
+
+h1 img {
+    width: 250px; /* 画像を画面幅に収める */
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    p {
+
+        line-height: 1.5; /* 行間を調整 */
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    #map {
+        height: 300px; /* マップの高さを調整 */
+        width: 100%; /* 画面幅に合わせる */
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 6vw; /* タイトル文字を小さく */
+        text-align: center; /* 中央寄せ */
+        padding: 0; /* 内側の余白をなくす */
+    }
+
+    .details-container {
+        flex-direction: column;
+        align-items: center; /* 垂直方向に中央寄せ */
+        padding: 10px; /* 画面に合わせてパディングを調整 */
+    }
+
+    h1 {
+        margin: 0; /* 外側の余白をなくす */
+        padding: 0; /* 内側の余白をなくす */
+    }
+
+    h1 img {
+        width: 100%; /* 画像の幅を画面幅に合わせる */
+        height: auto;
+        margin: 0; /* 画像の外側の余白をなくす */
+        padding: 0; /* 画像の内側の余白をなくす */
+    }
+
+
+    button {
+        width: 90%; /* ボタンの幅を画面いっぱいに近づける */
+        font-size: 12px; /* ボタン文字サイズを小さく */
+        padding: 6px 12px;
+    }
+
+    #map {
+        height: 250px; /* マップの高さをさらに調整 */
+    }
+}

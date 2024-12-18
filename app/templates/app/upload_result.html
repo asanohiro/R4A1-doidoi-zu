@@ -1,15 +1,16 @@
+{% load static %}
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>アップロード結果確認</title>
-    <link rel="stylesheet" href="upload_result.css">
+    <link rel="stylesheet" href="{% static 'css/upload_result.css' %}">
 </head>
 <body>
 
     <div class="container">
         <h1>アップロード結果確認</h1>
         <form method="post" action="{% url 'upload_image_result' %}" enctype="multipart/form-data">
-            
+            {% csrf_token %}
             <div class="upload-info">
 
             </div>
