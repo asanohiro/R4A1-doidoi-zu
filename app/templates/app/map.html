@@ -4,7 +4,7 @@
 <head>
     <title>落とし物検索</title>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap&libraries=places"></script>
-    <link rel="stylesheet" href="{% static 'css/map.css' %}">
+    <link rel="stylesheet" href="{% static 'css/map.css?v=1.5' %}">
 </head>
 <body>
 <h1>落とし物検索</h1>
@@ -90,7 +90,7 @@
     <button id="next-page" onclick="changePage(1);" disabled>次のページ</button>
 </div>
 
-<a href="{% url 'index' %}">ホームへ</a>
+<a class="button" href="{% url 'index' %}">ホームへ</a>
 
 <script>
     let map;
