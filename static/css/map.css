@@ -5,7 +5,10 @@ body {
       padding: 0;
       color: #333;
       background-color: #f9f9f9;
-      display: grid;
+      display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   h1 {
@@ -41,7 +44,7 @@ body {
   }
 
   form button {
-      background: #007bff;
+      background: #0092e6;
       color: #fff;
       padding: 10px 20px;
       border: none;
@@ -110,7 +113,7 @@ body {
   }
 
   ul#item-list button {
-      background: #007bff;
+      background: #0092e6;
       color: #fff;
       border: none;
       padding: 10px;
@@ -130,7 +133,7 @@ body {
   }
 
   .pagination button {
-      background: #007bff;
+      background: #0092e6;
       color: #fff;
       border: none;
       padding: 10px 20px;
@@ -157,7 +160,7 @@ body {
   a {
 
       text-align: center;
-      color: #007bff;
+      color: #0092e6;
       text-decoration: none;
       margin: 20px 0;
   }

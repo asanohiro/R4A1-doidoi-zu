@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>画像アップロード</title>
-     <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+     <link rel="stylesheet" href="{% static 'css/upload.css?v=1.4' %}">
 
     <script src="{% static 'JS/upload.js' %}"></script> 
 </head>
@@ -45,6 +45,6 @@
 
         <input class="upload" type="submit" value="アップロード">
     </form>
-    <a href="{% url 'index' %}">ホームへ</a>
+    <a class="button" href="{% url 'index' %}">ホームへ</a>
 </body>
 </html>

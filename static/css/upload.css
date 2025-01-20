@@ -6,6 +6,10 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 h1 {
@@ -17,7 +21,7 @@ h1 {
 
 /* フォームのスタイル */
 form {
-    max-width: 600px;
+    max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -44,7 +48,7 @@ input[type="file"], input[type="text"], input[type="submit"] {
 }
 
 input[type="submit"] {
-    background-color: #007BFF;
+    background-color: #0092e6;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -79,13 +83,27 @@ a {
     text-align: center;
     margin-top: 20px;
     text-decoration: none;
-    color: #007BFF;
+    color: #0092e6;
     font-size: 1rem;
 }
 
 a:hover {
     text-decoration: underline;
 }
+
+.button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0092e6;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {

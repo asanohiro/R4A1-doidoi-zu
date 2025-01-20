@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {#    {% load static %}#}
-    <link rel="stylesheet" href="{% static 'css/User_register.css' %}">
+    <link rel="stylesheet" href="{% static 'css/User_register.css?v=1.2' %}">
     <title>落とし物捜索画面</title>
 </head>
 <body>
@@ -31,6 +31,8 @@
           {% endif %}
           <input type="submit" value="登録確認">
         </form>
+
+        <a class="home-button" href="{% url 'index' %}">ホームへ</a>
 
 
         <script>
