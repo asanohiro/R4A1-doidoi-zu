@@ -28,7 +28,7 @@ button {
     padding: 10px 20px; /* 内側の余白 */
     border-radius: 8px; /* 角を丸く */
     cursor: pointer; /* ポインタを表示 */
-    background-color: #00e1fF; /* ボタンの背景色 */
+    background-color: #0092e6; /* ボタンの背景色 */
     color: #fff; /* ボタンの文字色 */
     border: none; /* 枠線を消す */
     height: 45px; /* ボタン全体の高さを少し小さく */
@@ -88,7 +88,7 @@ h1 img {
     font-size: 16px; /* ボタン内の文字サイズ */
     border-radius: 8px; /* 角を丸く */
     cursor: pointer; /* ポインタを表示 */
-    background-color: #00e1fF; /* ボタンの背景色 */
+    background-color: #0092e6; /* ボタンの背景色 */
     color: #fff; /* ボタンの文字色 */
     border: none; /* 枠線を消す */
     height: 45px; /* ボタン全体の高さを設定 */

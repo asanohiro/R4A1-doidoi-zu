@@ -14,7 +14,6 @@
     <form method="POST" action="{% url 'upload_image' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <h1>画像アップロード</h1>
-        
 
         <!-- 画像 -->
         <div class="image">
@@ -22,6 +21,7 @@
             <input type="file" id="image" name="image" required onchange="previewImage(event)">
         </div>
 
+{#        デバック１：大きい画像が見切れる#}
         <div id="preview-area" style="margin-top: 10px;height: 200px;">
 {#            <!-- プレビュー画像をここに表示 -->#}
 {#            <img src="" alt="プレビュー画像">#}
@@ -43,7 +43,8 @@
         </div>
 
 
-        <input type="submit" value="アップロード">
+        <input class="upload" type="submit" value="アップロード">
     </form>
+    <a href="{% url 'index' %}">ホームへ</a>
 </body>
 </html>

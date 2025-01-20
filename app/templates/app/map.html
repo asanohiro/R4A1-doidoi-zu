@@ -1,54 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <title>落とし物検索</title>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA&callback=initMap&libraries=places"></script>
-
-    <style>
-        #map {
-            height: 500px;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        ul#item-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        ul#item-list li {
-            margin-bottom: 20px;
-            border: 2px solid #ccc;
-            width: 80%;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex; /* 横並びにするためにflexboxを使用 */
-            align-items: center; /* アイテムを中央に配置 */
-            transition: border-color 0.3s ease;
-        }
-
-        ul#item-list li:hover {
-            border-color: #007bff; /* ホバー時に縁の色を変更 */
-        }
-
-        ul#item-list .item-list {
-            display: flex;
-            width: 100%;
-            justify-content: space-between; /* アイテムを横に並べる */
-        }
-
-        ul#item-list img {
-            max-width: 100px;
-            max-height: 100px;
-            display: block;
-        }
-
-        .pagination {
-            margin: 20px 0;
-        }
-
-
-    </style>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap&libraries=places"></script>
+    <link rel="stylesheet" href="{% static 'css/map.css' %}">
 </head>
 <body>
 <h1>落とし物検索</h1>
@@ -134,7 +90,7 @@
     <button id="next-page" onclick="changePage(1);" disabled>次のページ</button>
 </div>
 
-<a href="{% url 'index' %}">ホームに戻る</a>
+<a href="{% url 'index' %}">ホームへ</a>
 
 <script>
     let map;

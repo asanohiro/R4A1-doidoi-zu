@@ -3,38 +3,77 @@
 <html lang="ja">
 <head>
     <title>アイテム詳細</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVf2L2W59AyS81Z6qv5fqd2JW-XjAW_pA&callback=initMap"></script>
-    <link rel="stylesheet" href="{% static 'css/item_detail.css' %}">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"></script>
+    <link rel="stylesheet" href="{% static 'css/item_detail.css?v=2.0' %}">
 </head>
 <body>
     <h1 class="title">落とし物アイテム詳細</h1>
     <div class="details-container">
-        <div>
-            <h1><img src="{{ item.image_url }}" alt="Image" style="max-width: 100%; height: auto;"></h1>
-            <p><strong>品目：</strong>{{ item.product }}</p>
-            <p><strong>登録された場所：</strong>
-                <span id="address">{{ item.prefecture }}県</span>
+        <div class="box-container">
+            <h1>
+                <img src="{{ item.image_url }}" alt="Image" style="max-width: 100%; height: auto;">
+            </h1>
+            <p>
+                <strong>品目：</strong>
+                <span class="item-span">
+                    {{ item.product }}
+                </span>
             </p>
-            <p><strong>登録された日時：</strong> {{ item.date_time|date:"n月j日G時i分" }}</p>
-            <p><strong>説明や備考：</strong> {% if item.comment %}{{ item.comment }}{% else %}なし{% endif %}</p>
-            <p><strong>現在地からの距離：</strong> <span id="distance">計算中...</span></p>
-            <p><strong>経路情報：</strong><button id="open-map">マップで確認する</button></p>
-            <p><strong>登録者：</strong>{{ item.nickname }}
-              <button id="start-chat" onclick="startChat()">チャット・質問を行う</button>
+            <p>
+                <strong>説明や備考：</strong>
+                <span class="item-span">
+                    {% if item.comment %}{{ item.comment }}{% else %}なし{% endif %}
+                </span>
             </p>
-            {% if user.nickname == None %}<p>※チャット機能はユーザー登録するとご利用いただけます</p>{% endif %}
-        </div>
+            <p>
+                <strong>登録された場所：</strong>
+                <span class="item-span">
+                    <span id="address">{{ item.prefecture }}</span>
+                </span>
+            </p>
+            <p>
+                <strong>登録された日時：</strong>
+                <span class="item-span">
+                    {{ item.date_time|date:"n月j日G時i分" }}
+                </span>
+            </p>
+            <p>
+                <span class="item-span">
+                    <strong>現在地からの距離：</strong>
+                    <span id="distance">計算中...</span>
+                </span>
+            </p>
 
-        <div>
-            <div id="map"></div>
+            <div class="box-container2">
+                <p><strong>登録者：</strong>{{ item.nickname }}
+                    <button id="start-chat" onclick="startChat()">
+                        チャット・質問を行う
+                    </button>
+                </p>
+                <p><strong>経路情報：</strong>
+                    <button id="open-map">
+                        マップで確認する
+                    </button>
+                </p>
+                {% if user.nickname == None %}<p>
+                <strong class="cautionarynote">
+                    <span>※チャット機能は</span>
+                    <span>ユーザー登録すると</span>
+                    <span>ご利用いただけます</span>
+                </strong>
+                </p>
+                {% endif %}
+            </div>
         </div>
     </div>
-
+    <div>
+        <div id="map"></div>
+    </div>
     <!-- マップで確認するボタン -->
-    <div style="margin-top: 20px;">
-
-    </div>
+{#    <div style="margin-top: 20px;">#}
+{#    </div>#}
 
     <!-- 戻るボタン -->
     <div class="button-container">
@@ -42,188 +81,176 @@
     </div>
 
     <script>
-        let map;
-        let currentLocation;
+    let map;
+    let currentLocation;
 
-        // ユーザーがログインしていない場合にチャットボタンを無効化
-        const userNickname = "{{ user.nickname }}";
-        const startChatButton = document.getElementById("start-chat");
+    // ユーザーがログインしていない場合にチャットボタンを無効化
+    const userNickname = "{{ user.nickname }}";
+    const startChatButton = document.getElementById("start-chat");
 
-        if (!userNickname) {
-            startChatButton.disabled = true;
-            startChatButton.style.cursor = "not-allowed";
-        }
-
-        function initMap() {
-            const itemLocation = {
-                lat: {{ item.latitude }},
-                lng: {{ item.longitude }}
-            };
-
-            // 地図を表示
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: itemLocation,
-                zoom: 15,
-                mapTypeControl: true,
-                mapTypeControlOptions: {
-                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-                    position: google.maps.ControlPosition.TOP_RIGHT
-                }
-            });
-
-            const itemMarker = new google.maps.Marker({
-                position: itemLocation,
-                map: map,
-                title: '{{ item.product }}'
-            });
-
-            // Geocoderインスタンスを作成
-            const geocoder = new google.maps.Geocoder();
-
-            // アイテムの位置を逆ジオコーディング
-            geocoder.geocode({ location: itemLocation }, (results, status) => {
-                if (status === "OK" && results[0]) {
-                    const addressComponents = results[0].address_components;
-
-                    // 住所の各部分を分類
-                    const addressParts = {
-                        administrative_area_level_1: "", // 都道府県
-                        locality: "",                   // 市区町村
-                        sublocality_level_1: "",        // 区
-                        sublocality_level_2: "",        // 町
-                    };
-
-                    // 各部分を取得
-                    addressComponents.forEach(component => {
-                        if (component.types.includes("administrative_area_level_1")) {
-                            addressParts.administrative_area_level_1 = component.long_name;
-                        } else if (component.types.includes("locality")) {
-                            addressParts.locality = component.long_name;
-                        } else if (component.types.includes("sublocality_level_1")) {
-                            addressParts.sublocality_level_1 = component.long_name;
-                        } else if (component.types.includes("sublocality_level_2")) {
-                            addressParts.sublocality_level_2 = component.long_name;
-                        }
-                    });
-
-                    // 必要な順序で住所を構築
-                    const formattedAddress = [
-                        addressParts.administrative_area_level_1,
-                        addressParts.locality,
-                        addressParts.sublocality_level_1,
-                        addressParts.sublocality_level_2,
-                    ].filter(Boolean).join(" ");
-
-                    // フォーマットされた住所を表示
-                    const addressElement = document.getElementById("address");
-                    addressElement.innerText = formattedAddress;
-                } else {
-                    console.error("住所を取得できませんでした:", status);
-                }
-            });
-
-    // 現在地取得処理
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                currentLocation = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-
-
-
-                const distance = calculateDistance(
-                    currentLocation.lat,
-                    currentLocation.lng,
-                    itemLocation.lat,
-                    itemLocation.lng
-                );
-
-                document.getElementById("distance").innerText =
-                        distance >= 1000 ? `${(distance / 1000).toFixed(1)}km` : `${distance}m`;
-            },
-            error => {
-                console.error("現在地を取得できませんでした:", error);
-                document.getElementById("distance").innerText = "現在地を取得できません";
-            }
-        );
-    } else {
-        document.getElementById("distance").innerText = "ブラウザが現在地をサポートしていません";
+    if (!userNickname) {
+        startChatButton.disabled = true;
+        startChatButton.style.cursor = "not-allowed";
     }
 
-    // 「マップで確認する」ボタンの動作
-    document.getElementById("open-map").addEventListener("click", () => {
-        if (currentLocation) {
-            const url = `https://www.google.com/maps?saddr=${currentLocation.lat},${currentLocation.lng}&daddr=${itemLocation.lat},${itemLocation.lng}`;
-            window.open(url, '_blank');
-        } else {
-            alert("現在地が取得できませんでした。");
-        }
-    });
-}
+    function initMap() {
+        const itemLocation = {
+            lat: {{ item.latitude }},
+            lng: {{ item.longitude }}
+        };
 
+        // 地図を表示
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: itemLocation,
+            zoom: 15,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                position: google.maps.ControlPosition.TOP_RIGHT
+            }
+        });
 
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371000; // 地球の半径 (メートル)
-            const toRad = x => (x * Math.PI) / 180;
-            const dLat = toRad(lat2 - lat1);
-            const dLon = toRad(lon2 - lon1);
-            const a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return Math.round(R * c); // 距離を丸める
-        }
+        const itemMarker = new google.maps.Marker({
+            position: itemLocation,
+            map: map,
+            title: '{{ item.product }}'
+        });
 
-        function goBack() {
-            window.history.back();
-        }
+        // Geocoderインスタンスを作成
+        const geocoder = new google.maps.Geocoder();
 
-        function startChat() {
-            const itemNickname = "{{ item.nickname }}"; // 登録者のnickname
-            const userNickname = "{{ user.nickname }}"; // ログインユーザーのnickname
-            const itemId = "{{ item.id }}"; // アイテムIDを取得
+        // アイテムの位置を逆ジオコーディング
+        geocoder.geocode({location: itemLocation}, (results, status) => {
+            if (status === "OK" && results[0]) {
+                const addressComponents = results[0].address_components;
 
-            fetch(`/chat-room_check/?register=${itemNickname}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        // エラーがある場合、表示する
-                        const errorMessage = document.createElement('p');
-                        errorMessage.style.color = 'red';
-                        errorMessage.innerText = data.error;
+                // 住所の各部分を分類
+                const addressParts = {
+                    administrative_area_level_1: "", // 都道府県
+                    locality: "",                   // 市区町村
+                    sublocality_level_1: "",        // 区
+                    sublocality_level_2: "",        // 町
+                };
 
-                        const buttonElement = document.getElementById('start-chat');
-                        // 既にエラーメッセージが表示されていない場合のみ追加
-                        if (!buttonElement.parentNode.querySelector('p')) {
-                            buttonElement.parentNode.appendChild(errorMessage);
-                        }
-
-                        buttonElement.disabled = true; // ボタンを無効化
-                        return; // 処理終了
+                // 各部分を取得
+                addressComponents.forEach(component => {
+                    if (component.types.includes("administrative_area_level_1")) {
+                        addressParts.administrative_area_level_1 = component.long_name;
+                    } else if (component.types.includes("locality")) {
+                        addressParts.locality = component.long_name;
+                    } else if (component.types.includes("sublocality_level_1")) {
+                        addressParts.sublocality_level_1 = component.long_name;
+                    } else if (component.types.includes("sublocality_level_2")) {
+                        addressParts.sublocality_level_2 = component.long_name;
                     }
-
-                    if (data.chatRoomId) {
-                        // 既存のチャットルームが見つかった場合
-                        alert('既存のチャットルームに入室します');
-                        window.location.href = `/chat-room/${data.chatRoomId}/?item=${itemId}`;
-                    } else {
-                        // チャットルームが見つからない場合、新規作成
-                        alert('新しいチャットルームを作成します');
-                       window.location.href = `/chat-room_create/?register=${itemNickname}&item=${itemId}`;
-                    }
-                })
-                .catch(error => {
-                    console.error("エラー:", error);
-                    alert('エラーが発生しました。');
                 });
+
+                // 必要な順序で住所を構築
+                const formattedAddress = [
+                    addressParts.administrative_area_level_1,
+                    addressParts.locality,
+                    addressParts.sublocality_level_1,
+                    addressParts.sublocality_level_2,
+                ].filter(Boolean).join(" ");
+
+                // フォーマットされた住所を表示
+                const addressElement = document.getElementById("address");
+                addressElement.innerText = formattedAddress;
+            } else {
+                console.error("住所を取得できませんでした:", status);
+            }
+        });
+
+        // 現在地取得処理
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    currentLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    const distance = calculateDistance(
+                        currentLocation.lat,
+                        currentLocation.lng,
+                        itemLocation.lat,
+                        itemLocation.lng
+                    );
+
+                    document.getElementById("distance").innerText =
+                        distance >= 1000 ? `${(distance / 1000).toFixed(1)}km` : `${distance}m`;
+                },
+                error => {
+                    console.error("現在地を取得できませんでした:", error);
+                    document.getElementById("distance").innerText = "現在地を取得できません";
+                }
+            );
+        } else {
+            document.getElementById("distance").innerText = "ブラウザが現在地をサポートしていません";
         }
 
+        // 「マップで確認する」ボタンの動作
+        document.getElementById("open-map").addEventListener("click", () => {
+            if (currentLocation) {
+                const url = `https://www.google.com/maps?saddr=${currentLocation.lat},${currentLocation.lng}&daddr=${itemLocation.lat},${itemLocation.lng}`;
+                window.open(url, '_blank');
+            } else {
+                alert("現在地が取得できませんでした。");
+            }
+        });
+    }
 
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371000; // 地球の半径 (メートル)
+        const toRad = x => (x * Math.PI) / 180;
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return Math.round(R * c); // 距離を丸める
+    }
 
+    function goBack() {
+        window.history.back();
+    }
 
-    </script>
+    function startChat() {
+        const itemNickname = "{{ item.nickname }}"; // 登録者のnickname
+        const userNickname = "{{ user.nickname }}"; // ログインユーザーのnickname
+        const itemId = "{{ item.id }}"; // アイテムIDを取得
+
+        fetch(`/chat-room_check/?register=${itemNickname}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    const errorMessage = document.createElement('p');
+                    errorMessage.style.color = 'red';
+                    errorMessage.innerText = data.error;
+
+                    const buttonElement = document.getElementById('start-chat');
+                    if (!buttonElement.parentNode.querySelector('p')) {
+                        buttonElement.parentNode.appendChild(errorMessage);
+                    }
+                    buttonElement.disabled = true;
+                    return;
+                }
+
+                if (data.chatRoomId) {
+                    alert('既存のチャットルームに入室します');
+                    window.location.href = `/chat-room/${data.chatRoomId}/?item=${itemId}`;
+                } else {
+                    alert('新しいチャットルームを作成します');
+                    window.location.href = `/chat-room_create/?register=${itemNickname}&item=${itemId}`;
+                }
+            })
+            .catch(error => {
+                console.error("エラー:", error);
+                alert('エラーが発生しました。');
+            });
+    }
+</script>
 </body>
 </html>

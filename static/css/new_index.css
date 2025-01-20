@@ -29,6 +29,19 @@ h1 {
     gap: 15px;
 }
 
+.menu {
+    border: 1px solid #0092e6;
+    border-radius: 8px;
+    background-color: #0092e6;
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 15px 20px;
+    font-size: 1vw;
+}
+
 .button {
     
     align-items: center;
@@ -49,6 +62,7 @@ h1 {
     height: 24px;
 
 }
+
 /* 既存のCSSはそのままに、以下を追加・修正 */
 .login-button {
     display: inline-flex; /* テキストとアイコンのサイズに応じた範囲にする */
@@ -78,24 +92,6 @@ h1 {
 }
 
 
-
-.register-button {
-    background-color: #00e1ff;
-    color: white;
-}
-
-.register-button:hover {
-    background-color: #0092e6;
-}
-
-.search-button {
-    background-color: #00e1ff;
-    color: white;
-} 
-
-.search-button:hover {
-    background-color: #0092e6;
-}
 
 @media (min-width: 769px) {
      .search-button{

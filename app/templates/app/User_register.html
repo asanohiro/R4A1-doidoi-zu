@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-
+{#    {% load static %}#}
+    <link rel="stylesheet" href="{% static 'css/User_register.css' %}">
     <title>落とし物捜索画面</title>
 </head>
 <body>
@@ -19,18 +19,10 @@
           <label for="password">パスワード：</label>
            <div style="position: relative;">
               <input type="password" id="password1" name="password1" required>
-              <button type="button" onclick="togglePassword('password1')"
-                      style="position: absolute;  top: 50%; transform: translateY(-50%);">
-                👁️
-              </button>
             </div><br>
           <label for="password">パスワード（確認用）：</label>
           <div style="position: relative;">
             <input type="password" id="password2" name="password2" required>
-            <button type="button" onclick="togglePassword('password2')"
-                    style="position: absolute; top: 50%; transform: translateY(-50%);">
-              👁️
-            </button>
           </div><br>
 
 

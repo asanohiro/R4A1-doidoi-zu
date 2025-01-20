@@ -1,6 +1,15 @@
-from __future__ import absolute_import, unicode_literals
+from celery import Celery
+from AWS import settings
+from AWS.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 
-# Celeryアプリをインポート
-from .celery_app import app as celery_app
+app = Celery('AWS',
+             broker=CELERY_BROKER_URL,
+             backend=CELERY_RESULT_BACKEND,
+             include=['AWS.tasks'])
 
-__all__ = ('celery_app',)
+app.conf.update(
+    result_expires=3600,
+)
+
+if __name__ == '__main__':
+    app.start()

@@ -158,7 +158,7 @@ category_labels = [
 ]
 # 不適切なラベル辞書
 INAPPROPRIATE_LABELS = {
-    'Face', 'Animal', 'Weapon', 'Food', 'Credit Card'
+    'Face', 'Animal', 'Weapon', 'Food','Credit Card','ID Card'
 }
 # ダミー画像を用いて登録する単語リスト
 dummy_labels = {
@@ -242,7 +242,7 @@ def get_prefecture_from_location(latitude, longitude):
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
-            print(f"API Response: {json.dumps(data, indent=2)}")  # デバッグのためにAPIレスポンス全体を表示
+            # print(f"API Response: {json.dumps(data, indent=2)}")  # デバッグのためにAPIレスポンス全体を表示
 
             if data['results']:
                 # フィルタリングによる都道府県名の取得
@@ -251,7 +251,7 @@ def get_prefecture_from_location(latitude, longitude):
 
                 if results:
                     prefecture = results[0]['long_name']
-                    print(f"Found prefecture: {prefecture}")
+                    # print(f"Found prefecture: {prefecture}")
                     return prefecture
                 else:
                     print("administrative_area_level_1 が見つかりませんでした。")
@@ -365,8 +365,7 @@ def prefecture_change_japan(prefecture):
     return prefecture_name
 
 
-# 実際の検出と自動入力の実行
-# views.py
+# S3の情報
 s3 = boto3.client('s3',
                   aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
                   aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
@@ -385,6 +384,7 @@ def upload_image(request):
         if image and latitude and longitude:
             # 画像データをメモリに読み込む
             image_data = image.read()
+            test_bytes = io.BytesIO(image_data)
             image_bytes_for_upload = io.BytesIO(image_data)  # S3アップロード用のファイルオブジェクト
             image_bytes_for_resize = io.BytesIO(image_data)  # リサイズ用のファイルオブジェクト
 
@@ -407,11 +407,11 @@ def upload_image(request):
 
             #ラベル検出が完了した場合の処理
             detected_inappropriate_labels = any(label['Name'] in INAPPROPRIATE_LABELS for label in labels)
-            print("Detected inappropriate labels:", detected_inappropriate_labels)
+            # print("Detected inappropriate labels:", detected_inappropriate_labels)
 
             if detected_inappropriate_labels:
                 matched_labels = [label['Name'] for label in labels if label['Name'] in dummy_labels]
-                print("Matched labels:", matched_labels)
+                # print("Matched labels:", matched_labels)
 
                 if matched_labels:
                     try:
@@ -432,13 +432,13 @@ def upload_image(request):
                             'image_url': image_url,
                             'comment': comment,
                         }
-                        print("Rendering upload_dummy.html with context:", context)
+                        # print("Rendering upload_dummy.html with context:", context)
                         return render(request, 'app/upload_dummy.html', context)
                     except Exception as e:
                         print("Error during dummy image processing:", str(e))
                 else:
                     print("No matched labels found. Redirecting to warning_page.")
-                    return redirect('warning_page')
+                    return render(request, 'warning.html')
 
             # 画像をS3にアップロード
             s3.upload_fileobj(image_bytes_for_upload, bucket_name, file_name)
@@ -572,6 +572,7 @@ def item_detail(request, item_id):
 
 
 def item_detail(request, item_id):
+    google_maps_api_key = AWS.settings.env('GOOGLE_MAPS_API_KEY')
     item = get_object_or_404(LostItem, id=item_id)
     user = None  # user 変数を初期化
     user_nickname = request.session.get('nickname')
@@ -579,7 +580,7 @@ def item_detail(request, item_id):
     if user_nickname:
         user = User.objects.get(nickname=user_nickname)
 
-    return render(request, 'app/item_detail.html', {'item': item, 'user': user})
+    return render(request, 'app/item_detail.html', {'item': item, 'user': user, 'google_maps_api_key': google_maps_api_key})
 
 
 def login(request):

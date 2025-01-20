@@ -174,7 +174,7 @@
                 <div class="message {% if message.sender.nickname == user1.nickname %}user1{% else %}user2{% endif %}">
                     <div class="text">
                         <strong>{{ message.sender.nickname }}:</strong> {{ message.text }}<br>
-                        <small>{{ message.timestamp|date:"H:i" }}</small>
+                        <small>{{ message.timestamp|date:"Y/m/d H:i" }}</small>
                     </div>
                 </div>
             {% empty %}

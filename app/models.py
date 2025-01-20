@@ -75,7 +75,7 @@ class Message(models.Model):
 class Block(models.Model):
     blocker = models.ForeignKey(User, related_name='blocked_by', on_delete=models.CASCADE)
     blocked = models.ForeignKey(User, related_name='blocks', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=now)
 
     class Meta:
       unique_together = ('blocker', 'blocked')  # 一人のユーザーが同じユーザーを複数回ブロックできないようにする
