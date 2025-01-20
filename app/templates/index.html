@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>落とし物捜索システム</title>
-  <link rel="stylesheet" href="{% static 'css/new_index.css' %}">
+  <link rel="stylesheet" href="{% static 'css/new_index.css?v=1.2' %}">
 </head>
 <body>
   <div class="container">
@@ -20,9 +20,9 @@
       <h1>落とし物捜索 ホーム</h1>
       <p>おかえりなさい、{{ request.session.nickname }} さん</p>
       <div class="button-container">
-        <a href="{% url 'map' %}">マップ検索</a>
-        <a href="{% url 'upload_image' %}">落とし物登録</a>
-        <a href="{% url 'chat_room_list' %}">チャット</a>
+        <a class="menu" href="{% url 'map' %}">マップ検索</a>
+        <a class="menu" href="{% url 'upload_image' %}">落とし物登録</a>
+        <a class="menu" href="{% url 'chat_room_list' %}">チャット</a>
       </div>
       
     {% else %}
@@ -37,8 +37,8 @@
       <p>ようこそ、guest さん</p>
       
       <div class="button-container">
-        <a href="{% url 'map' %}">マップ検索</a>
-        <a href="{% url 'upload_image' %}">落とし物登録</a>
+        <a class="menu" href="{% url 'map' %}">マップ検索</a>
+        <a class="menu" href="{% url 'upload_image' %}">落とし物登録</a>
       </div>
     {% endif %}
   </div>

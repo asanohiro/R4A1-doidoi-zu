@@ -1,23 +1,18 @@
-.title {
-    text-align: center; /* 水平方向に中央揃え */
-    margin: 20px 0;     /* 上下の余白を追加 */
+/* タイトルの文字サイズを小さくする */
+strong {
+    font-weight: 100;
 }
 
-/* 全体の文字サイズを大きくする */
-body {
-    font-size: 25px; /* 基本の文字サイズを指定 */
-}
-
-/* タイトルの文字サイズを大きくする */
 .title {
     text-align: center;
     margin: 5vh 0 3vh 0;
-    font-size: 32px; /* タイトルの文字サイズを大きく */
+    font-size: 35px; /* タイトルの文字サイズを小さく */
     font-weight: bold; /* 強調する */
 }
 
-p {
-    font-size: 4vw; /* さらに文字サイズを小さく */
+/* 全体の文字サイズを適度に小さくする */
+body {
+    font-size: 18px; /* 基本の文字サイズを少し小さく */
 }
 
 /* 戻るボタンを中央に配置 */
@@ -29,15 +24,17 @@ p {
 
 /* ボタンのスタイル */
 button {
-    font-size: 20px; /* ボタン内の文字サイズ */
-    padding: 12px 24px; /* 内側の余白 */
+    font-size: 16px; /* ボタン内の文字サイズを少し小さく */
+    padding: 10px 20px; /* 内側の余白 */
     border-radius: 8px; /* 角を丸く */
     cursor: pointer; /* ポインタを表示 */
     background-color: #00e1fF; /* ボタンの背景色 */
     color: #fff; /* ボタンの文字色 */
     border: none; /* 枠線を消す */
-    height: 50px; /* ボタン全体の高さ */
-    width: auto; /* 幅はコンテンツに応じて調整 */
+    height: 45px; /* ボタン全体の高さを少し小さく */
+    width: 200px; /* ボタン幅を固定 */
+    display: inline-block; /* ボタンのブロック幅を制御 */
+    text-align: center; /* テキストの中央寄せ */
 }
 
 /* ホバー時の効果 */
@@ -45,16 +42,9 @@ button:hover {
     background-color: #0092e6; /* 少し暗い色に変更 */
 }
 
-/* ボタンを特定で調整する場合 */
-#start-chat, #open-map {
-    font-size: 20px;
-    padding: 12px 24px;
-    height: 50px;
-}
-
 #map {
     width: 100%;
-    height: 600px;
+    height: 500px; /* マップの高さを少し小さく */
     margin-top: 20px;
 }
 
@@ -67,7 +57,8 @@ button:hover {
 
 .details-container > div {
     flex: 1;
-    width: 100%;
+    width: 50%;
+    padding: 50px;
 }
 
 #directions-panel {
@@ -76,19 +67,58 @@ button:hover {
     display: none; /* 初期状態で非表示 */
 }
 
+h1{
+    text-align: center;
+}
+
 h1 img {
-    width: 250px; /* 画像を画面幅に収める */
+    width: 250px; /* 画像を少し小さく */
     height: auto;
+}
+
+.box-container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+
+.box-container2 button {
+    display: block;
+    font-size: 16px; /* ボタン内の文字サイズ */
+    border-radius: 8px; /* 角を丸く */
+    cursor: pointer; /* ポインタを表示 */
+    background-color: #00e1fF; /* ボタンの背景色 */
+    color: #fff; /* ボタンの文字色 */
+    border: none; /* 枠線を消す */
+    height: 45px; /* ボタン全体の高さを設定 */
+    width: 100%; /* 幅はコンテンツに応じて調整 */
+}
+
+/* ボタンのホバー時の効果 */
+.box-container button:hover {
+    background-color: #0092e6; /* 少し暗い色に変更 */
+}  
+
+.cautionarynote {
+    display: flex;
+    flex-wrap: wrap; /* 子要素を折り返し可能にする */
+    justify-content: flex-start; /* 左寄せ */
+    gap: 0.25em; /* 子要素間の余白を調整 */
+}
+
+.item-span {
+    display: block;
+    border-bottom: 1px dashed #ddd; /* 各項目に下線 */
 }
 
 @media (max-width: 768px) {
     p {
-
         line-height: 1.5; /* 行間を調整 */
     }
 
     button {
-        font-size: 14px;
+        /* font-size: 14px; */
         padding: 8px 16px;
     }
 
@@ -98,7 +128,7 @@ h1 img {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 420px) {
     .title {
         font-size: 6vw; /* タイトル文字を小さく */
         text-align: center; /* 中央寄せ */
@@ -108,7 +138,10 @@ h1 img {
     .details-container {
         flex-direction: column;
         align-items: center; /* 垂直方向に中央寄せ */
-        padding: 10px; /* 画面に合わせてパディングを調整 */
+    }
+
+    .box-container {
+        width: 100%;
     }
 
     h1 {
@@ -123,14 +156,20 @@ h1 img {
         padding: 0; /* 画像の内側の余白をなくす */
     }
 
-
-    button {
-        width: 90%; /* ボタンの幅を画面いっぱいに近づける */
-        font-size: 12px; /* ボタン文字サイズを小さく */
-        padding: 6px 12px;
+     .box-container2 button{
+        font-size: 12px; /*ボタン文字サイズを小さく */
     }
 
     #map {
         height: 250px; /* マップの高さをさらに調整 */
+        width: 100%;
+    }
+
+    cautionarynote {
+        white-space: normal; /* 自然な改行を許可 */
+    }
+
+    .cautionarynote .line {
+        display: block; /* 各行を改行 */
     }
 }
