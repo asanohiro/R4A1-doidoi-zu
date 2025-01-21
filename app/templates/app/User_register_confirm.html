@@ -4,23 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/User_register_confirm.css' %}">
+    <link rel="stylesheet" href="{% static 'css/User_register_confirm.css?v=1.4' %}">
     <title>ユーザー登録確認</title>
 </head>
 <body>
-<h1>ユーザー登録確認</h1>
-<p><strong>ユーザー名：{{ nickname }}</strong></p>
-<p><strong>メールアドレス：{{ email }}</strong></p>
-<p><strong>パスワード：{{ password }}</strong></p>
-<form method="post" action="{% url 'User_register_confirm' %}">
-  {% csrf_token %}
-  <input type="hidden" name="nickname" value="{{ nickname }}">
-  <input type="hidden" name="email" value="{{ email }}">
-  <input type="hidden" name="password" value="{{ password }}">
-  <input type="submit" value="登録">
-</form>
-<form method="get" action="{% url 'User_register' %}" style="display: inline;">
-  <button type="submit">戻る</button>
-</form>
+<div class="decoration">
+    <h1>ユーザー登録確認</h1>
+    <p>ユーザー名：<br>{{ nickname }}</p>
+    <p>メールアドレス：<br>{{ email }}</p>
+    <p>パスワード：<br>{{ password}}</p>
+    <form method="post" action="{% url 'User_register_confirm' %}">
+        {% csrf_token %}
+        <input type="hidden" name="nickname" value="{{ nickname }}">
+        <input type="hidden" name="email" value="{{ email }}">
+        <input type="hidden" name="password" value="{{ password }}">
+        <input class="form-button" type="submit" value="登録">
+    </form>
+    <form method="get" action="{% url 'User_register' %}" style="display: inline;">
+        <button class="form-button" type="submit">戻る</button>
+    </form>
+</div>
 </body>
 </html>
