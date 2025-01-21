@@ -1,0 +1,130 @@
+/* past_chatroom_list.css */
+
+/* 全体のスタイル */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2rem;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.5rem;
+    color: #555;
+}
+
+/* 過去チャットリストのスタイル */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+ul li:hover {
+    background-color: #f0f8ff;
+}
+
+ul li a {
+    text-decoration: none;
+}
+
+ul li button {
+    padding: 8px 12px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+ul li button:hover {
+    background-color: #0056b3;
+}
+
+/* メッセージがない場合のスタイル */
+p {
+    text-align: center;
+    font-size: 1rem;
+    color: #777;
+}
+
+/* ホームリンク */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 1rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    ul li {
+        padding: 12px 15px;
+    }
+
+    ul li button {
+        font-size: 0.9rem;
+    }
+
+    a {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    ul li {
+        padding: 10px;
+    }
+
+    ul li button {
+        font-size: 0.8rem;
+    }
+
+    a {
+        font-size: 0.8rem;
+    }
+}
