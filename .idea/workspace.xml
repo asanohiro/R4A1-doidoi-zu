@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="1/20&#10;最新の状態">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a2166bf-1e6a-45b9-8e62-4620378a4ee5.xml" afterDir="false" />
+    <list default="true" id="5075a7be-9730-46b4-a69d-b08b47b3d012" name="変更" comment="1/21&#10;User_register_confirm.cssの修正">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/app/User_register_confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/User_register_confirm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/app/past_chatroom_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/app/past_chatroom_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/User_register_confirm.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/User_register_confirm.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,15 +272,7 @@
       <workItem from="1737338669305" duration="5230000" />
       <workItem from="1737347689688" duration="5121000" />
       <workItem from="1737373079213" duration="4260000" />
-      <workItem from="1737433916355" duration="2219000" />
-    </task>
-    <task id="LOCAL-00003" summary="自動入力&#10;地図上に表示&#10;デモ版">
-      <option name="closed" value="true" />
-      <created>1726707952182</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1726707952182</updated>
+      <workItem from="1737433916355" duration="5244000" />
     </task>
     <task id="LOCAL-00004" summary="スマホからアップロード&#10;（奮闘中）">
       <option name="closed" value="true" />
@@ -668,7 +658,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737352858680</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="1/21&#10;User_register_confirm.cssの修正">
+      <option name="closed" value="true" />
+      <created>1737437480988</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1737437480988</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -690,7 +688,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="地図表示" />
     <MESSAGE value="非推奨なやつを書き換えた" />
     <MESSAGE value="callbackを削除して、window.onloadを導入" />
     <MESSAGE value="callbackを削除して、window.onloadを導入_v2" />
@@ -715,6 +712,7 @@
     <MESSAGE value="1/20&#10;item_detailとupload_completionのcss変更" />
     <MESSAGE value="1/20&#10;mapのcss変更" />
     <MESSAGE value="1/20&#10;最新の状態" />
-    <option name="LAST_COMMIT_MESSAGE" value="1/20&#10;最新の状態" />
+    <MESSAGE value="1/21&#10;User_register_confirm.cssの修正" />
+    <option name="LAST_COMMIT_MESSAGE" value="1/21&#10;User_register_confirm.cssの修正" />
   </component>
 </project>
